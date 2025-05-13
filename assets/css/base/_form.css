@@ -20,7 +20,7 @@ main#formulario-completo {
     text-align: left;
     position: relative;
     z-index: 1;
-    display: block;
+    display: block; /* Asegurar que sea block por defecto, JS lo oculta/muestra */
 }
 
 /* Ajuste para estado colapsado */
@@ -37,10 +37,10 @@ body.body-sidebar-collapsed main#formulario-completo {
     max-width: 1400px; /* Ancho máximo deseado para el contenido del form */
     margin: 0 auto 20px auto; /* Centrado horizontal y margen inferior */
     /* --- FIN --- */
-    padding: 15px;
+    padding: 25px; /* Aumentamos un poco el padding interno de la sección */
     border-radius: 12px;
     background-color: var(--bg-container);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    box-shadow: 0 4px 12px rgba(var(--bg-color-rgb,0,0,0),0.07); /* Sombra usa variable de tema */
     display: none;
     opacity: 0;
     transition: opacity 0.4s ease-in-out, background-color 0.3s ease, box-shadow 0.3s ease, max-width 0.3s ease;
@@ -55,26 +55,38 @@ body.body-sidebar-collapsed main#formulario-completo {
 
 /* Grupos de Campos */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 18px; /* Un poco más de espacio entre grupos */
     display: flex;
     flex-direction: column;
 }
 .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-    font-size: 0.9em;
+    display: flex; /* Para alinear el texto del label y el marcador en la misma línea */
+    align-items: center; /* Alineación vertical */
+    margin-bottom: 6px; /* Espacio entre label e input */
+    font-weight: 500; /* Un poco menos bold que el default del navegador */
+    font-size: 0.88em; /* Ligeramente más pequeño */
     color: var(--text-color-secondary);
     transition: color 0.3s ease;
 }
 .form-group label:has(input[type="checkbox"]),
 .form-group label:has(input[type="radio"]) {
-    display: flex;
-    align-items: center;
+    /* display: flex; ya está arriba */
+    /* align-items: center; ya está arriba */
     cursor: pointer;
-    font-weight: normal;
-    color: var(--text-color-primary);
+    font-weight: normal; /* Texto normal para estos labels */
+    color: var(--text-color-primary); /* Color primario para mejor legibilidad */
+    margin-bottom: 0; /* Quitar margen inferior para estos labels si el input está debajo */
 }
+
+/* Estilo para el marcador de campo obligatorio */
+.required-marker {
+    color: var(--error-alert, #dc3545); /* Usa el color de error del tema o un rojo estándar */
+    margin-left: 4px;
+    font-weight: bold;
+    font-size: 1.2em; /* Ligeramente más grande que el texto del label */
+    line-height: 1; /* Para evitar que afecte la altura de la línea del label */
+}
+
 
 /* Campos */
 .form-control {
@@ -83,9 +95,9 @@ body.body-sidebar-collapsed main#formulario-completo {
     font-size: 0.95rem;
     color: var(--input-text-color);
     background-color: var(--input-bg);
-    border: none;
-    border-left: 3px solid var(--accent-color);
-    border-radius: 0 20px 20px 0;
+    border: 1px solid var(--border); /* Borde sutil en todos lados */
+    border-left: 3px solid var(--accent-color); /* Borde izquierdo acentuado */
+    border-radius: 8px; /* Redondeado más estándar */
     box-sizing: border-box;
     transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, color 0.3s ease;
 }
@@ -99,23 +111,28 @@ input[type="radio"] {
     accent-color: var(--accent-color);
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease;
+    flex-shrink: 0; /* Evitar que se encoja si el texto del label es largo */
 }
 .radio-group {
     display: flex;
-    gap: 15px;
+    gap: 20px; /* Más espacio entre opciones de radio */
     flex-wrap: wrap;
-    margin-top: 5px;
+    margin-top: 8px; /* Espacio sobre el grupo de radios */
 }
 .radio-group label {
     margin-bottom: 0;
     font-weight: normal;
     color: var(--text-color-primary);
+    font-size: 0.95rem; /* Tamaño de fuente igual al de los inputs */
 }
+
+/* Quitar estilos de .form-control si se aplican a checkbox/radio */
 input[type="checkbox"].form-control,
 input[type="radio"].form-control {
     appearance: auto; width: auto; height: auto; background-color: transparent;
     border: none; border-radius: 0; padding: 0; box-shadow: none; border-left: none;
 }
+
 select.form-control {
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
@@ -134,82 +151,206 @@ textarea.form-control {
 }
 .form-control::placeholder {
     color: var(--input-placeholder-color);
-    opacity: 0.6;
+    opacity: 0.7; /* Un poco más sutil */
     transition: color 0.3s ease;
 }
 .form-control:focus {
+    border-color: var(--accent-color); /* Mantiene el color de acento en el borde izquierdo */
     outline: none;
-    box-shadow: 0 0 0 3px rgba(var(--accent-color-rgb, 252, 108, 17), 0.2);
+    box-shadow: 0 0 0 3px rgba(var(--accent-color-rgb, 252, 108, 17), 0.25); /* Sombra de foco más visible */
 }
 
 /* Modo Revisión */
 main#formulario-completo.modo-revision {
-    padding-left: 40px;
+    padding-left: 40px; /* Mantiene padding lateral */
     padding-right: 40px;
-    /* El width calculado también aplicará aquí si el body tiene la clase de revisión */
 }
 main#formulario-completo.modo-revision .seccion-formulario {
     display: block !important; opacity: 1 !important; transition: none !important;
-    margin-bottom: 20px;
-    padding: 20px;
+    margin-bottom: 25px; /* Más espacio entre secciones en revisión */
+    padding: 25px;
     border: 1px solid var(--border);
-    border-radius: 15px; background-color: rgba(var(--text-color-primary-rgb, 0, 0, 0), 0.05);
-    box-shadow: none;
-    max-width: 1400px;
+    border-radius: 15px;
+    background-color: rgba(var(--text-color-primary-rgb, 0, 0, 0), 0.03); /* Fondo más sutil aún */
+    box-shadow: none; /* Quitar sombra en modo revisión para limpiar */
+    max-width: 1400px; /* Mantiene el max-width */
     margin-left: auto;
     margin-right: auto;
 }
-main#formulario-completo.modo-revision .form-columns-container {
+/* En modo revisión, las columnas se mantienen para consistencia visual, pero si se quisiera una sola columna: */
+/* main#formulario-completo.modo-revision .form-columns-container {
     display: block;
-}
-main#formulario-completo.modo-revision .question-group { margin-bottom: 15px; }
+} */
+main#formulario-completo.modo-revision .question-group { margin-bottom: 12px; } /* Menos margen en revisión */
 main#formulario-completo.modo-revision .seccion-formulario .botones-navegacion { display: none; }
+
 main#formulario-completo.modo-revision #seccion-revision {
     display: block !important; opacity: 1 !important; border: none;
-    padding: 10px 0;
+    padding: 15px 0; /* Padding vertical para la sección de revisión */
     background-color: transparent; box-shadow: none;
     max-width: 1400px;
     margin-left: auto;
     margin-right: auto;
 }
-#seccion-revision { display: none; }
-#seccion-revision h2 { color: var(--accent-color); text-align: center; margin-bottom: 10px; }
-#seccion-revision p { color: var(--text-color-secondary); text-align: center; margin-bottom: 20px; }
+#seccion-revision { display: none; } /* Oculta por defecto */
+
+#seccion-revision h2 {
+    color: var(--accent-color);
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1.8em; /* Título más grande para la revisión */
+}
+#seccion-revision p.subtitulo-ligero { /* Estilo específico para el subtítulo de revisión */
+    color: var(--text-color-secondary);
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1em;
+}
 #seccion-revision #resumen-final {
-    margin-bottom: 20px;
-    padding: 20px;
+    margin-bottom: 30px; /* Más espacio antes de los botones finales */
+    padding: 25px;
     border-radius: 8px; border: 1px solid var(--border);
-    color: var(--text-color-secondary); background-color: rgba(var(--text-color-primary-rgb, 0, 0, 0), 0.03);
+    color: var(--text-color-secondary); background-color: var(--bg-container); /* Fondo igual al de las secciones normales */
     text-align: left;
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 #seccion-revision #resumen-final ul { list-style: none; padding: 0; margin: 0; }
 #seccion-revision #resumen-final li {
-    margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dotted var(--border);
-    line-height: 1.5; display: flex; flex-wrap: wrap; gap: 6px;
+    margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dotted var(--border);
+    line-height: 1.6; display: flex; flex-wrap: wrap; gap: 8px; /* Espacio entre label y valor */
      transition: border-color 0.3s ease;
 }
 #seccion-revision #resumen-final li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 #seccion-revision #resumen-final li strong {
-    color: var(--text-color-primary); display: inline-block; min-width: 140px;
+    color: var(--text-color-primary); display: inline-block; min-width: 200px; /* Más ancho para el label */
     font-weight: 600; flex-shrink: 0;
      transition: color 0.3s ease;
 }
+#seccion-revision #resumen-final li span.respuesta-valor { /* Clase para el valor */
+    color: var(--text-color-primary); /* O --input-text-color si se prefiere */
+    word-break: break-word; /* Para que valores largos no rompan el layout */
+}
+
 
 /* --- Layout de Columnas para Campos del Formulario --- */
 .form-columns-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 5px 25px;
-    align-items: start;
+    /* Por defecto 2 columnas, se puede ajustar por sección si es necesario */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Columnas responsivas */
+    gap: 10px 25px; /* gap vertical y horizontal */
+    align-items: start; /* Alinea los items al inicio de su celda de grid */
 }
 .form-columns-container .form-group {
-    margin-bottom: 8px;
+    margin-bottom: 8px; /* Reduce el margen inferior de los form-group dentro del contenedor de columnas */
 }
+
+/* Para elementos que deben ocupar todo el ancho dentro del grid */
 .form-group.full-width-column,
 .form-columns-container > hr.full-width-column,
 .form-columns-container > p.full-width-column,
 .form-columns-container > div.full-width-column
 {
-    grid-column: 1 / -1;
+    grid-column: 1 / -1; /* Ocupa todas las columnas disponibles */
+}
+
+/* Estilos para elementos específicos dentro de las columnas si es necesario */
+.padecimiento-bloque, .cobertura-adicional-bloque, .beneficiario-bloque {
+    border: 1px solid var(--border);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px; /* Espacio entre bloques repetibles */
+    background-color: rgba(var(--bg-color-rgb), 0.02); /* Fondo muy sutil para distinguir bloques */
+}
+.padecimiento-bloque h4, .cobertura-adicional-bloque h4, .beneficiario-bloque h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--accent-color);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+}
+
+/* Ajustes para la sección de "Declaraciones Legales" y "Agente" si usan columnas */
+#seccion-declaraciones_legales .form-columns-container,
+#seccion-agente .form-columns-container {
+    /* Podrían necesitar ajustes específicos si la mayoría de sus campos son full-width */
+}
+
+#seccion-declaraciones_legales .form-group label:has(input[type="checkbox"]) {
+    font-size: 0.9rem; /* Texto de consentimientos un poco más pequeño */
+    line-height: 1.5;
+}
+#seccion-declaraciones_legales .form-group label a {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* Nudge area en la sección de revisión */
+.final-nudge-area {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: rgba(var(--accent-color-rgb), 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(var(--accent-color-rgb), 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.testimonial, .data-point, .emotional-appeal {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: var(--text-color-secondary);
+}
+.testimonial .material-symbols-outlined,
+.data-point .material-symbols-outlined,
+.emotional-appeal .material-symbols-outlined {
+    font-size: 2.5em;
+    color: var(--accent-color);
+    flex-shrink: 0;
+}
+.testimonial div p, .data-point p, .emotional-appeal p {
+    margin: 0;
+    font-size: 0.95em;
+    line-height: 1.5;
+    color: var(--text-color-primary); /* Texto más oscuro para el contenido principal del nudge */
+}
+.testimonial span {
+    font-size: 0.85em;
+    font-style: italic;
+    color: var(--text-color-secondary);
+    display: block;
+    margin-top: 4px;
+}
+.data-point strong, .emotional-appeal strong {
+    font-weight: 600;
+    color: var(--accent-color);
+}
+
+/* Al final de assets/css/base/_form.css */
+
+/* Estilo para campos inválidos después de la interacción */
+.form-control.is-invalid {
+    border-left-color: var(--error-alert, #dc3545); /* Borde izquierdo rojo */
+    box-shadow: 0 0 0 2px rgba(var(--error-alert-rgb, 220, 53, 69), 0.25); /* Sombra roja sutil */
+    /* --error-alert-rgb debe definirse en los temas si no existe, ej: 220, 53, 69 para #dc3545 */
+}
+
+/* Opcional: Estilo para campos válidos después de la interacción */
+/*
+.form-control.is-valid {
+    border-left-color: #28a745; // Verde para válido
+    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.25); // Sombra verde sutil
+}
+*/
+
+/* Ajuste para el foco cuando ya es inválido, para que no se sobreponga demasiado */
+.form-control.is-invalid:focus {
+    box-shadow: 0 0 0 3px rgba(var(--error-alert-rgb, 220, 53, 69), 0.35);
+}
+
+/* Asegurar que los placeholders también cambien de color o se adapten si es necesario */
+.form-control.is-invalid::placeholder {
+    color: var(--error-alert, #dc3545);
+    opacity: 0.7;
 }

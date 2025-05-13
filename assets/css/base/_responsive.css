@@ -16,8 +16,8 @@
     #sidebar-navegacion {
         position: fixed; width: 85%; max-width: 300px; height: calc(100vh - 60px);
         top: 60px; left: 0; transform: translateX(-100%); transition: transform 0.3s ease;
-        z-index: 15; border-right: 1px solid var(--border); padding: 20px 0; overflow-y: auto;
-        background-color: var(--bg-container); /* Fondo explícito */
+        z-index: 15; border-right: 1px solid var(--sidebar-border-color, var(--border)); padding: 20px 0; overflow-y: auto;
+        background-color: var(--sidebar-bg, var(--bg-container));
     }
     body.sidebar-visible #sidebar-navegacion { transform: translateX(0); }
     #sidebar-navegacion .sidebar-header,
@@ -27,24 +27,60 @@
          opacity: 1; visibility: visible; transition: none; position: static; transform: none;
     }
     #sidebar-navegacion .menu-item { justify-content: flex-start; padding: 12px 20px; }
-    #sidebar-navegacion .menu-item.active { border-left-width: 3px; padding-left: 17px; }
+    #sidebar-navegacion .menu-item.active {
+         border-left: 3px solid var(--sidebar-item-active-border, var(--accent-color));
+         padding-left: 17px;
+         background-color: var(--sidebar-item-active-bg, rgba(var(--accent-color-rgb), 0.2));
+    }
     #sidebar-navegacion .menu-icon { margin-right: 12px; }
     #sidebar-navegacion .menu-status { margin-left: auto; width: 10px; height: 10px; }
 
     /* Formulario Móvil */
     #formulario-completo {
-        width: 95%; max-width: 95%; padding: 0 15px 15px 15px;
+        width: 98%; /* MODIFICADO: de 95% a 98% para más ancho */
+        max-width: 98%; /* MODIFICADO: de 95% a 98% para más ancho */
+        padding: 0 10px 15px 10px; /* Ajustar padding lateral si es necesario con el nuevo width */
         margin: 10px auto 20px auto !important; /* Forzar centrado */
         transition: opacity 0.3s ease; opacity: 1; pointer-events: auto;
     }
     body.sidebar-visible #formulario-completo { opacity: 0.3; pointer-events: none; }
-    .form-control { padding: 12px 15px; font-size: 0.95rem; }
-     select.form-control { background-position: right 10px center; background-size: 0.9em; padding-right: 35px; }
+
+    /* Ajustes campos formulario móvil */
+    .form-control {
+        padding: 14px 15px;
+        font-size: 0.95rem;
+    }
+     select.form-control {
+        background-position: right 10px center;
+        background-size: 0.9em;
+        padding-right: 35px;
+    }
+
+    /* --- Ajuste Columnas Formulario Móvil --- */
+    .form-columns-container {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .form-columns-container .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-group.full-width-column,
+    .form-columns-container > hr.full-width-column,
+    .form-columns-container > p.full-width-column,
+    .form-columns-container > div.full-width-column
+     {
+        grid-column: auto;
+    }
+    /* --- Fin Ajuste Columnas --- */
+
 
     /* Botones Formulario Móvil */
     .botones-navegacion { gap: 8px; padding-top: 15px; }
     .btn-siguiente, .btn-anterior, .btn-primary {
-        padding: 10px 15px; font-size: 0.9rem; flex-grow: 1; text-align: center;
+        padding: 12px 15px;
+        font-size: 0.9rem; flex-grow: 1; text-align: center;
         min-width: 0; letter-spacing: normal; text-transform: none;
     }
     .botones-navegacion button:only-child { flex-grow: 0; width: 100%; }
@@ -73,185 +109,22 @@
     .sidebar-toggle {
         position: fixed !important; left: 10px !important; top: 70px !important;
         z-index: 16 !important; transition: none !important;
-        /* Hereda colores base, pero se puede forzar si es necesario */
-        /* background: var(--accent-color) !important; color: var(--button-primary-text) !important; */
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        color: var(--sidebar-toggle-color);
+        background: transparent;
     }
      body.body-sidebar-expanded .sidebar-toggle,
      body.body-sidebar-collapsed .sidebar-toggle {
          left: 10px !important; top: 70px !important;
      }
-}
 
-/* --- Media Query Móvil --- */
-@media (max-width: 767px) {
-    /* Ajustes generales */
-    body { padding-top: 60px; } /* Cabecera más pequeña */
-
-    /* Splash y Header móvil */
-    #splash-screen .logos-wrapper { width: 90%; justify-content: center; }
-    #splash-screen .logos-wrapper img { max-height: 100px; margin: 0 5px; max-width: 45%; }
-    #splash-screen .linea-divisora { display: none; } /* Oculta línea en splash móvil */
-    #main-header { height: 60px; }
-    #main-header .header-content-wrapper { padding: 0 10px; gap: 5px; }
-    #main-header .logos-wrapper img { max-height: 35px; margin: 0 5px; }
-    #main-header .linea-divisora { height: 30px; margin: 0 5px; }
-
-    /* Sidebar Móvil (Deslizante) */
-    #sidebar-navegacion {
-        position: fixed; /* Posición fija */
-        width: 85%; /* Ancho del sidebar desplegado */
-        max-width: 300px; /* Ancho máximo */
-        height: calc(100vh - 60px); /* Altura ajustada a cabecera */
-        top: 60px;
-        left: 0;
-        transform: translateX(-100%); /* Oculto fuera de pantalla por defecto */
-        transition: transform 0.3s ease; /* Anima deslizamiento */
-        z-index: 15; /* Encima del contenido, debajo del toggle */
-        border-right: 1px solid var(--sidebar-border-color, var(--border)); /* Usa variable de borde */
-        padding: 20px 0; /* Restaura padding vertical */
-        overflow-y: auto;
-        background-color: var(--sidebar-bg, var(--bg-container)); /* Usa variable de fondo */
-    }
-    /* Muestra sidebar cuando body tiene clase 'sidebar-visible' */
-    body.sidebar-visible #sidebar-navegacion {
-        transform: translateX(0);
-    }
-    /* En móvil, los elementos internos del sidebar siempre son visibles si el sidebar lo es */
-    #sidebar-navegacion .sidebar-header,
-    #sidebar-navegacion .menu-text,
-    #sidebar-navegacion .sidebar-progress,
-    #sidebar-navegacion .menu-status {
-         opacity: 1;
-         visibility: visible;
-         transition: none; /* Sin fade en móvil */
-         position: static; /* Resetea posición absoluta si la tenía */
-         transform: none;  /* Resetea transform si lo tenía */
-    }
-    #sidebar-navegacion .menu-item { justify-content: flex-start; padding: 12px 20px; } /* Alineación y padding normales */
-    #sidebar-navegacion .menu-item.active {
-         border-left: 3px solid var(--sidebar-item-active-border, var(--accent-color)); /* Usa variable */
-         padding-left: 17px;
-         background-color: var(--sidebar-item-active-bg, rgba(var(--accent-color-rgb), 0.2)); /* Usa variable */
-    }
-    #sidebar-navegacion .menu-icon { margin-right: 12px; } /* Margen normal icono */
-    #sidebar-navegacion .menu-status { margin-left: auto; width: 10px; height: 10px; } /* Estado normal */
-
-    /* Formulario Móvil */
-    #formulario-completo {
-        width: 95%; /* Más ancho en móvil */
-        max-width: 95%;
-        padding: 0 15px 15px 15px; /* Menos padding */
-        margin: 10px auto 20px auto !important; /* Margen ajustado, centrado */
-        margin-left: auto !important; /* Sobrescribe margen de sidebar desktop */
-        transition: opacity 0.3s ease; /* Solo anima opacidad */
-        opacity: 1; /* Visible por defecto */
-        pointer-events: auto; /* Interactivo por defecto */
-    }
-    /* Oscurece formulario cuando sidebar está visible en móvil */
-    body.sidebar-visible #formulario-completo {
-        opacity: 0.3;
-        pointer-events: none; /* No interactivo */
-    }
-    /* Ajustes campos formulario móvil */
-    .form-control { padding: 12px 15px; font-size: 0.95rem; }
-     select.form-control { background-position: right 10px center; background-size: 0.9em; padding-right: 35px; }
-
-    /* --- Ajuste Columnas Formulario Móvil --- */
-    .form-columns-container {
-        grid-template-columns: 1fr; /* Cambia a una sola columna */
-        gap: 15px 0; /* Ajusta el gap si es necesario (gap de columna ya no aplica) */
-    }
-
-    /* Restaura margen inferior si se redujo para la grid */
-    .form-columns-container .form-group {
-        margin-bottom: 18px; /* O el valor original si era diferente */
-    }
-
-     /* Asegura que los full-width no tengan efecto extra */
-    .form-group.full-width-column,
-    .form-columns-container > hr.full-width-column,
-    .form-columns-container > p.full-width-column,
-    .form-columns-container > div.full-width-column
-     {
-        grid-column: auto; /* Restaura el comportamiento por defecto */
-    }
-    /* --- Fin Ajuste Columnas --- */
-
-
-    /* Botones Formulario Móvil */
-    .botones-navegacion { gap: 8px; padding-top: 15px; }
-    .btn-siguiente,
-    .btn-anterior,
-    .btn-primary {
-        padding: 10px 15px; /* Menos padding */
-        font-size: 0.9rem; /* Fuente más pequeña */
-        flex-grow: 1; /* Ocupan espacio disponible */
-        text-align: center;
-        min-width: 0; /* Permite que se encojan */
-        letter-spacing: normal; /* Sin espaciado extra */
-        text-transform: none; /* Sin mayúsculas */
-    }
-    /* Botón único ocupa todo el ancho */
-    .botones-navegacion button:only-child { flex-grow: 0; width: 100%; }
-    /* Botones en revisión final en columna */
-    #seccion-revision .botones-navegacion { flex-direction: column; align-items: stretch; gap: 10px; }
-    #seccion-revision .botones-navegacion button { width: 100%; }
-
-    /* Resumen Final Móvil */
-    #seccion-revision #resumen-final { padding: 15px; }
-    #seccion-revision #resumen-final li { flex-direction: column; gap: 4px; align-items: flex-start; } /* Label encima de valor */
-    #seccion-revision #resumen-final li strong { min-width: auto; } /* Ancho automático para label */
-
-    /* Modal Móvil */
-    #modal-container { padding: 25px 20px; max-width: 90%; }
-    #modal-title { font-size: 1.4em; }
-    #modal-message { font-size: 1em; }
-    #modal-buttons { flex-direction: column; gap: 10px; } /* Botones en columna */
-    #modal-buttons button { width: 100%; }
-
-    /* Switch Tema Móvil */
-    .theme-switch { width: 45px; height: 22px; }
-    .theme-switch .slider { width: 18px; height: 18px; }
-    .theme-switch input:checked + .slider { transform: translateX(23px); }
-    .slider .icon.material-symbols-outlined { font-size: 14px; }
-
-    /* Botón Toggle Sidebar Móvil (Posición fija) */
-    .sidebar-toggle {
-        /* Importante anular estilos desktop */
-        position: fixed !important;
-        left: 10px !important; /* Fijo a la izquierda */
-        top: 70px !important;  /* Debajo de cabecera móvil */
-        z-index: 16 !important; /* Encima del sidebar móvil */
-        transition: none !important; /* Sin transición de posición */
-        border-radius: 50%; /* Asegurar redondez */
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Añadir sombra */
-        /* Color y fondo dependen del tema (ver reglas específicas abajo) */
-        color: var(--sidebar-toggle-color); /* Usa variable del tema */
-        background: transparent; /* Por defecto transparente */
-    }
-    /* Asegura posición fija sin importar clases de estado desktop */
-     body.body-sidebar-expanded .sidebar-toggle,
-     body.body-sidebar-collapsed .sidebar-toggle {
-         left: 10px !important;
-         top: 70px !important;
-     }
-
-    /* --- INICIO CORRECCIÓN BOTÓN MÓVIL --- */
-    /* Estilos específicos para el botón fijo en MODO CLARO */
     .light-theme .sidebar-toggle {
-        background-color: var(--accent-color); /* Fondo con color de acento del tema */
-        color: var(--sidebar-toggle-color); /* Usa variable del tema (debería ser blanco en este tema) */
+        background-color: var(--accent-color);
+        color: var(--sidebar-toggle-color);
     }
     .light-theme .sidebar-toggle:hover {
-         background-color: var(--accent-color); /* Mantiene fondo */
-         opacity: 0.85; /* Añade opacidad en hover */
+         background-color: var(--accent-color);
+         opacity: 0.85;
     }
-    /* Estilos específicos para el botón fijo en MODO OSCURO (si es necesario) */
-    /* :not(.light-theme) .sidebar-toggle { */
-         /* Por defecto es transparente con color icono definido en --sidebar-toggle-color */
-         /* background-color: var(--algún-color-oscuro-si-necesita-fondo); */
-    /* } */
-    /* --- FIN CORRECCIÓN BOTÓN MÓVIL --- */
-
-
-} /* Fin Media Query Móvil */
+}

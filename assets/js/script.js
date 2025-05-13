@@ -89,16 +89,17 @@ document.addEventListener('DOMContentLoaded', () => {
         initializeSidebarState(); // 3. Ajusta el estado inicial del sidebar
         initFormNavigation();
         initEventListeners();
+        initFieldValidationListeners();
         initAppAnimation();
     }
 
     function validateEssentialElements() {
         const essential = {
-             $form, $formularioCompleto, $sidebar, $sidebarToggle,
-             $themeSwitch, $themeSelector, // Añadido $themeSelector
-             $mainHeader
+            $form, $formularioCompleto, $sidebar, $sidebarToggle,
+            $themeSwitch, $themeSelector, // Añadido $themeSelector
+            $mainHeader
         };
-         let allPresent = true;
+        let allPresent = true;
         for (const key in essential) {
             if (!essential[key]) {
                 console.error(`Error Init: Elemento ${key.replace('$', '')} no encontrado.`);
@@ -106,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         if ($seccionesNavegables.length === 0 && $form) {
-             console.warn("Warning Init: No se encontraron secciones navegables.");
+            console.warn("Warning Init: No se encontraron secciones navegables.");
         }
         return allPresent;
     }
@@ -131,8 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 $themeSelector.appendChild(option);
             });
         } else {
-             console.error("Error Init: Elemento theme-selector no encontrado.");
-             return;
+            console.error("Error Init: Elemento theme-selector no encontrado.");
+            return;
         }
 
         // Cargar el tema guardado o el predeterminado
@@ -144,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         $themeSelector.value = themeFileToLoad;
 
         if (themeFileToLoad !== savedThemeFile) {
-             localStorage.setItem(CONFIG.SELECTED_THEME_FILE_KEY, themeFileToLoad);
+            localStorage.setItem(CONFIG.SELECTED_THEME_FILE_KEY, themeFileToLoad);
         }
         console.log(`Tema CSS inicial cargado: ${themeFileToLoad}`);
     }
@@ -164,13 +165,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if ($logoVelerSidebar) {
             $logoVelerSidebar.src = isLightTheme ? CONFIG.LOGO_VELER_LIGHT : CONFIG.LOGO_VELER_DARK;
         }
-         if ($logo1Splash) { $logo1Splash.src = isLightTheme ? CONFIG.LOGO_VELER_LIGHT : CONFIG.LOGO_VELER_DARK; }
-         if ($logo2Splash) { $logo2Splash.src = isLightTheme ? CONFIG.LOGO_GNP_LIGHT : CONFIG.LOGO_GNP_DARK; }
-         // El logo de éxito en el modal también podría cambiar si tienes versiones
-         if ($modalSuccessLogo) {
-             // Asumiendo que tienes un V_icon_light.png y V_icon_dark.png o similar
-             // $modalSuccessLogo.src = isLightTheme ? 'assets/img/V_icon_light.png' : 'assets/img/V_icon.png';
-         }
+        if ($logo1Splash) { $logo1Splash.src = isLightTheme ? CONFIG.LOGO_VELER_LIGHT : CONFIG.LOGO_VELER_DARK; }
+        if ($logo2Splash) { $logo2Splash.src = isLightTheme ? CONFIG.LOGO_GNP_LIGHT : CONFIG.LOGO_GNP_DARK; }
+        // El logo de éxito en el modal también podría cambiar si tienes versiones
+        if ($modalSuccessLogo) {
+            // Asumiendo que tienes un V_icon_light.png y V_icon_dark.png o similar
+            // $modalSuccessLogo.src = isLightTheme ? 'assets/img/V_icon_light.png' : 'assets/img/V_icon.png';
+        }
     }
 
     // Handler para el interruptor claro/oscuro
@@ -218,13 +219,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function revealMainContent() {
-         if($mainHeader) $mainHeader.style.display = 'flex';
-         if($sidebar) $sidebar.style.display = 'flex';
-         if($formularioCompleto) $formularioCompleto.style.display = 'block';
-         if ($seccionesNavegables.length > 0) {
+        if ($mainHeader) $mainHeader.style.display = 'flex';
+        if ($sidebar) $sidebar.style.display = 'flex';
+        if ($formularioCompleto) $formularioCompleto.style.display = 'block';
+        if ($seccionesNavegables.length > 0) {
             showSection(0);
             actualizarProgreso();
-         }
+        }
     }
 
     // --- Manejo del Sidebar ---
@@ -269,8 +270,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!$sidebarToggle) return;
         const isMobile = window.innerWidth <= CONFIG.MOBILE_BREAKPOINT;
         if (isMobile) {
-             $sidebarToggle.textContent = state.isSidebarVisibleMobile ? 'close' : 'menu';
-             $sidebarToggle.title = state.isSidebarVisibleMobile ? 'Ocultar menú' : 'Mostrar menú';
+            $sidebarToggle.textContent = state.isSidebarVisibleMobile ? 'close' : 'menu';
+            $sidebarToggle.title = state.isSidebarVisibleMobile ? 'Ocultar menú' : 'Mostrar menú';
         } else {
             $sidebarToggle.textContent = state.isSidebarExpanded ? 'menu_open' : 'menu';
             $sidebarToggle.title = state.isSidebarExpanded ? 'Contraer menú' : 'Expandir menú';
@@ -461,7 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const $sectionUl = document.createElement('ul');
 
             section.querySelectorAll('.form-group [name]').forEach(input => {
-                 // Evitar mostrar campos ocultos (ej. contratante diferente si es igual)
+                // Evitar mostrar campos ocultos (ej. contratante diferente si es igual)
                 if (input.offsetParent === null) return;
 
                 const key = input.name;
@@ -472,13 +473,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (input.type === 'checkbox') {
                     // Para checkboxes individuales que guardan 'true' o no existen si no están marcados
                     displayValue = dataObject.hasOwnProperty(key) ? 'Sí' : 'No';
-                     // Ignorar si es 'No' y no es obligatorio mostrarlo explícitamente? Depende del diseño.
-                     // if (displayValue === 'No') return;
+                    // Ignorar si es 'No' y no es obligatorio mostrarlo explícitamente? Depende del diseño.
+                    // if (displayValue === 'No') return;
                 } else if (input.type === 'radio') {
-                     // Para radios, obtener el label del radio seleccionado
-                     const checkedRadio = section.querySelector(`input[name="${key}"]:checked`);
-                     displayValue = checkedRadio ? (getLabelText(checkedRadio) || checkedRadio.value) : 'No seleccionado';
-                     if (displayValue === 'No seleccionado' && !input.required) return; // No mostrar si no es req. y no se seleccionó
+                    // Para radios, obtener el label del radio seleccionado
+                    const checkedRadio = section.querySelector(`input[name="${key}"]:checked`);
+                    displayValue = checkedRadio ? (getLabelText(checkedRadio) || checkedRadio.value) : 'No seleccionado';
+                    if (displayValue === 'No seleccionado' && !input.required) return; // No mostrar si no es req. y no se seleccionó
                 } else if (isValidInputValue(value)) {
                     displayValue = value;
                 } else if (input.required) {
@@ -504,67 +505,67 @@ document.addEventListener('DOMContentLoaded', () => {
                 $sectionHeaderLi.style.marginBottom = '10px';
                 $ul.appendChild($sectionHeaderLi);
                 $ul.appendChild($sectionUl); // Añadir la lista de esa sección
-                 // Añadir un separador visual entre secciones del resumen
-                 const $hr = document.createElement('hr');
-                 $hr.style.borderColor = 'var(--border)';
-                 $hr.style.opacity = '0.5';
-                 $hr.style.margin = '15px 0';
-                 $ul.appendChild($hr);
+                // Añadir un separador visual entre secciones del resumen
+                const $hr = document.createElement('hr');
+                $hr.style.borderColor = 'var(--border)';
+                $hr.style.opacity = '0.5';
+                $hr.style.margin = '15px 0';
+                $ul.appendChild($hr);
             }
         });
 
-         // Eliminar el último separador <hr> si existe
-         const lastElement = $ul.lastElementChild;
-         if (lastElement && lastElement.tagName === 'HR') {
-             $ul.removeChild(lastElement);
-         }
+        // Eliminar el último separador <hr> si existe
+        const lastElement = $ul.lastElementChild;
+        if (lastElement && lastElement.tagName === 'HR') {
+            $ul.removeChild(lastElement);
+        }
 
         $resumenFinal.appendChild($ul);
     }
 
-     function isValidInputValue(value) {
-         // Considera 'false' como un valor válido si viene de un checkbox que no se marcó
-         // pero queremos mostrarlo explícitamente como 'No'.
-         // Modificamos para que solo valores realmente nulos, undefined o strings vacíos se consideren inválidos.
-         return value !== null && value !== undefined && String(value).trim() !== '';
-     }
+    function isValidInputValue(value) {
+        // Considera 'false' como un valor válido si viene de un checkbox que no se marcó
+        // pero queremos mostrarlo explícitamente como 'No'.
+        // Modificamos para que solo valores realmente nulos, undefined o strings vacíos se consideren inválidos.
+        return value !== null && value !== undefined && String(value).trim() !== '';
+    }
 
-     function getLabelText(element, getFullContent = false) {
-         let label = null;
-         if (element.id) {
-             label = $form.querySelector(`label[for="${element.id}"]`);
-         }
-         // Si no hay 'for', buscar label padre
-         if (!label) {
-             label = element.closest('label');
-         }
-         // Si sigue sin haber, buscar label hermano o dentro de form-group
-         if (!label) {
-              const formGroup = element.closest('.form-group');
-              if (formGroup) {
-                 label = formGroup.querySelector('label');
-              }
-         }
+    function getLabelText(element, getFullContent = false) {
+        let label = null;
+        if (element.id) {
+            label = $form.querySelector(`label[for="${element.id}"]`);
+        }
+        // Si no hay 'for', buscar label padre
+        if (!label) {
+            label = element.closest('label');
+        }
+        // Si sigue sin haber, buscar label hermano o dentro de form-group
+        if (!label) {
+            const formGroup = element.closest('.form-group');
+            if (formGroup) {
+                label = formGroup.querySelector('label');
+            }
+        }
 
-         if (label) {
-             if (getFullContent) {
-                 // Clonar el label para no afectar el original
-                 const clone = label.cloneNode(true);
-                 // Remover el input/select/textarea del clon para obtener solo el texto
-                 const inputInside = clone.querySelector('input, select, textarea');
-                 if (inputInside) inputInside.remove();
-                 // Remover otros elementos si es necesario (ej. íconos)
-                 // const iconsInside = clone.querySelectorAll('.material-symbols-outlined');
-                 // iconsInside.forEach(icon => icon.remove());
-                 return clone.textContent.replace(':', '').trim();
-             } else {
-                 // Devuelve solo el texto principal (puede ser menos preciso)
-                 return label.textContent.split('\n')[0].replace(':', '').trim();
-             }
-         }
-         // Fallback al name del input si no hay label
-         return element.name || 'Campo sin etiqueta';
-     }
+        if (label) {
+            if (getFullContent) {
+                // Clonar el label para no afectar el original
+                const clone = label.cloneNode(true);
+                // Remover el input/select/textarea del clon para obtener solo el texto
+                const inputInside = clone.querySelector('input, select, textarea');
+                if (inputInside) inputInside.remove();
+                // Remover otros elementos si es necesario (ej. íconos)
+                // const iconsInside = clone.querySelectorAll('.material-symbols-outlined');
+                // iconsInside.forEach(icon => icon.remove());
+                return clone.textContent.replace(':', '').trim();
+            } else {
+                // Devuelve solo el texto principal (puede ser menos preciso)
+                return label.textContent.split('\n')[0].replace(':', '').trim();
+            }
+        }
+        // Fallback al name del input si no hay label
+        return element.name || 'Campo sin etiqueta';
+    }
 
 
     // --- Seguimiento de Progreso ---
@@ -584,16 +585,16 @@ document.addEventListener('DOMContentLoaded', () => {
             inputsInSection.forEach(input => {
                 // Considerar solo campos visibles y no deshabilitados
                 if (input.offsetParent !== null && !input.disabled) {
-                     // Contamos todos los campos visibles para el total
+                    // Contamos todos los campos visibles para el total
                     totalCamposNavegables++;
                     if (input.checkValidity()) {
                         camposCompletadosNavegables++;
                     } else {
-                         // Si *algún* campo (requerido o no) es inválido, la sección no está completa
-                         // Pero solo marcamos la sección como incompleta si el campo inválido es *requerido*
-                         if (input.required) {
-                             sectionIsComplete = false;
-                         }
+                        // Si *algún* campo (requerido o no) es inválido, la sección no está completa
+                        // Pero solo marcamos la sección como incompleta si el campo inválido es *requerido*
+                        if (input.required) {
+                            sectionIsComplete = false;
+                        }
                     }
                     // Marcar si la sección tiene al menos un campo requerido
                     if (input.required) {
@@ -604,10 +605,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const menuItem = $sidebarMenuItems.find(item => item.getAttribute('data-section') === section.id);
             if (menuItem) {
-                 // La sección se marca como completa SOLO si tiene campos requeridos y todos ellos son válidos
-                 // O si no tiene campos requeridos y todos los opcionales son válidos (o no tiene campos)
-                 const markAsCompleted = (sectionHasRequiredFields && sectionIsComplete) || (!sectionHasRequiredFields && sectionIsComplete);
-                 menuItem.classList.toggle('completed', markAsCompleted);
+                // La sección se marca como completa SOLO si tiene campos requeridos y todos ellos son válidos
+                // O si no tiene campos requeridos y todos los opcionales son válidos (o no tiene campos)
+                const markAsCompleted = (sectionHasRequiredFields && sectionIsComplete) || (!sectionHasRequiredFields && sectionIsComplete);
+                menuItem.classList.toggle('completed', markAsCompleted);
             }
         });
 
@@ -639,15 +640,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!$body.classList.contains('modal-visible')) return;
         $body.classList.remove('modal-visible');
         // Limpiar contenido si es necesario
-         $modalMessage.textContent = '';
-         $modalTitle.textContent = '';
-         // Restaurar botón de envío si estaba deshabilitado
-         if (state.lastSubmitButton && state.isSubmitting) {
-             state.lastSubmitButton.disabled = false;
-             state.lastSubmitButton.textContent = 'Enviar Formulario';
-             state.isSubmitting = false;
-             state.lastSubmitButton = null;
-         }
+        $modalMessage.textContent = '';
+        $modalTitle.textContent = '';
+        // Restaurar botón de envío si estaba deshabilitado
+        if (state.lastSubmitButton && state.isSubmitting) {
+            state.lastSubmitButton.disabled = false;
+            state.lastSubmitButton.textContent = 'Enviar Formulario';
+            state.isSubmitting = false;
+            state.lastSubmitButton = null;
+        }
     }
 
     // --- Envío de Formulario ---
@@ -657,11 +658,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Validar todo el formulario antes de enviar
         if (!$form.checkValidity()) {
-             // Si la validación HTML5 falla, mostrar un mensaje general
-             // Los navegadores modernos suelen resaltar los campos inválidos
-             showModal('error', 'Por favor, revisa los campos marcados en rojo o incompletos antes de enviar.', 'Formulario Incompleto');
-             $form.reportValidity(); // Intenta mostrar los mensajes nativos del navegador
-             return;
+            // Si la validación HTML5 falla, mostrar un mensaje general
+            // Los navegadores modernos suelen resaltar los campos inválidos
+            showModal('error', 'Por favor, revisa los campos marcados en rojo o incompletos antes de enviar.', 'Formulario Incompleto');
+            $form.reportValidity(); // Intenta mostrar los mensajes nativos del navegador
+            return;
         }
 
         state.isSubmitting = true;
@@ -684,19 +685,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json', // O 'multipart/form-data' si envías archivos y usas FormData
-                     // Añadir otros headers si son necesarios (ej. Autorización)
+                    // Añadir otros headers si son necesarios (ej. Autorización)
                 },
                 body: JSON.stringify(data) // O 'body: data' si envías FormData
             });
 
             if (!response.ok) {
                 // Intentar obtener mensaje de error del cuerpo de la respuesta
-                 let errorMsg = `Error del servidor: ${response.status} ${response.statusText}`;
-                 try {
-                     const errorData = await response.json();
-                     errorMsg = errorData.message || errorData.error || errorMsg;
-                 } catch (e) { /* No era JSON, usar mensaje status */ }
-                 throw new Error(errorMsg);
+                let errorMsg = `Error del servidor: ${response.status} ${response.statusText}`;
+                try {
+                    const errorData = await response.json();
+                    errorMsg = errorData.message || errorData.error || errorMsg;
+                } catch (e) { /* No era JSON, usar mensaje status */ }
+                throw new Error(errorMsg);
             }
 
             const result = await response.json(); // Asumiendo que la API responde con JSON
@@ -714,12 +715,12 @@ document.addEventListener('DOMContentLoaded', () => {
             showModal('error', `No se pudo enviar la solicitud. ${error.message}`, 'Error de Envío');
             // El botón se reactivará en hideModal()
         } finally {
-             // Asegurarse de resetear el estado de envío incluso si hideModal no se llama
-             if (state.lastSubmitButton && state.isSubmitting) {
-                 state.lastSubmitButton.disabled = false;
-                 state.lastSubmitButton.textContent = 'Enviar Formulario';
-                 state.isSubmitting = false;
-             }
+            // Asegurarse de resetear el estado de envío incluso si hideModal no se llama
+            if (state.lastSubmitButton && state.isSubmitting) {
+                state.lastSubmitButton.disabled = false;
+                state.lastSubmitButton.textContent = 'Enviar Formulario';
+                state.isSubmitting = false;
+            }
         }
     }
 
@@ -747,29 +748,56 @@ document.addEventListener('DOMContentLoaded', () => {
         const radioContratanteIgual = $form?.querySelectorAll('input[name="con_igual_titular"]');
         const datosContratanteDiferente = document.getElementById('datos-contratante-diferente');
         if (radioContratanteIgual?.length > 0 && datosContratanteDiferente) {
-             const toggleContratante = () => { const sel = $form.querySelector('input[name="con_igual_titular"]:checked'); datosContratanteDiferente.style.display = (sel?.value === 'no') ? 'block' : 'none'; actualizarProgreso(); };
-             radioContratanteIgual.forEach(radio => radio.addEventListener('change', toggleContratante));
-             // toggleContratante(); // Ya no se llama aquí, se hace inline o al mostrar la sección
+            const toggleContratante = () => { const sel = $form.querySelector('input[name="con_igual_titular"]:checked'); datosContratanteDiferente.style.display = (sel?.value === 'no') ? 'block' : 'none'; actualizarProgreso(); };
+            radioContratanteIgual.forEach(radio => radio.addEventListener('change', toggleContratante));
+            // toggleContratante(); // Ya no se llama aquí, se hace inline o al mostrar la sección
         }
-         // Ejemplo Tarjetahabiente:
+        // Ejemplo Tarjetahabiente:
         const $checkTitularIgual = document.getElementById('pago_titular_igual_contratante');
         const $datosTarjetaHabienteDiferente = document.getElementById('datos-tarjetahabiente-diferente');
-         if ($checkTitularIgual && $datosTarjetaHabienteDiferente) {
-             const toggleTarjeta = () => { $datosTarjetaHabienteDiferente.style.display = $checkTitularIgual.checked ? 'none' : 'block'; actualizarProgreso(); };
-             $checkTitularIgual.addEventListener('change', toggleTarjeta);
-             // toggleTarjeta(); // Ya no se llama aquí
+        if ($checkTitularIgual && $datosTarjetaHabienteDiferente) {
+            const toggleTarjeta = () => { $datosTarjetaHabienteDiferente.style.display = $checkTitularIgual.checked ? 'none' : 'block'; actualizarProgreso(); };
+            $checkTitularIgual.addEventListener('change', toggleTarjeta);
+            // toggleTarjeta(); // Ya no se llama aquí
         }
-         // Ejemplo Pregunta Embarazo:
-         const $generoSelect = document.getElementById('sol_genero');
-         const $preguntaEmbarazoDiv = document.getElementById('pregunta-embarazo');
-         if ($generoSelect && $preguntaEmbarazoDiv) {
-             const toggleEmbarazo = () => { const esMasculino = $generoSelect.value === 'M'; $preguntaEmbarazoDiv.style.display = esMasculino ? 'none' : 'block'; if (esMasculino) { const naRadio = $preguntaEmbarazoDiv.querySelector('input[name="hab_embarazada"][value="na"]'); if (naRadio) naRadio.checked = true; } actualizarProgreso(); };
-             $generoSelect.addEventListener('change', toggleEmbarazo);
-             // toggleEmbarazo(); // Ya no se llama aquí
+        // Ejemplo Pregunta Embarazo:
+        const $generoSelect = document.getElementById('sol_genero');
+        const $preguntaEmbarazoDiv = document.getElementById('pregunta-embarazo');
+        if ($generoSelect && $preguntaEmbarazoDiv) {
+            const toggleEmbarazo = () => { const esMasculino = $generoSelect.value === 'M'; $preguntaEmbarazoDiv.style.display = esMasculino ? 'none' : 'block'; if (esMasculino) { const naRadio = $preguntaEmbarazoDiv.querySelector('input[name="hab_embarazada"][value="na"]'); if (naRadio) naRadio.checked = true; } actualizarProgreso(); };
+            $generoSelect.addEventListener('change', toggleEmbarazo);
+            // toggleEmbarazo(); // Ya no se llama aquí
         }
         // Nota: La llamada inicial a estas funciones de toggle
         // es mejor hacerla cuando la sección correspondiente se muestra (en fadeInSection)
         // o mantenerla en el script inline del HTML.
+
+
+    }
+
+    function initFieldValidationListeners() {
+        const allFields = $form.querySelectorAll('input:not([type="checkbox"]):not([type="radio"]), select, textarea');
+        allFields.forEach(field => {
+            field.addEventListener('blur', handleFieldValidation);
+            // Opcional: también validar en el evento 'input' para feedback instantáneo mientras escribe
+            // field.addEventListener('input', handleFieldValidation);
+        });
+    }
+
+    function handleFieldValidation(event) {
+        const field = event.target;
+        if (field.checkValidity()) {
+            field.classList.remove('is-invalid');
+            // Opcional: añadir clase para válido si se quiere un estilo específico
+            // field.classList.add('is-valid');
+        } else {
+            field.classList.add('is-invalid');
+            // Opcional: quitar clase de válido si se usa
+            // field.classList.remove('is-valid');
+        }
+        // No queremos que el progreso se actualice en cada 'blur' si no es un cambio real de validez,
+        // la función actualizarProgreso() ya se llama en 'input' y 'change'.
+        // Si se decide validar en 'input', entonces sí podría tener sentido llamar a actualizarProgreso() aquí.
     }
 
     // --- Iniciar la aplicación ---
