@@ -354,3 +354,21 @@ main#formulario-completo.modo-revision #seccion-revision {
     color: var(--error-alert, #dc3545);
     opacity: 0.7;
 }
+
+/* --- INICIO Estilos para Revelación Secuencial de Campos --- */
+.seccion-formulario .form-columns-container > .form-group.question-group,
+.seccion-formulario > .form-group.question-group { /* Para campos full-width directos en la sección */
+    display: none; /* Ocultar todos los grupos de campos por defecto */
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out, display 0s 0.3s; /* Transición para display */
+}
+
+.seccion-formulario .form-columns-container > .form-group.question-group.field-visible,
+.seccion-formulario > .form-group.question-group.field-visible {
+    display: flex !important; /* Mostrar el grupo de campo activo (importante para anular el display:none inicial) */
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+/* --- FIN Estilos para Revelación Secuencial de Campos --- */

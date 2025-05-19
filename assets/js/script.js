@@ -1,7 +1,7 @@
 /**
  * Script para Formulario de Solicitud GNP
  * Maneja navegación, temas (archivo y modo), sidebar, progreso y envío.
- * VERSIÓN: Selector de Temas Integrado
+ * VERSIÓN: Lógica condicional mejorada para Hábitos y validación onblur.
  */
 document.addEventListener('DOMContentLoaded', () => {
     // --- Configuración ---
@@ -10,15 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
         SPLASH_DISPLAY_DURATION: 1500,
         SPLASH_FADE_DURATION: 500,
         API_ENDPOINT: '/tu-endpoint-real-en-el-servidor', // Reemplazar con el endpoint real
-        // Rutas a logos
         LOGO_VELER_DARK: 'assets/img/VELER_DARK.png',
         LOGO_VELER_LIGHT: 'assets/img/VELER_LIGHT.png',
         LOGO_GNP_DARK: 'assets/img/GNP_DARK.png',
         LOGO_GNP_LIGHT: 'assets/img/GNP_LIGHT.png',
-        THEME_STORAGE_KEY: 'theme_mode', // Clave para guardar modo claro/oscuro
+        THEME_STORAGE_KEY: 'theme_mode',
         MOBILE_BREAKPOINT: 767,
-
-        // --- Configuración del Selector de Temas ---
         AVAILABLE_THEMES: [
             { name: "Veler Blue v2", file: "assets/css/theme-veler-blue_2.css" },
             { name: "Veler Blue", file: "assets/css/theme-veler-blue.css" },
@@ -26,16 +23,19 @@ document.addEventListener('DOMContentLoaded', () => {
             { name: "Teal Green", file: "assets/css/theme-teal-green.css" },
             { name: "Slate Mauve v2", file: "assets/css/theme-slate-mauve_2.css" },
             { name: "Slate Mauve", file: "assets/css/theme-slate-mauve.css" },
+            { name: "Pink v2", file: "assets/css/theme-pink_2.css"}, // Corregido nombre si es v2
             { name: "Pink", file: "assets/css/theme-pink.css" },
             { name: "Gold Teal v2", file: "assets/css/theme-gold-teal_2.css" },
             { name: "Gold Teal", file: "assets/css/theme-gold-teal.css" },
+            { name: "Gold v2", file: "assets/css/theme-gold_2.css"}, // Corregido nombre si es v2
+            { name: "Gold", file: "assets/css/theme-gold.css"},
+            { name: "Red Dark v2", file: "assets/css/theme-red-dark_2.css"}, // Corregido nombre si es v2
+            { name: "Red Dark", file: "assets/css/theme-red-dark.css"},
             { name: "GNP Default", file: "assets/css/theme-default.css" }
-            // Añade más temas aquí si los creas
         ],
-        DEFAULT_THEME_FILE: "assets/css/theme-veler-blue_2.css", // Tema por defecto si no hay nada guardado
-        SELECTED_THEME_FILE_KEY: 'selected_theme_file', // Clave para guardar el archivo de tema
-        THEME_LINK_ID: 'dynamic-theme-style-link' // ID para el <link> dinámico
-        // --- FIN Configuración Selector ---
+        DEFAULT_THEME_FILE: "assets/css/theme-veler-blue_2.css",
+        SELECTED_THEME_FILE_KEY: 'selected_theme_file',
+        THEME_LINK_ID: 'dynamic-theme-style-link'
     };
 
     // --- Selección de Elementos DOM ---
@@ -54,19 +54,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const $modalCloseBtn = document.getElementById('modal-close-btn');
     const $modalOkBtn = document.getElementById('modal-ok-btn');
     const $themeSwitch = document.getElementById('theme-checkbox');
-    const $themeSelector = document.getElementById('theme-selector'); // Selector de tema
+    const $themeSelector = document.getElementById('theme-selector');
     const $sidebar = document.getElementById('sidebar-navegacion');
     const $sidebarToggle = $sidebar ? $sidebar.querySelector('.sidebar-toggle') : null;
     const $sidebarMenuItems = $sidebar ? Array.from($sidebar.querySelectorAll('.menu-item')) : [];
     const $progressBarFill = $sidebar ? $sidebar.querySelector('.progress-fill') : null;
     const $progressText = $sidebar ? $sidebar.querySelector('.progress-text') : null;
 
-    // Logos
     const $logoVelerSidebar = document.getElementById('logo-veler-sidebar');
     const $logo1Splash = document.getElementById('logo1-splash');
     const $logo2Splash = document.getElementById('logo2-splash');
 
-    // Secciones
     const $allSections = $form ? Array.from($form.querySelectorAll('.seccion-formulario')) : [];
     const $seccionRevision = $allSections.find(sec => sec.id === 'seccion-revision');
     const $seccionesNavegables = $allSections.filter(sec => sec.id !== 'seccion-revision');
@@ -75,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Estado de la Aplicación ---
     let state = {
         currentSeccionIndex: 0,
-        isSidebarExpanded: true, // Estado inicial del sidebar en desktop
+        isSidebarExpanded: true,
         isSidebarVisibleMobile: false,
         lastSubmitButton: null,
         isSubmitting: false,
@@ -83,23 +81,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Inicialización ---
     function initializeApp() {
-        if (!validateEssentialElements()) return;
-        initThemeSelector(); // 1. Carga el archivo CSS del tema
-        initTheme();         // 2. Aplica modo claro/oscuro
-        initializeSidebarState(); // 3. Ajusta el estado inicial del sidebar
+        if (!validateEssentialElements()) {
+            console.error("Error Crítico: Faltan elementos esenciales del DOM. La aplicación no puede iniciar correctamente.");
+            return;
+        }
+        initThemeSelector();
+        initTheme();
+        initializeSidebarState();
         initFormNavigation();
         initEventListeners();
-        initFieldValidationListeners();
         initAppAnimation();
+        if ($seccionesNavegables.length > 0) {
+            // La lógica de revelación secuencial se iniciará en fadeInSection
+            // runSectionSpecificLogic($seccionesNavegables[0].id); // No es necesario aquí si fadeInSection lo maneja
+        }
     }
 
     function validateEssentialElements() {
+        // ... (código existente)
         const essential = {
-            $form, $formularioCompleto, $sidebar, $sidebarToggle,
-            $themeSwitch, $themeSelector, // Añadido $themeSelector
-            $mainHeader
+             $form, $formularioCompleto, $sidebar, $sidebarToggle,
+             $themeSwitch, $themeSelector,
+             $mainHeader
         };
-        let allPresent = true;
+         let allPresent = true;
         for (const key in essential) {
             if (!essential[key]) {
                 console.error(`Error Init: Elemento ${key.replace('$', '')} no encontrado.`);
@@ -107,14 +112,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         if ($seccionesNavegables.length === 0 && $form) {
-            console.warn("Warning Init: No se encontraron secciones navegables.");
+             console.warn("Warning Init: No se encontraron secciones navegables.");
         }
         return allPresent;
     }
 
-    // --- Inicializar Selector de Temas ---
     function initThemeSelector() {
-        // Crear el elemento <link> dinámico si no existe
+        // ... (código existente)
         let themeLink = document.getElementById(CONFIG.THEME_LINK_ID);
         if (!themeLink) {
             themeLink = document.createElement('link');
@@ -123,7 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.head.appendChild(themeLink);
         }
 
-        // Poblar el menú desplegable
         if ($themeSelector) {
             CONFIG.AVAILABLE_THEMES.forEach(theme => {
                 const option = document.createElement('option');
@@ -132,11 +135,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 $themeSelector.appendChild(option);
             });
         } else {
-            console.error("Error Init: Elemento theme-selector no encontrado.");
-            return;
+             console.error("Error Init: Elemento theme-selector no encontrado.");
+             return;
         }
-
-        // Cargar el tema guardado o el predeterminado
         const savedThemeFile = localStorage.getItem(CONFIG.SELECTED_THEME_FILE_KEY) || CONFIG.DEFAULT_THEME_FILE;
         const isValidSavedTheme = CONFIG.AVAILABLE_THEMES.some(theme => theme.file === savedThemeFile);
         const themeFileToLoad = isValidSavedTheme ? savedThemeFile : CONFIG.DEFAULT_THEME_FILE;
@@ -145,63 +146,50 @@ document.addEventListener('DOMContentLoaded', () => {
         $themeSelector.value = themeFileToLoad;
 
         if (themeFileToLoad !== savedThemeFile) {
-            localStorage.setItem(CONFIG.SELECTED_THEME_FILE_KEY, themeFileToLoad);
+             localStorage.setItem(CONFIG.SELECTED_THEME_FILE_KEY, themeFileToLoad);
         }
-        console.log(`Tema CSS inicial cargado: ${themeFileToLoad}`);
     }
 
-    // --- Manejo de Tema (Claro/Oscuro) ---
     function initTheme() {
+        // ... (código existente)
         const savedThemeMode = localStorage.getItem(CONFIG.THEME_STORAGE_KEY) || 'dark';
-        applyThemeMode(savedThemeMode); // Aplica la clase light/dark
+        applyThemeMode(savedThemeMode);
         if ($themeSwitch) $themeSwitch.checked = (savedThemeMode === 'light');
     }
 
     function applyThemeMode(themeMode) {
+        // ... (código existente)
         const isLightTheme = themeMode === 'light';
         $html.classList.toggle('light-theme', isLightTheme);
-
-        // Actualiza logos que dependen del modo claro/oscuro
-        if ($logoVelerSidebar) {
-            $logoVelerSidebar.src = isLightTheme ? CONFIG.LOGO_VELER_LIGHT : CONFIG.LOGO_VELER_DARK;
-        }
-        if ($logo1Splash) { $logo1Splash.src = isLightTheme ? CONFIG.LOGO_VELER_LIGHT : CONFIG.LOGO_VELER_DARK; }
-        if ($logo2Splash) { $logo2Splash.src = isLightTheme ? CONFIG.LOGO_GNP_LIGHT : CONFIG.LOGO_GNP_DARK; }
-        // El logo de éxito en el modal también podría cambiar si tienes versiones
+        if ($logoVelerSidebar) $logoVelerSidebar.src = isLightTheme ? CONFIG.LOGO_VELER_LIGHT : CONFIG.LOGO_VELER_DARK;
+        if ($logo1Splash) $logo1Splash.src = isLightTheme ? CONFIG.LOGO_VELER_LIGHT : CONFIG.LOGO_VELER_DARK;
+        if ($logo2Splash) $logo2Splash.src = isLightTheme ? CONFIG.LOGO_GNP_LIGHT : CONFIG.LOGO_GNP_DARK;
         if ($modalSuccessLogo) {
-            // Asumiendo que tienes un V_icon_light.png y V_icon_dark.png o similar
             // $modalSuccessLogo.src = isLightTheme ? 'assets/img/V_icon_light.png' : 'assets/img/V_icon.png';
         }
     }
 
-    // Handler para el interruptor claro/oscuro
     function handleThemeSwitchChange() {
+        // ... (código existente)
         const currentThemeMode = this.checked ? 'light' : 'dark';
         applyThemeMode(currentThemeMode);
         localStorage.setItem(CONFIG.THEME_STORAGE_KEY, currentThemeMode);
     }
 
-    // --- Handler para el selector de archivo de tema ---
     function handleThemeFileChange() {
+        // ... (código existente)
         const selectedFile = this.value;
         const themeLink = document.getElementById(CONFIG.THEME_LINK_ID);
         if (themeLink) {
-            themeLink.href = selectedFile; // Cambia el archivo CSS
-            localStorage.setItem(CONFIG.SELECTED_THEME_FILE_KEY, selectedFile); // Guarda la preferencia
-            console.log(`Cambiado a tema CSS: ${selectedFile}`);
-
-            // Forzar la reaplicación del modo claro/oscuro actual
-            // para actualizar elementos dependientes (logos, etc.)
+            themeLink.href = selectedFile;
+            localStorage.setItem(CONFIG.SELECTED_THEME_FILE_KEY, selectedFile);
             const currentThemeMode = localStorage.getItem(CONFIG.THEME_STORAGE_KEY) || 'dark';
             applyThemeMode(currentThemeMode);
-
-        } else {
-            console.error("Error: Elemento link del tema no encontrado al intentar cambiar.");
         }
     }
 
-    // --- Animación Inicial ---
     function initAppAnimation() {
+        // ... (código existente)
         if ($splashScreen) {
             $splashScreen.style.opacity = '1';
             $splashScreen.style.pointerEvents = 'auto';
@@ -209,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 $splashScreen.style.opacity = '0';
                 $splashScreen.style.pointerEvents = 'none';
                 setTimeout(() => {
-                    $splashScreen.style.display = 'none';
+                    if ($splashScreen) $splashScreen.style.display = 'none'; // Chequeo extra
                     revealMainContent();
                 }, CONFIG.SPLASH_FADE_DURATION);
             }, CONFIG.SPLASH_DISPLAY_DURATION);
@@ -219,28 +207,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function revealMainContent() {
-        if ($mainHeader) $mainHeader.style.display = 'flex';
-        if ($sidebar) $sidebar.style.display = 'flex';
-        if ($formularioCompleto) $formularioCompleto.style.display = 'block';
-        if ($seccionesNavegables.length > 0) {
+        // ... (código existente)
+         if($mainHeader) $mainHeader.style.display = 'flex';
+         if($sidebar) $sidebar.style.display = 'flex';
+         if($formularioCompleto) $formularioCompleto.style.display = 'block';
+         if ($seccionesNavegables.length > 0) {
             showSection(0);
             actualizarProgreso();
-        }
+         }
     }
 
-    // --- Manejo del Sidebar ---
     function initializeSidebarState() {
+        // ... (código existente)
         const isMobile = window.innerWidth <= CONFIG.MOBILE_BREAKPOINT;
-        // Recuperar estado guardado si existe, sino usar default
         const savedSidebarState = localStorage.getItem('sidebar_expanded');
         const startExpanded = isMobile ? false : (savedSidebarState !== null ? JSON.parse(savedSidebarState) : state.isSidebarExpanded);
-
-        state.isSidebarExpanded = startExpanded; // Actualiza estado lógico
-        state.isSidebarVisibleMobile = false; // Móvil siempre inicia oculto lógicamente
-
+        state.isSidebarExpanded = startExpanded;
+        state.isSidebarVisibleMobile = false;
         if (isMobile) {
             $body.classList.remove('body-sidebar-expanded', 'sidebar-visible');
-            $body.classList.add('body-sidebar-collapsed'); // Usa colapsado como base en móvil
+            $body.classList.add('body-sidebar-collapsed');
         } else {
             $body.classList.toggle('body-sidebar-expanded', startExpanded);
             $body.classList.toggle('body-sidebar-collapsed', !startExpanded);
@@ -250,6 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function toggleSidebar() {
+        // ... (código existente)
         const isMobile = window.innerWidth <= CONFIG.MOBILE_BREAKPOINT;
         if (isMobile) {
             state.isSidebarVisibleMobile = !state.isSidebarVisibleMobile;
@@ -260,52 +247,55 @@ document.addEventListener('DOMContentLoaded', () => {
             $body.classList.toggle('body-sidebar-expanded', state.isSidebarExpanded);
             $body.classList.toggle('body-sidebar-collapsed', !state.isSidebarExpanded);
             $body.classList.remove('sidebar-visible');
-            // Guardar preferencia en desktop
             localStorage.setItem('sidebar_expanded', JSON.stringify(state.isSidebarExpanded));
         }
         updateSidebarToggleButton();
     }
 
     function updateSidebarToggleButton() {
+        // ... (código existente)
         if (!$sidebarToggle) return;
         const isMobile = window.innerWidth <= CONFIG.MOBILE_BREAKPOINT;
         if (isMobile) {
-            $sidebarToggle.textContent = state.isSidebarVisibleMobile ? 'close' : 'menu';
-            $sidebarToggle.title = state.isSidebarVisibleMobile ? 'Ocultar menú' : 'Mostrar menú';
+             $sidebarToggle.textContent = state.isSidebarVisibleMobile ? 'close' : 'menu';
+             $sidebarToggle.title = state.isSidebarVisibleMobile ? 'Ocultar menú' : 'Mostrar menú';
         } else {
             $sidebarToggle.textContent = state.isSidebarExpanded ? 'menu_open' : 'menu';
             $sidebarToggle.title = state.isSidebarExpanded ? 'Contraer menú' : 'Expandir menú';
         }
     }
 
-    function handleResize() {
-        initializeSidebarState(); // Reajusta estado al cambiar tamaño
-    }
+    function handleResize() { initializeSidebarState(); }
 
-    // --- Navegación del Formulario ---
     function initFormNavigation() {
+        // ... (código existente)
         $sidebarMenuItems.forEach(item => item.addEventListener('click', handleMenuItemClick));
     }
 
-    function isValidSectionIndex(index) {
-        return index >= 0 && index < $seccionesNavegables.length;
-    }
+    function isValidSectionIndex(index) { return index >= 0 && index < $seccionesNavegables.length; }
 
     function showSection(indexToShow) {
-        if (!isValidSectionIndex(indexToShow)) return;
+        if (!$form || !isValidSectionIndex(indexToShow)) return;
         const $currentActive = $form.querySelector('.seccion-formulario.seccion-activa');
         const $nextSection = $seccionesNavegables[indexToShow];
-        if ($currentActive === $nextSection) return; // Ya está visible
+        if ($currentActive === $nextSection) return;
+
+        // --- NUEVO: Limpiar listeners de revelación secuencial de la sección anterior ---
+        if ($currentActive) {
+            clearSequentialRevealListeners($currentActive);
+        }
+        // --- FIN NUEVO ---
 
         if ($currentActive) {
             fadeOutSection($currentActive, () => fadeInSection($nextSection, indexToShow));
         } else {
-            fadeInSection($nextSection, indexToShow); // Primera sección
+            fadeInSection($nextSection, indexToShow);
         }
         state.currentSeccionIndex = indexToShow;
     }
 
     function fadeOutSection($section, callback) {
+        // ... (código existente)
         $section.style.opacity = '0';
         setTimeout(() => {
             $section.classList.remove('seccion-activa');
@@ -315,24 +305,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function fadeInSection($section, index) {
-        $section.style.display = 'block';
-        // Pequeño delay para asegurar que display:block se aplique antes de la transición
-        setTimeout(() => {
+        if (!$section) return; 
+        $section.style.display = 'block'; 
+        
+        // --- : Inicializar revelación secuencial para la nueva sección ---
+        initSequentialReveal($section); 
+        // --- FIN  ---
+
+        setTimeout(() => { 
             $section.style.opacity = '1';
             $section.classList.add('seccion-activa');
             updateActiveMenuItem(index);
-            window.scrollTo(0, 0); // Scroll al inicio de la página
-        }, 50);
+            window.scrollTo(0, 0);
+            runSectionSpecificLogic($section.id); 
+        }, 50); 
+    }
+    
+    function runSectionSpecificLogic(sectionId) {
+        // Llama a las funciones de lógica condicional para la sección actual
+        if (sectionId === 'seccion-habitos') {
+            toggleHabitosFields();
+        }
+        // Añadir más secciones aquí si es necesario
+        // if (sectionId === 'seccion-deportes') { toggleDeportesFields(); }
     }
 
     function updateActiveMenuItem(activeIndex) {
-        const activeSectionId = activeIndex >= 0 ? $seccionesNavegables[activeIndex]?.id : null;
+        // ... (código existente)
+        const activeSectionId = activeIndex >= 0 && $seccionesNavegables[activeIndex] ? $seccionesNavegables[activeIndex].id : null;
         $sidebarMenuItems.forEach(item => {
             item.classList.toggle('active', item.getAttribute('data-section') === activeSectionId);
         });
     }
 
     function handleFormButtonClick(event) {
+        // ... (código existente)
         const $button = event.target.closest('button');
         if (!$button) return;
 
@@ -354,453 +361,571 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleMenuItemClick(event) {
-        // Prevenir si se está en modo revisión
-        if ($formularioCompleto.classList.contains('modo-revision')) {
-            console.log("Navegación deshabilitada en modo revisión.");
-            return;
-        }
+        // ... (código existente)
+        if ($formularioCompleto.classList.contains('modo-revision')) return;
         const sectionId = event.currentTarget.getAttribute('data-section');
         const targetIndex = $seccionesNavegables.findIndex(sec => sec.id === sectionId);
         if (targetIndex !== -1) {
             showSection(targetIndex);
-            // Ocultar sidebar en móvil después de seleccionar
             const isMobile = window.innerWidth <= CONFIG.MOBILE_BREAKPOINT;
             if (isMobile && $body.classList.contains('sidebar-visible')) {
                 toggleSidebar();
             }
-        } else {
-            console.warn(`Warning Nav Sidebar: Sección ID ${sectionId} no encontrada.`);
         }
     }
 
-    // --- Modo Revisión ---
     function showReviewMode() {
-        console.log("Entrando a modo revisión...");
+        // ... (código existente)
         const $currentActive = $form.querySelector('.seccion-formulario.seccion-activa');
-
         const enterReview = () => {
             $formularioCompleto.classList.add('modo-revision');
             if ($seccionRevision) {
                 $seccionRevision.style.display = 'block';
-                setTimeout(() => {
-                    $seccionRevision.style.opacity = '1';
-                    $seccionRevision.classList.add('seccion-activa');
-                }, 50);
+                setTimeout(() => { $seccionRevision.style.opacity = '1'; $seccionRevision.classList.add('seccion-activa'); }, 50);
                 generateFinalSummary();
-            } else {
-                console.error("Error Revisión: #seccion-revision no encontrada.");
             }
-            // Mostrar todas las demás secciones para revisión
-            $seccionesNavegables.forEach(sec => {
-                sec.style.display = 'block';
-                sec.style.opacity = '1';
-                sec.classList.remove('seccion-activa'); // Quitar activa de la sección anterior
-            });
-            updateActiveMenuItem(-1); // Ningún item de menú activo
+            $seccionesNavegables.forEach(sec => { sec.style.display = 'block'; sec.style.opacity = '1'; sec.classList.remove('seccion-activa'); });
+            updateActiveMenuItem(-1);
             window.scrollTo(0, 0);
         };
-
         if ($currentActive && $currentActive !== $seccionRevision) {
             fadeOutSection($currentActive, enterReview);
-        } else {
-            enterReview(); // Si no había sección activa o ya estaba en revisión (improbable)
-        }
+        } else { enterReview(); }
     }
 
     function hideReviewMode() {
-        console.log("Saliendo de modo revisión...");
+        // ... (código existente)
         $formularioCompleto.classList.remove('modo-revision');
-
-        // Ocultar todas las secciones excepto la de revisión que se desvanecerá
-        $seccionesNavegables.forEach(sec => {
-            sec.style.opacity = '0';
-            sec.style.display = 'none';
-            sec.classList.remove('seccion-activa');
-        });
-
+        $seccionesNavegables.forEach(sec => { sec.style.opacity = '0'; sec.style.display = 'none'; sec.classList.remove('seccion-activa'); });
         if ($seccionRevision) {
-            fadeOutSection($seccionRevision, () => {
-                // Volver a la última sección navegable activa antes de entrar a revisión
-                // Si state.currentSeccionIndex no se modificó, esto funciona.
-                showSection(state.currentSeccionIndex);
-                actualizarProgreso(); // Recalcular progreso
-            });
-        } else {
-            showSection(state.currentSeccionIndex);
-            actualizarProgreso();
-        }
+            fadeOutSection($seccionRevision, () => { showSection(state.currentSeccionIndex); actualizarProgreso(); });
+        } else { showSection(state.currentSeccionIndex); actualizarProgreso(); }
     }
 
     function generateFinalSummary() {
+        // ... (código existente)
         if (!$seccionRevision) return;
         const $resumenFinal = $seccionRevision.querySelector('#resumen-final');
         if (!$resumenFinal) return;
-
-        $resumenFinal.innerHTML = ''; // Limpiar resumen anterior
+        $resumenFinal.innerHTML = '';
         const formData = new FormData($form);
         const dataObject = {};
         formData.forEach((value, key) => {
-            // Manejo de checkboxes (múltiples valores con el mismo name)
             if (dataObject[key]) {
-                if (!Array.isArray(dataObject[key])) {
-                    dataObject[key] = [dataObject[key]];
-                }
+                if (!Array.isArray(dataObject[key])) dataObject[key] = [dataObject[key]];
                 dataObject[key].push(value);
-            } else {
-                // Si es un input de radio o select, o el primer checkbox con ese nombre
-                dataObject[key] = value;
-            }
+            } else { dataObject[key] = value; }
         });
-
-
         const $ul = document.createElement('ul');
-
         $seccionesNavegables.forEach(section => {
             const sectionId = section.id;
             const sectionTitle = section.querySelector('h2')?.textContent || sectionId.replace('seccion-', '').replace(/_/g, ' ');
             let sectionHasData = false;
             const $sectionUl = document.createElement('ul');
-
             section.querySelectorAll('.form-group [name]').forEach(input => {
-                // Evitar mostrar campos ocultos (ej. contratante diferente si es igual)
-                if (input.offsetParent === null) return;
-
+                if (input.offsetParent === null && !input.closest('.seccion-formulario.seccion-activa')) return; // Evitar campos ocultos
                 const key = input.name;
-                const value = dataObject[key];
-
-                // Mejorar manejo de checkboxes: si es array, unir; si es booleano, mostrar Sí/No
+                let value = dataObject[key];
                 let displayValue = '';
                 if (input.type === 'checkbox') {
-                    // Para checkboxes individuales que guardan 'true' o no existen si no están marcados
                     displayValue = dataObject.hasOwnProperty(key) ? 'Sí' : 'No';
-                    // Ignorar si es 'No' y no es obligatorio mostrarlo explícitamente? Depende del diseño.
-                    // if (displayValue === 'No') return;
                 } else if (input.type === 'radio') {
-                    // Para radios, obtener el label del radio seleccionado
                     const checkedRadio = section.querySelector(`input[name="${key}"]:checked`);
-                    displayValue = checkedRadio ? (getLabelText(checkedRadio) || checkedRadio.value) : 'No seleccionado';
-                    if (displayValue === 'No seleccionado' && !input.required) return; // No mostrar si no es req. y no se seleccionó
+                    displayValue = checkedRadio ? (getLabelText(checkedRadio.parentElement) || checkedRadio.value) : 'No seleccionado';
+                } else if (input.tagName === 'SELECT' && input.multiple) {
+                     displayValue = value ? (Array.isArray(value) ? value.join(', ') : value) : 'No seleccionado';
+                } else if (input.tagName === 'SELECT') {
+                    const selectedOption = input.options[input.selectedIndex];
+                    displayValue = selectedOption && selectedOption.value ? selectedOption.text : 'No seleccionado';
                 } else if (isValidInputValue(value)) {
                     displayValue = value;
                 } else if (input.required) {
-                    displayValue = '--- PENDIENTE ---'; // Marcar campos requeridos vacíos
-                } else {
-                    return; // No mostrar campos opcionales vacíos
-                }
-
-                const labelText = getLabelText($form, key, true); // Obtener texto del label
-
+                    displayValue = '--- PENDIENTE ---';
+                } else { return; }
+                const labelText = getLabelForInput(input);
                 if (labelText) {
                     const $li = document.createElement('li');
-                    $li.innerHTML = `<strong>${labelText}:</strong> ${displayValue}`;
+                    const $valueSpan = document.createElement('span');
+                    $valueSpan.className = 'respuesta-valor';
+                    $valueSpan.textContent = displayValue;
+                    $li.innerHTML = `<strong>${labelText}:</strong> `;
+                    $li.appendChild($valueSpan);
                     $sectionUl.appendChild($li);
                     sectionHasData = true;
                 }
             });
-
             if (sectionHasData) {
                 const $sectionHeaderLi = document.createElement('li');
                 $sectionHeaderLi.innerHTML = `<h4>${sectionTitle}</h4>`;
-                $sectionHeaderLi.style.borderBottom = 'none'; // Sin borde para el título de sección
-                $sectionHeaderLi.style.marginBottom = '10px';
-                $ul.appendChild($sectionHeaderLi);
-                $ul.appendChild($sectionUl); // Añadir la lista de esa sección
-                // Añadir un separador visual entre secciones del resumen
+                $sectionHeaderLi.style.borderBottom = 'none'; $sectionHeaderLi.style.marginBottom = '10px';
+                $ul.appendChild($sectionHeaderLi); $ul.appendChild($sectionUl);
                 const $hr = document.createElement('hr');
-                $hr.style.borderColor = 'var(--border)';
-                $hr.style.opacity = '0.5';
-                $hr.style.margin = '15px 0';
+                $hr.style.borderColor = 'var(--border)'; $hr.style.opacity = '0.5'; $hr.style.margin = '15px 0';
                 $ul.appendChild($hr);
             }
         });
-
-        // Eliminar el último separador <hr> si existe
         const lastElement = $ul.lastElementChild;
-        if (lastElement && lastElement.tagName === 'HR') {
-            $ul.removeChild(lastElement);
-        }
-
+        if (lastElement && lastElement.tagName === 'HR') $ul.removeChild(lastElement);
         $resumenFinal.appendChild($ul);
     }
+    function isValidInputValue(value) { return value !== null && value !== undefined && String(value).trim() !== ''; }
 
-    function isValidInputValue(value) {
-        // Considera 'false' como un valor válido si viene de un checkbox que no se marcó
-        // pero queremos mostrarlo explícitamente como 'No'.
-        // Modificamos para que solo valores realmente nulos, undefined o strings vacíos se consideren inválidos.
-        return value !== null && value !== undefined && String(value).trim() !== '';
-    }
-
-    function getLabelText(element, getFullContent = false) {
+    function getLabelForInput(inputElement) {
+        // ... (código existente para obtener el label)
         let label = null;
-        if (element.id) {
-            label = $form.querySelector(`label[for="${element.id}"]`);
-        }
-        // Si no hay 'for', buscar label padre
+        if (inputElement.id) label = $form.querySelector(`label[for="${inputElement.id}"]`);
+        if (!label) label = inputElement.closest('label');
         if (!label) {
-            label = element.closest('label');
+            const formGroup = inputElement.closest('.form-group.question-group');
+            if (formGroup) label = formGroup.querySelector('label');
         }
-        // Si sigue sin haber, buscar label hermano o dentro de form-group
-        if (!label) {
-            const formGroup = element.closest('.form-group');
-            if (formGroup) {
-                label = formGroup.querySelector('label');
-            }
-        }
-
         if (label) {
-            if (getFullContent) {
-                // Clonar el label para no afectar el original
-                const clone = label.cloneNode(true);
-                // Remover el input/select/textarea del clon para obtener solo el texto
-                const inputInside = clone.querySelector('input, select, textarea');
-                if (inputInside) inputInside.remove();
-                // Remover otros elementos si es necesario (ej. íconos)
-                // const iconsInside = clone.querySelectorAll('.material-symbols-outlined');
-                // iconsInside.forEach(icon => icon.remove());
-                return clone.textContent.replace(':', '').trim();
-            } else {
-                // Devuelve solo el texto principal (puede ser menos preciso)
-                return label.textContent.split('\n')[0].replace(':', '').trim();
-            }
+            const clone = label.cloneNode(true);
+            const inputInside = clone.querySelector('input, select, textarea, .required-marker');
+            if (inputInside) inputInside.remove();
+             // Remover spans de marcadores si están fuera del input pero dentro del label
+            clone.querySelectorAll('.required-marker').forEach(marker => marker.remove());
+            return clone.textContent.replace(':', '').trim();
         }
-        // Fallback al name del input si no hay label
-        return element.name || 'Campo sin etiqueta';
+        return inputElement.name || 'Campo sin etiqueta';
     }
 
 
-    // --- Seguimiento de Progreso ---
     function actualizarProgreso() {
+        // ... (código existente)
         if (!$progressBarFill || !$progressText || !$form) return;
-
         let totalCamposNavegables = 0;
         let camposCompletadosNavegables = 0;
-
-        // Itera solo sobre las secciones navegables para el progreso
         $seccionesNavegables.forEach((section) => {
             let sectionIsComplete = true;
-            let sectionHasRequiredFields = false; // Verifica si la sección tiene campos *requeridos*
-
+            let sectionHasRequiredFields = false;
             const inputsInSection = section.querySelectorAll('.form-group [name]');
-
             inputsInSection.forEach(input => {
-                // Considerar solo campos visibles y no deshabilitados
                 if (input.offsetParent !== null && !input.disabled) {
-                    // Contamos todos los campos visibles para el total
                     totalCamposNavegables++;
                     if (input.checkValidity()) {
                         camposCompletadosNavegables++;
                     } else {
-                        // Si *algún* campo (requerido o no) es inválido, la sección no está completa
-                        // Pero solo marcamos la sección como incompleta si el campo inválido es *requerido*
-                        if (input.required) {
-                            sectionIsComplete = false;
-                        }
+                         if (input.required) sectionIsComplete = false;
                     }
-                    // Marcar si la sección tiene al menos un campo requerido
-                    if (input.required) {
-                        sectionHasRequiredFields = true;
-                    }
+                    if (input.required) sectionHasRequiredFields = true;
                 }
             });
-
             const menuItem = $sidebarMenuItems.find(item => item.getAttribute('data-section') === section.id);
             if (menuItem) {
-                // La sección se marca como completa SOLO si tiene campos requeridos y todos ellos son válidos
-                // O si no tiene campos requeridos y todos los opcionales son válidos (o no tiene campos)
-                const markAsCompleted = (sectionHasRequiredFields && sectionIsComplete) || (!sectionHasRequiredFields && sectionIsComplete);
-                menuItem.classList.toggle('completed', markAsCompleted);
+                 const markAsCompleted = (sectionHasRequiredFields && sectionIsComplete) || (!sectionHasRequiredFields && sectionIsComplete);
+                 menuItem.classList.toggle('completed', markAsCompleted);
             }
         });
-
-        // Calcular porcentaje basado en campos válidos sobre el total de campos visibles
         const porcentaje = totalCamposNavegables > 0 ? Math.round((camposCompletadosNavegables / totalCamposNavegables) * 100) : 0;
         $progressBarFill.style.width = `${porcentaje}%`;
         $progressText.textContent = `${porcentaje}% completado`;
     }
 
-    // --- Manejo de Modales ---
     function showModal(type, message = '', title = '') {
+        // ... (código existente)
         if (!$modalOverlay || !$modalContainer) return;
-
-        // Configurar contenido
         $modalMessage.textContent = message;
         $modalTitle.textContent = title || (type === 'error' ? 'Error' : 'Éxito');
-        $modalErrorIcon.style.display = (type === 'error') ? 'inline-block' : 'none';
-        $modalSuccessLogo.style.display = (type === 'success') ? 'inline-block' : 'none';
-
-        // Configurar botones (ej. ocultar OK en error si solo se quiere Cerrar)
-        $modalOkBtn.style.display = (type === 'success') ? 'inline-block' : 'inline-block'; // Mostrar OK siempre por ahora
-        $modalCloseBtn.style.display = 'inline-block'; // Mostrar Cerrar siempre
-
-        // Mostrar modal
+        if ($modalErrorIcon) $modalErrorIcon.style.display = (type === 'error') ? 'inline-block' : 'none';
+        if ($modalSuccessLogo) $modalSuccessLogo.style.display = (type === 'success') ? 'inline-block' : 'none';
+        if ($modalOkBtn) $modalOkBtn.style.display = (type === 'success') ? 'inline-block' : 'inline-block';
+        if ($modalCloseBtn) $modalCloseBtn.style.display = 'inline-block';
         $body.classList.add('modal-visible');
     }
 
     function hideModal() {
+        // ... (código existente)
         if (!$body.classList.contains('modal-visible')) return;
         $body.classList.remove('modal-visible');
-        // Limpiar contenido si es necesario
-        $modalMessage.textContent = '';
-        $modalTitle.textContent = '';
-        // Restaurar botón de envío si estaba deshabilitado
-        if (state.lastSubmitButton && state.isSubmitting) {
-            state.lastSubmitButton.disabled = false;
-            state.lastSubmitButton.textContent = 'Enviar Formulario';
-            state.isSubmitting = false;
-            state.lastSubmitButton = null;
-        }
+         if ($modalMessage) $modalMessage.textContent = '';
+         if ($modalTitle) $modalTitle.textContent = '';
+         if (state.lastSubmitButton && state.isSubmitting) {
+             state.lastSubmitButton.disabled = false;
+             state.lastSubmitButton.textContent = 'Enviar Formulario';
+             state.isSubmitting = false;
+             state.lastSubmitButton = null;
+         }
     }
 
-    // --- Envío de Formulario ---
     function handleSubmitButtonClick($button, event) {
-        event.preventDefault(); // Prevenir envío HTML normal
-        if (state.isSubmitting) return; // Evitar doble envío
-
-        // Validar todo el formulario antes de enviar
+        // ... (código existente)
+        event.preventDefault();
+        if (state.isSubmitting) return;
         if (!$form.checkValidity()) {
-            // Si la validación HTML5 falla, mostrar un mensaje general
-            // Los navegadores modernos suelen resaltar los campos inválidos
-            showModal('error', 'Por favor, revisa los campos marcados en rojo o incompletos antes de enviar.', 'Formulario Incompleto');
-            $form.reportValidity(); // Intenta mostrar los mensajes nativos del navegador
-            return;
+             showModal('error', 'Por favor, revisa los campos marcados o incompletos antes de enviar.', 'Formulario Incompleto');
+             $form.reportValidity();
+             return;
         }
-
         state.isSubmitting = true;
         state.lastSubmitButton = $button;
         $button.disabled = true;
         $button.textContent = 'Enviando...';
-
         const formData = new FormData($form);
-        // Convertir FormData a un objeto simple si la API lo prefiere
         const dataObject = {};
         formData.forEach((value, key) => { dataObject[key] = value; });
-
-        // console.log('Enviando datos:', JSON.stringify(dataObject, null, 2)); // Para depuración
-        sendFormData(dataObject); // O enviar formData directamente si la API lo acepta
+        sendFormData(dataObject);
     }
 
     async function sendFormData(data) {
+        // ... (código existente)
         try {
             const response = await fetch(CONFIG.API_ENDPOINT, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json', // O 'multipart/form-data' si envías archivos y usas FormData
-                    // Añadir otros headers si son necesarios (ej. Autorización)
-                },
-                body: JSON.stringify(data) // O 'body: data' si envías FormData
+                headers: { 'Content-Type': 'application/json', },
+                body: JSON.stringify(data)
             });
-
             if (!response.ok) {
-                // Intentar obtener mensaje de error del cuerpo de la respuesta
-                let errorMsg = `Error del servidor: ${response.status} ${response.statusText}`;
-                try {
-                    const errorData = await response.json();
-                    errorMsg = errorData.message || errorData.error || errorMsg;
-                } catch (e) { /* No era JSON, usar mensaje status */ }
-                throw new Error(errorMsg);
+                 let errorMsg = `Error del servidor: ${response.status} ${response.statusText}`;
+                 try { const errorData = await response.json(); errorMsg = errorData.message || errorData.error || errorMsg; } catch (e) { /* No JSON */ }
+                 throw new Error(errorMsg);
             }
-
-            const result = await response.json(); // Asumiendo que la API responde con JSON
-
-            // Éxito
-            console.log('Respuesta API:', result);
+            const result = await response.json();
             showModal('success', 'Tu solicitud ha sido enviada exitosamente.', 'Envío Exitoso');
-            // Opcional: Redirigir o limpiar formulario aquí
-            // $form.reset();
-            // hideReviewMode();
-            // showSection(0);
-
         } catch (error) {
-            console.error('Error al enviar formulario:', error);
             showModal('error', `No se pudo enviar la solicitud. ${error.message}`, 'Error de Envío');
-            // El botón se reactivará en hideModal()
         } finally {
-            // Asegurarse de resetear el estado de envío incluso si hideModal no se llama
-            if (state.lastSubmitButton && state.isSubmitting) {
-                state.lastSubmitButton.disabled = false;
-                state.lastSubmitButton.textContent = 'Enviar Formulario';
-                state.isSubmitting = false;
+             if (state.lastSubmitButton && state.isSubmitting) {
+                 state.lastSubmitButton.disabled = false;
+                 state.lastSubmitButton.textContent = 'Enviar Formulario';
+                 state.isSubmitting = false;
+             }
+        }
+    }
+
+    // --- Lógica Condicional de Campos ---
+    function toggleFieldVisibility(fieldId, show, dependentFieldIdToClear = null) {
+        const fieldElement = document.getElementById(fieldId);
+        const formGroup = fieldElement ? fieldElement.closest('.form-group.question-group') : null;
+        if (formGroup) {
+            formGroup.style.display = show ? 'flex' : 'none'; // 'flex' porque .form-group es flex
+            if (!show && dependentFieldIdToClear) {
+                const dependentField = document.getElementById(dependentFieldIdToClear);
+                if (dependentField) {
+                    if (dependentField.type === 'checkbox' || dependentField.type === 'radio') {
+                        dependentField.checked = false;
+                    } else {
+                        dependentField.value = '';
+                    }
+                    // Disparar evento change para que otras lógicas (como validación o progreso) se actualicen
+                    dependentField.dispatchEvent(new Event('change', { bubbles: true }));
+                }
             }
         }
     }
 
+    // --- INICIO: Lógica Condicional Sección Hábitos ---
+    // (Este bloque de código es el que ya tenías y funcionaba)
+    function toggleHabitosFields() {
+        if (!$form) return;
 
-    // --- Asignación de Event Listeners ---
-    function initEventListeners() {
-        if ($themeSwitch) $themeSwitch.addEventListener('change', handleThemeSwitchChange);
-        if ($themeSelector) $themeSelector.addEventListener('change', handleThemeFileChange); // Listener para selector de tema
-        if ($sidebarToggle) $sidebarToggle.addEventListener('click', toggleSidebar);
-        window.addEventListener('resize', handleResize);
-        if ($form) $form.addEventListener('click', handleFormButtonClick); // Delegación de eventos para botones del form
-        if ($modalOverlay) $modalOverlay.addEventListener('click', hideModal);
-        if ($modalCloseBtn) $modalCloseBtn.addEventListener('click', hideModal);
-        if ($modalOkBtn) $modalOkBtn.addEventListener('click', hideModal); // OK también cierra el modal
+        const fumaRadio = $form.querySelector('input[name="hab_fuma"]:checked');
+        const consumeAlcoholRadio = $form.querySelector('input[name="hab_consume_alcohol"]:checked');
+        const consumeDrogasRadio = $form.querySelector('input[name="hab_consume_drogas"]:checked');
+        const generoSelect = document.getElementById('sol_genero');
+        const embarazadaRadio = $form.querySelector('input[name="hab_embarazada"]:checked');
 
-        // Listener para actualizar progreso en cada cambio de input/select
-        $allFormFields.forEach(field => {
-            field.addEventListener('input', actualizarProgreso); // Para texto, etc.
-            field.addEventListener('change', actualizarProgreso); // Para selects, checkboxes, radios
-        });
-
-        // Mover aquí la lógica de visibilidad condicional si no está inline
-        // (ej. contratante, tarjetahabiente, embarazo)
-        // Ejemplo Contratante:
-        const radioContratanteIgual = $form?.querySelectorAll('input[name="con_igual_titular"]');
-        const datosContratanteDiferente = document.getElementById('datos-contratante-diferente');
-        if (radioContratanteIgual?.length > 0 && datosContratanteDiferente) {
-            const toggleContratante = () => { const sel = $form.querySelector('input[name="con_igual_titular"]:checked'); datosContratanteDiferente.style.display = (sel?.value === 'no') ? 'block' : 'none'; actualizarProgreso(); };
-            radioContratanteIgual.forEach(radio => radio.addEventListener('change', toggleContratante));
-            // toggleContratante(); // Ya no se llama aquí, se hace inline o al mostrar la sección
+        if (fumaRadio) {
+            toggleFieldVisibility('hab_cigarrillos_dia', fumaRadio.value === 'si', 'hab_cigarrillos_dia');
+            toggleFieldVisibility('hab_cuando_dejo_fumar', fumaRadio.value === 'no', 'hab_cuando_dejo_fumar');
+        } else { 
+            toggleFieldVisibility('hab_cigarrillos_dia', false, 'hab_cigarrillos_dia');
+            toggleFieldVisibility('hab_cuando_dejo_fumar', false, 'hab_cuando_dejo_fumar');
         }
-        // Ejemplo Tarjetahabiente:
+
+        if (consumeAlcoholRadio) {
+            toggleFieldVisibility('hab_frecuencia_alcohol', consumeAlcoholRadio.value === 'si', 'hab_frecuencia_alcohol');
+        } else {
+            toggleFieldVisibility('hab_frecuencia_alcohol', false, 'hab_frecuencia_alcohol');
+        }
+
+        if (consumeDrogasRadio) {
+            toggleFieldVisibility('hab_tipo_droga_frecuencia', consumeDrogasRadio.value === 'si', 'hab_tipo_droga_frecuencia');
+        } else {
+            toggleFieldVisibility('hab_tipo_droga_frecuencia', false, 'hab_tipo_droga_frecuencia');
+        }
+        
+        const preguntaEmbarazoFormGroup = document.getElementById('pregunta-embarazo'); 
+        const semanasEmbarazoInput = document.getElementById('hab_semanas_embarazo');
+
+        if (generoSelect && preguntaEmbarazoFormGroup && semanasEmbarazoInput) {
+            const esFemenino = generoSelect.value === 'F';
+            toggleFieldVisibility('pregunta-embarazo', esFemenino, null, true); 
+
+            if (esFemenino) {
+                const radiosEmbarazo = preguntaEmbarazoFormGroup.querySelectorAll('input[name="hab_embarazada"]');
+                if (radiosEmbarazo) radiosEmbarazo.forEach(r => r.disabled = false);
+                
+                if (embarazadaRadio) { 
+                    toggleFieldVisibility('hab_semanas_embarazo', embarazadaRadio.value === 'si', 'hab_semanas_embarazo');
+                } else { 
+                    toggleFieldVisibility('hab_semanas_embarazo', false, 'hab_semanas_embarazo');
+                }
+            } else { 
+                toggleFieldVisibility('hab_semanas_embarazo', false, 'hab_semanas_embarazo');
+                const naRadio = preguntaEmbarazoFormGroup.querySelector('input[name="hab_embarazada"][value="na"]');
+                if (naRadio) naRadio.checked = true; 
+                const otrosRadiosEmbarazo = preguntaEmbarazoFormGroup.querySelectorAll('input[name="hab_embarazada"]:not([value="na"])');
+                if (otrosRadiosEmbarazo) otrosRadiosEmbarazo.forEach(r => {
+                    r.checked = false;
+                    r.disabled = true;
+                });
+            }
+        }
+        actualizarProgreso(); 
+    }
+    // --- FIN: Lógica Condicional Sección Hábitos ---
+
+
+    // --- : INICIO Lógica Condicional Sección Deportes ---
+    function toggleDeportesFields() {
+        if (!$form) return; // Asegurar que el formulario existe
+        const tipoPracticaSelect = document.getElementById('dep_tipo_practica');
+        const otrosDeportesCheckbox = $form.querySelector('input[name="dep_otros_riesgos"]'); // Asumiendo que solo hay uno con este nombre
+
+        // Lógica para "Nombre del Deporte" y "Frecuencia"
+        if (tipoPracticaSelect) {
+            const showNombreYFrecuencia = tipoPracticaSelect.value === 'Profesional' || tipoPracticaSelect.value === 'Amateur';
+            toggleFieldVisibility('dep_nombre_deporte', showNombreYFrecuencia, 'dep_nombre_deporte');
+            toggleFieldVisibility('dep_frecuencia_deporte', showNombreYFrecuencia, 'dep_frecuencia_deporte');
+        } else { // Si no se encuentra el select, ocultar los campos dependientes por seguridad
+            toggleFieldVisibility('dep_nombre_deporte', false, 'dep_nombre_deporte');
+            toggleFieldVisibility('dep_frecuencia_deporte', false, 'dep_frecuencia_deporte');
+        }
+
+        // Lógica para "Describe otros"
+        if (otrosDeportesCheckbox) {
+            toggleFieldVisibility('dep_descripcion_otros', otrosDeportesCheckbox.checked, 'dep_descripcion_otros');
+        } else { // Si no se encuentra el checkbox, ocultar el campo dependiente
+            toggleFieldVisibility('dep_descripcion_otros', false, 'dep_descripcion_otros');
+        }
+        actualizarProgreso(); // Actualizar progreso después de cambiar visibilidad
+    }
+    // --- : FIN Lógica Condicional Sección Deportes ---
+
+     // --- INICIO Lógica para Revelación Secuencial de Campos ---
+    function initSequentialReveal(sectionElement) {
+        if (!sectionElement) return;
+
+        // --- MODIFICADO: Se elimina la condición if (sectionElement.id !== 'seccion-solicitantes') ---
+        // Ahora la lógica se aplicará a todas las secciones que tengan la estructura esperada.
+
+        console.log(`DEBUG: initSequentialReveal para ${sectionElement.id}`);
+        const formColumnsContainer = sectionElement.querySelector('.form-columns-container');
+        
+        // Si no hay un .form-columns-container, buscar .form-group directamente en la sección
+        // Esto es para secciones que no usan el layout de columnas pero sí tienen form-groups directos.
+        const fieldGroupsSource = formColumnsContainer || sectionElement;
+        
+        // Asegurarse de que solo tomamos hijos directos que sean form-group.question-group
+        const fieldGroups = Array.from(fieldGroupsSource.children).filter(el => el.classList.contains('form-group') && el.classList.contains('question-group'));
+        
+        if (fieldGroups.length === 0) {
+            // Si no hay fieldGroups directos (ej. en secciones como padecimientos_detalle que tienen un div intermedio),
+            // hacer todos los .form-group.question-group visibles por defecto dentro de la sección.
+            // Esto evita que campos en estructuras más complejas queden ocultos.
+            const allInternalGroups = sectionElement.querySelectorAll('.form-group.question-group');
+            allInternalGroups.forEach(group => group.classList.add('field-visible'));
+            console.log(`DEBUG: No se encontraron fieldGroups directos en ${sectionElement.id}, mostrando todos los internos.`);
+            return;
+        }
+        
+        fieldGroups.forEach((group, index) => {
+            if (index === 0) {
+                group.classList.add('field-visible');
+                addRevealListenerToGroup(group, fieldGroups, index);
+            } else {
+                group.classList.remove('field-visible');
+                const inputElement = group.querySelector('input, select, textarea');
+                if (inputElement) {
+                    inputElement.removeEventListener('change', handleFieldRevealInteraction);
+                    inputElement.removeEventListener('blur', handleFieldRevealInteraction);
+                    inputElement.removeEventListener('input', handleFieldRevealInteractionDebounced);
+                }
+            }
+        });
+    }
+
+    function addRevealListenerToGroup(groupElement, allGroups, currentIndex) {
+        if (!groupElement) return;
+        const inputElement = groupElement.querySelector('input:not([type="radio"]):not([type="checkbox"]), select, textarea');
+        const radioGroup = groupElement.querySelector('.radio-group');
+        const checkboxElements = groupElement.querySelectorAll('input[type="checkbox"]');
+
+        if (inputElement) { 
+            const eventType = inputElement.tagName === 'SELECT' ? 'change' : 'blur';
+            inputElement.removeEventListener(eventType, handleFieldRevealInteraction);
+            inputElement.addEventListener(eventType, handleFieldRevealInteraction);
+            if (inputElement.type === 'text' || inputElement.type === 'email' || inputElement.type === 'number' || inputElement.type === 'date' || inputElement.tagName === 'TEXTAREA') {
+                inputElement.removeEventListener('input', handleFieldRevealInteractionDebounced);
+                inputElement.addEventListener('input', handleFieldRevealInteractionDebounced);
+            }
+        } else if (radioGroup) { 
+            const radios = groupElement.querySelectorAll('input[type="radio"]');
+            radios.forEach(radio => {
+                radio.removeEventListener('change', handleFieldRevealInteraction);
+                radio.addEventListener('change', handleFieldRevealInteraction);
+            });
+        } else if (checkboxElements.length > 0) { 
+             checkboxElements.forEach(checkbox => {
+                checkbox.removeEventListener('change', handleFieldRevealInteraction);
+                checkbox.addEventListener('change', handleFieldRevealInteraction);
+             });
+        }
+    }
+    
+    let revealDebounceTimer;
+    function handleFieldRevealInteractionDebounced(event) {
+        clearTimeout(revealDebounceTimer);
+        revealDebounceTimer = setTimeout(() => {
+            handleFieldRevealInteraction(event);
+        }, 750); 
+    }
+
+    function handleFieldRevealInteraction(event) {
+        const currentField = event.target;
+        const currentGroup = currentField.closest('.form-group.question-group');
+        if (!currentGroup) return;
+
+        let canRevealNext = true;
+        if (currentField.required && currentField.value.trim() === "" && currentField.type !== "checkbox" && currentField.type !== "radio") {
+            canRevealNext = false;
+        }
+        if (currentField.tagName === 'SELECT' && currentField.required && currentField.value === "") {
+            canRevealNext = false;
+        }
+
+        if (canRevealNext || event.type === 'change') { 
+            const sectionElement = currentGroup.closest('.seccion-formulario');
+            if (!sectionElement) return;
+            
+            const formColumnsContainer = sectionElement.querySelector('.form-columns-container');
+            const fieldGroupsSource = formColumnsContainer || sectionElement;
+            const fieldGroups = Array.from(fieldGroupsSource.children).filter(el => el.classList.contains('form-group') && el.classList.contains('question-group'));
+            const currentIndex = fieldGroups.indexOf(currentGroup);
+
+            if (currentIndex !== -1 && currentIndex < fieldGroups.length - 1) {
+                const nextGroup = fieldGroups[currentIndex + 1];
+                if (nextGroup && !nextGroup.classList.contains('field-visible')) {
+                    nextGroup.classList.add('field-visible');
+                    addRevealListenerToGroup(nextGroup, fieldGroups, currentIndex + 1);
+                }
+            }
+        }
+    }
+
+    function clearSequentialRevealListeners(sectionElement) {
+        if (!sectionElement) return;
+        const fieldGroups = sectionElement.querySelectorAll('.form-columns-container > .form-group.question-group, .seccion-formulario > .form-group.question-group');
+        fieldGroups.forEach(group => {
+            const inputElement = group.querySelector('input:not([type="radio"]):not([type="checkbox"]), select, textarea');
+            const radios = group.querySelectorAll('input[type="radio"]');
+            const checkboxes = group.querySelectorAll('input[type="checkbox"]');
+
+            if (inputElement) {
+                inputElement.removeEventListener('change', handleFieldRevealInteraction);
+                inputElement.removeEventListener('blur', handleFieldRevealInteraction);
+                inputElement.removeEventListener('input', handleFieldRevealInteractionDebounced);
+            }
+            radios.forEach(radio => radio.removeEventListener('change', handleFieldRevealInteraction));
+            checkboxes.forEach(checkbox => checkbox.removeEventListener('change', handleFieldRevealInteraction));
+        });
+    }
+    // --- FIN Lógica para Revelación Secuencial de Campos ---
+
+
+    function initConditionalLogicHandlers() {
+        // Contratante
+        const radioContratanteIgual = $form.querySelectorAll('input[name="con_igual_titular"]');
+        const datosContratanteDiferente = document.getElementById('datos-contratante-diferente');
+        const toggleContratante = () => {
+            if (!datosContratanteDiferente) return;
+            const sel = $form.querySelector('input[name="con_igual_titular"]:checked');
+            datosContratanteDiferente.style.display = (sel?.value === 'no') ? 'block' : 'none';
+            actualizarProgreso();
+        };
+        if (radioContratanteIgual?.length > 0) {
+            radioContratanteIgual.forEach(radio => radio.addEventListener('change', toggleContratante));
+            toggleContratante(); // Llamada inicial
+        }
+
+        // Tarjetahabiente
         const $checkTitularIgual = document.getElementById('pago_titular_igual_contratante');
         const $datosTarjetaHabienteDiferente = document.getElementById('datos-tarjetahabiente-diferente');
-        if ($checkTitularIgual && $datosTarjetaHabienteDiferente) {
-            const toggleTarjeta = () => { $datosTarjetaHabienteDiferente.style.display = $checkTitularIgual.checked ? 'none' : 'block'; actualizarProgreso(); };
+        const toggleTarjeta = () => {
+            if (!$checkTitularIgual || !$datosTarjetaHabienteDiferente) return;
+            $datosTarjetaHabienteDiferente.style.display = $checkTitularIgual.checked ? 'none' : 'block';
+            actualizarProgreso();
+        };
+        if ($checkTitularIgual) {
             $checkTitularIgual.addEventListener('change', toggleTarjeta);
-            // toggleTarjeta(); // Ya no se llama aquí
+            toggleTarjeta(); // Llamada inicial
         }
-        // Ejemplo Pregunta Embarazo:
-        const $generoSelect = document.getElementById('sol_genero');
-        const $preguntaEmbarazoDiv = document.getElementById('pregunta-embarazo');
-        if ($generoSelect && $preguntaEmbarazoDiv) {
-            const toggleEmbarazo = () => { const esMasculino = $generoSelect.value === 'M'; $preguntaEmbarazoDiv.style.display = esMasculino ? 'none' : 'block'; if (esMasculino) { const naRadio = $preguntaEmbarazoDiv.querySelector('input[name="hab_embarazada"][value="na"]'); if (naRadio) naRadio.checked = true; } actualizarProgreso(); };
-            $generoSelect.addEventListener('change', toggleEmbarazo);
-            // toggleEmbarazo(); // Ya no se llama aquí
+
+        // --- Listeners para sección Hábitos ---
+        $form.querySelectorAll('input[name="hab_fuma"], input[name="hab_consume_alcohol"], input[name="hab_consume_drogas"], input[name="hab_embarazada"]')
+             .forEach(radio => radio.addEventListener('change', toggleHabitosFields));
+        const generoSelect = document.getElementById('sol_genero');
+        if (generoSelect) generoSelect.addEventListener('change', toggleHabitosFields);
+        
+        // Llamada inicial para la lógica de hábitos al cargar la página (si la sección está visible)
+        // Esto se manejará mejor con runSectionSpecificLogic al mostrar la sección.
+        // toggleHabitosFields();
+        // --- NUEVO: INICIO Listeners para Lógica Condicional Sección Deportes ---
+        const tipoPracticaSelect = document.getElementById('dep_tipo_practica');
+        if (tipoPracticaSelect) {
+            tipoPracticaSelect.addEventListener('change', toggleDeportesFields);
         }
-        // Nota: La llamada inicial a estas funciones de toggle
-        // es mejor hacerla cuando la sección correspondiente se muestra (en fadeInSection)
-        // o mantenerla en el script inline del HTML.
-
-
+        const otrosDeportesCheckbox = $form.querySelector('input[name="dep_otros_riesgos"]');
+        if (otrosDeportesCheckbox) {
+            otrosDeportesCheckbox.addEventListener('change', toggleDeportesFields);
+        }
+        // --- NUEVO: FIN Listeners para Lógica Condicional Sección Deportes ---
     }
 
+
+    // --- Validación de Campos (onblur) ---
     function initFieldValidationListeners() {
-        const allFields = $form.querySelectorAll('input:not([type="checkbox"]):not([type="radio"]), select, textarea');
-        allFields.forEach(field => {
+        const allFieldsToValidate = $form.querySelectorAll('input:not([type="checkbox"]):not([type="radio"]), select, textarea');
+        allFieldsToValidate.forEach(field => {
             field.addEventListener('blur', handleFieldValidation);
-            // Opcional: también validar en el evento 'input' para feedback instantáneo mientras escribe
-            // field.addEventListener('input', handleFieldValidation);
+            // Opcional: field.addEventListener('input', handleFieldValidation);
         });
     }
 
     function handleFieldValidation(event) {
         const field = event.target;
-        if (field.checkValidity()) {
-            field.classList.remove('is-invalid');
-            // Opcional: añadir clase para válido si se quiere un estilo específico
-            // field.classList.add('is-valid');
-        } else {
-            field.classList.add('is-invalid');
-            // Opcional: quitar clase de válido si se usa
-            // field.classList.remove('is-valid');
+        // Solo aplicar .is-invalid si el campo ha sido tocado o tiene valor (para no marcar todo en rojo al inicio)
+        // O si es requerido y está vacío
+        if (field.value.trim() !== "" || field.required) {
+            if (field.checkValidity()) {
+                field.classList.remove('is-invalid');
+            } else {
+                field.classList.add('is-invalid');
+            }
+        } else { // Si no es requerido y está vacío, no lo marcamos como inválido al perder foco
+             field.classList.remove('is-invalid');
         }
-        // No queremos que el progreso se actualice en cada 'blur' si no es un cambio real de validez,
-        // la función actualizarProgreso() ya se llama en 'input' y 'change'.
-        // Si se decide validar en 'input', entonces sí podría tener sentido llamar a actualizarProgreso() aquí.
     }
 
-    // --- Iniciar la aplicación ---
-    initializeApp();
+    function initEventListeners() {
+        if ($themeSwitch) $themeSwitch.addEventListener('change', handleThemeSwitchChange);
+        if ($themeSelector) $themeSelector.addEventListener('change', handleThemeFileChange);
+        if ($sidebarToggle) $sidebarToggle.addEventListener('click', toggleSidebar);
+        window.addEventListener('resize', handleResize);
+        if ($form) $form.addEventListener('click', handleFormButtonClick);
+        if ($modalOverlay) $modalOverlay.addEventListener('click', hideModal);
+        if ($modalCloseBtn) $modalCloseBtn.addEventListener('click', hideModal);
+        if ($modalOkBtn) $modalOkBtn.addEventListener('click', hideModal);
 
-}); // Fin DOMContentLoaded
+        $allFormFields.forEach(field => {
+            field.addEventListener('input', actualizarProgreso);
+            field.addEventListener('change', actualizarProgreso);
+        });
+
+        initFieldValidationListeners(); // Añadido para validación onblur
+        initConditionalLogicHandlers(); // Añadido para manejar lógica condicional
+    }
+
+    initializeApp();
+});

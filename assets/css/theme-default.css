@@ -1,3 +1,4 @@
+/* assets/css/theme-default.css */
 /* Define la paleta de colores principal y para el tema claro */
 :root {
     /* Tema Oscuro (Predeterminado) */
@@ -14,15 +15,17 @@
     --button-secondary-bg: #161616;
     --button-secondary-text: var(--accent-color);
     --border: #444; /* Bordes sutiles */
-    --error-alert: #E57373; /* Color para errores */
+    --error-alert: #E57373; /* Color para errores (Rojo claro) */
     --logo-line-color: var(--accent-color); /* Línea divisora logos */
     --modal-bg: var(--bg-container);
     --modal-text: var(--text-color-primary);
     --header-bg: var(--bg-container);
+
     /* Versiones RGB para usar con opacidad (ej. box-shadow) */
     --accent-color-rgb: 247, 215, 165;
     --bg-color-rgb: 30, 30, 30;
     --text-color-primary-rgb: 240, 230, 210;
+    --error-alert-rgb: 229, 115, 115; /* RGB para #E57373 */
 }
 
 /* Tema Claro */
@@ -45,7 +48,10 @@
     --modal-bg: var(--bg-color);
     --modal-text: var(--text-color-primary);
     --header-bg: var(--bg-container);
+
+    /* Versiones RGB */
     --accent-color-rgb: 252, 108, 17;
     --bg-color-rgb: 255, 255, 255;
     --text-color-primary-rgb: 13, 58, 124;
+    --error-alert-rgb: 220, 53, 69; /* RGB para #dc3545 */
 }

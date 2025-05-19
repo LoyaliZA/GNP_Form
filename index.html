@@ -495,74 +495,7 @@
     </div>
 
     <script src="assets/js/script.js"></script>
-    <script>
-        // Scripts inline para lógica condicional (se mantienen)
-        // Esta lógica es importante que se ejecute después de que el DOM esté listo
-        // y también cuando las secciones se muestran/ocultan dinámicamente.
-        // El script.js ya maneja la actualización del progreso en cambios,
-        // pero la visibilidad inicial debe gestionarse aquí o al mostrar la sección.
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Función para mostrar/ocultar datos del contratante diferente
-            const radioContratanteIgual = document.querySelectorAll('input[name="con_igual_titular"]');
-            const datosContratanteDiferente = document.getElementById('datos-contratante-diferente');
-            function toggleContratanteDiferente() {
-                if (!datosContratanteDiferente) return;
-                const seleccionado = document.querySelector('input[name="con_igual_titular"]:checked');
-                datosContratanteDiferente.style.display = (seleccionado && seleccionado.value === 'no') ? 'block' : 'none';
-            }
-            if (radioContratanteIgual.length > 0) {
-                radioContratanteIgual.forEach(radio => radio.addEventListener('change', toggleContratanteDiferente));
-                toggleContratanteDiferente(); // Llamada inicial
-            }
-
-            // Función para mostrar/ocultar datos del tarjetahabiente diferente
-            const checkTitularIgual = document.getElementById('pago_titular_igual_contratante');
-            const datosTarjetaHabienteDiferente = document.getElementById('datos-tarjetahabiente-diferente');
-            function toggleTarjetaHabienteDiferente() {
-                if (checkTitularIgual && datosTarjetaHabienteDiferente) {
-                    datosTarjetaHabienteDiferente.style.display = checkTitularIgual.checked ? 'none' : 'block';
-                }
-            }
-            if (checkTitularIgual) {
-                checkTitularIgual.addEventListener('change', toggleTarjetaHabienteDiferente);
-                toggleTarjetaHabienteDiferente(); // Llamada inicial
-            }
-
-            // Función para mostrar/ocultar pregunta de embarazo
-             const generoSelect = document.getElementById('sol_genero');
-             const preguntaEmbarazoDiv = document.getElementById('pregunta-embarazo');
-             function togglePreguntaEmbarazo() {
-                 if (generoSelect && preguntaEmbarazoDiv) {
-                     const esMasculino = generoSelect.value === 'M';
-                     preguntaEmbarazoDiv.style.display = esMasculino ? 'none' : 'block';
-                     if (esMasculino) {
-                         // Si es masculino, seleccionar "No Aplica" y deshabilitar otras opciones
-                         const naRadio = preguntaEmbarazoDiv.querySelector('input[name="hab_embarazada"][value="na"]');
-                         const siRadio = preguntaEmbarazoDiv.querySelector('input[name="hab_embarazada"][value="si"]');
-                         const noRadio = preguntaEmbarazoDiv.querySelector('input[name="hab_embarazada"][value="no"]');
-                         if (naRadio) naRadio.checked = true;
-                         if (siRadio) siRadio.disabled = true;
-                         if (noRadio) noRadio.disabled = true;
-                     } else {
-                         // Si es femenino, habilitar opciones y quitar "No Aplica" si estaba seleccionado
-                         const siRadio = preguntaEmbarazoDiv.querySelector('input[name="hab_embarazada"][value="si"]');
-                         const noRadio = preguntaEmbarazoDiv.querySelector('input[name="hab_embarazada"][value="no"]');
-                         const naRadio = preguntaEmbarazoDiv.querySelector('input[name="hab_embarazada"][value="na"]');
-                         if (siRadio) siRadio.disabled = false;
-                         if (noRadio) noRadio.disabled = false;
-                         if (naRadio && naRadio.checked) { // Si "No Aplica" estaba seleccionado y cambia a Femenino
-                            if(noRadio) noRadio.checked = true; // Por defecto a "No"
-                         }
-                     }
-                 }
-             }
-            if (generoSelect) {
-                generoSelect.addEventListener('change', togglePreguntaEmbarazo);
-                togglePreguntaEmbarazo(); // Llamada inicial
-            }
-        });
-    </script>
+    
 
 </body>
 </html>
