@@ -112,9 +112,16 @@
                         <input type="date" id="sol_fecha_nacimiento" name="sol_fecha_nacimiento" class="form-control" required>
                     </div>
                     <div class="form-group question-group">
-                        <label for="sol_rfc">RFC:</label>
-                        <input type="text" id="sol_rfc" name="sol_rfc" class="form-control" placeholder="RFC con homoclave" maxlength="13">
-                    </div>
+    <label for="sol_rfc">RFC:
+        <span class="help-icon-wrapper">
+            <span class="help-icon material-symbols-outlined" data-tooltip-target="tooltip-rfc">help</span>
+            <div class="tooltip-content" id="tooltip-rfc">
+                El Registro Federal de Contribuyentes (RFC) es una clave única de registro utilizada en México para identificar a cada persona física o moral con actividad económica. Formato: XXXX000000XXX
+            </div>
+        </span>
+    </label>
+    <input type="text" id="sol_rfc" name="sol_rfc" class="form-control" placeholder="RFC con homoclave" maxlength="13">
+</div>
                     <div class="form-group question-group">
                         <label for="sol_curp">CURP:</label>
                         <input type="text" id="sol_curp" name="sol_curp" class="form-control" placeholder="CURP" maxlength="18">
@@ -138,9 +145,17 @@
                         </select>
                     </div>
                     <div class="form-group question-group">
-                        <label for="sol_certificado_digital_fiel">No. serie certificado digital:</label>
-                        <input type="text" id="sol_certificado_digital_fiel" name="sol_certificado_digital_fiel" class="form-control" placeholder="No. serie FIEL" maxlength="50">
-                    </div>
+    <label for="sol_certificado_digital_fiel">No. serie certificado digital:
+        <span class="help-icon-wrapper">
+            <span class="help-icon material-symbols-outlined" data-tooltip-target="tooltip-fiel">help</span>
+            <div class="tooltip-content" id="tooltip-fiel">
+                Número de serie de tu e.firma (antes Firma Electrónica Avanzada - FIEL). Es un identificador único de tu certificado digital emitido por el SAT.
+            </div>
+        </span>
+    </label>
+    <input type="text" id="sol_certificado_digital_fiel" name="sol_certificado_digital_fiel" class="form-control" placeholder="No. serie FIEL" maxlength="50">
+</div>
+
                     <div class="form-group question-group">
                         <label for="sol_email">Correo electrónico:</label> <input type="email" id="sol_email" name="sol_email" class="form-control" placeholder="Correo electrónico" maxlength="100"> </div>
                     <div class="form-group question-group">

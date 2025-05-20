@@ -833,6 +833,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // --- FIN Lógica para Revelación Secuencial de Campos ---
 
+     // --- NUEVO: INICIO Lógica para Tooltips de Ayuda ---
+    function initTooltipListeners() {
+        if (!$form) return;
+        const helpIcons = $form.querySelectorAll('.help-icon');
+
+        helpIcons.forEach(icon => {
+            const tooltipId = icon.dataset.tooltipTarget;
+            const tooltipContent = document.getElementById(tooltipId);
+
+            if (!tooltipContent) {
+                console.warn(`Tooltip content not found for target: ${tooltipId}`);
+                return;
+            }
+
+            // Mostrar con mouseenter/focus, ocultar con mouseleave/blur
+            icon.addEventListener('mouseenter', () => showTooltip(tooltipContent));
+            icon.addEventListener('focus', () => showTooltip(tooltipContent)); // Para accesibilidad con teclado
+            
+            icon.addEventListener('mouseleave', () => hideTooltip(tooltipContent));
+            icon.addEventListener('blur', () => hideTooltip(tooltipContent)); // Para accesibilidad con teclado
+
+            // Opcional: cerrar tooltip al hacer clic fuera
+            // document.addEventListener('click', (event) => {
+            //     if (!tooltipContent.contains(event.target) && !icon.contains(event.target) && tooltipContent.classList.contains('tooltip-visible')) {
+            //         hideTooltip(tooltipContent);
+            //     }
+            // });
+        });
+    }
+
+    function showTooltip(tooltipElement) {
+        if (!tooltipElement) return;
+        // Calcular posición para evitar desbordamiento (simplificado, podría necesitar Popper.js para casos complejos)
+        // Por ahora, el CSS maneja el posicionamiento básico.
+        tooltipElement.classList.add('tooltip-visible');
+    }
+
+    function hideTooltip(tooltipElement) {
+        if (!tooltipElement) return;
+        tooltipElement.classList.remove('tooltip-visible');
+    }
+    // --- NUEVO: FIN Lógica para Tooltips de Ayuda ---
+
 
     function initConditionalLogicHandlers() {
         // Contratante
@@ -925,6 +968,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         initFieldValidationListeners(); // Añadido para validación onblur
         initConditionalLogicHandlers(); // Añadido para manejar lógica condicional
+        // --- NUEVO: Llamada para inicializar listeners de tooltips ---
+        initTooltipListeners();
+        // --- FIN NUEVO ---
     }
 
     initializeApp();

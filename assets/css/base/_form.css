@@ -362,13 +362,89 @@ main#formulario-completo.modo-revision #seccion-revision {
     opacity: 0;
     transform: translateY(10px);
     transition: opacity 0.3s ease-out, transform 0.3s ease-out, display 0s 0.3s; /* Transición para display */
+    width: 100%; /* Asegurar que ocupe el ancho si está en un grid */
+    grid-column: 1 / -1 !important; /* --- NUEVO: Forzar que ocupe todas las columnas del grid --- */
 }
 
 .seccion-formulario .form-columns-container > .form-group.question-group.field-visible,
 .seccion-formulario > .form-group.question-group.field-visible {
-    display: flex !important; /* Mostrar el grupo de campo activo (importante para anular el display:none inicial) */
+    display: flex !important; 
     opacity: 1;
     transform: translateY(0);
     transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    /* No es necesario repetir width y grid-column aquí si ya están en la regla base de arriba */
 }
 /* --- FIN Estilos para Revelación Secuencial de Campos --- */
+
+
+
+/* --- INICIO Estilos para Tooltips de Ayuda (Anclaje al Wrapper del Ícono) --- */
+.form-group label {
+    /* position: relative; No es necesario aquí si el wrapper del ícono es el ancla */
+    display: flex;
+    align-items: center;
+}
+
+.help-icon-wrapper {
+    position: relative; /* --- IMPORTANTE: El wrapper ahora es el ancla --- */
+    display: inline-flex; /* Se comporta como inline pero permite dimensiones y alineación flex interna */
+    align-items: center; /* Centra el ícono verticalmente dentro del wrapper */
+    margin-left: 8px; /* Espacio entre el texto del label y el wrapper del ícono */
+}
+
+.help-icon { /* Estilos solo para el ícono de interrogación */
+    font-size: 1.1em; 
+    color: var(--text-color-secondary);
+    cursor: pointer;
+    transition: color 0.2s ease;
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+.help-icon:hover {
+    color: var(--accent-color);
+}
+
+.tooltip-content {
+    display: none; 
+    position: absolute;
+    /* Posicionamiento relativo al .help-icon-wrapper */
+    left: calc(100% + 8px); /* A la derecha del wrapper del ícono, con un pequeño espacio */
+    top: 50%;               
+    transform: translateY(-50%); /* Centrado vertical respecto al wrapper del ícono */
+    
+    background-color: var(--bg-color); 
+    color: var(--text-color-primary); 
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 15px;
+    box-shadow: 0 4px 12px rgba(var(--bg-color-rgb, 0,0,0), 0.2); 
+    width: 250px; 
+    max-width: calc(100vw - 50px); /* Prevenir desbordamiento en pantallas muy pequeñas */
+    font-size: 0.85em;
+    line-height: 1.5;
+    z-index: 1000; 
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out, visibility 0s 0.2s, transform 0.2s ease-in-out;
+}
+
+.tooltip-content.tooltip-visible {
+    display: block; 
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.2s ease-in-out, visibility 0s 0s, transform 0.2s ease-in-out;
+}
+
+.tooltip-content::before { /* Flecha del tooltip */
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 100%; /* Lado izquierdo del tooltip, apuntando al wrapper del ícono */
+    transform: translateY(-50%); 
+    border-width: 6px; 
+    border-style: solid;
+    border-color: transparent var(--bg-color) transparent transparent; 
+}
+/* --- FIN Estilos para Tooltips de Ayuda (Anclaje al Wrapper del Ícono) --- */
