@@ -1,8 +1,56 @@
 /* assets/css/base/_splash.css */
 
-/* --- Estilos Base (Mantener estos si son necesarios) --- */
-/* Estilos generales para h2 y elementos comunes */
+/* --- Splash Screen --- */
+/* Estilos visuales para la pantalla de carga inicial */
+#splash-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: flex; /* Necesario para centrar .logos-wrapper */
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-container);
+    opacity: 0; /* En index.html, JS lo cambia a 1. En logos.html, se maneja en su <style> o no es necesario si es visible por defecto. */
+    pointer-events: none; /* En index.html, JS lo cambia. */
+    transition: opacity 0.5s ease-in-out; /* Para el fade-out general */
+}
 
+#splash-screen .logos-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    max-width: 600px; /* Ajusta si es necesario */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#splash-screen .logos-wrapper img {
+    max-height: 120px;  /* O el valor que te funcione mejor */
+    max-width: 45%;
+    width: auto;
+    margin: 0 15px; /* Espacio entre logos y línea */
+    object-fit: contain;
+    flex-shrink: 1;
+    /* La transición de transform ya no es necesaria aquí si la animación la maneja */
+    /* transition: transform 0.3s ease; */
+}
+
+#splash-screen .linea-divisora {
+    width: 2px;
+    height: 80px; /* Ajustado a la altura de los logos */
+    margin: 0 20px;
+    background-color: var(--logo-line-color, var(--accent-color));
+    flex-shrink: 0;
+}
+
+/* Eliminamos las transformaciones de escala de aquí, ya que la animación lo maneja */
+/* #splash-screen #logo1-splash { transform: scale(1.1); transform-origin: center center; } */
+/* #splash-screen #logo2-splash { transform: scale(0.75); transform-origin: center center; } */
+
+
+/* --- Estilos Base Adicionales que estaban en el _splash.css original --- */
+/* (Estos no afectan directamente al splash, pero estaban en tu archivo original) */
 h2 {
     margin: 0 0 20px 0;
     font-weight: 700;
@@ -12,16 +60,14 @@ h2 {
 
 .subtitulo-ligero {
     margin: -15px 0 20px 0;
-    font: italic 300 0.9em 'SF Pro Display'; /* Shorthand font */
+    font: italic 300 0.9em 'SF Pro Display';
     color: var(--text-color-secondary);
 }
 
-/* Estilos Iconos Material Symbols */
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
    vertical-align: middle;
    line-height: 1;
    font-size: 1.2em;
-   display: inline-block; /* Importante para alineación y tamaño */
+   display: inline-block;
 }
-

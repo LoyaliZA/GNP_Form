@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido - GNP Seguros</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link id="dynamic-theme-style-link-splash" rel="stylesheet" href="">
+    <link rel="icon" href="assets/img/V_icon.png" type="image/x-icon">
+    <style>
+        /* Estilos MÍNIMOS para asegurar la funcionalidad del splash y las ANIMACIONES */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Evita barras de scroll en el splash */
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* #splash-screen y sus hijos (.logos-wrapper, img, .linea-divisora)
+           deberían tomar sus estilos visuales principales de _splash.css (vía main.css)
+           Aquí solo definimos lo necesario para la animación de entrada y salida si no está en _splash.css */
+
+        #splash-screen {
+            /* Aseguramos que esté visible para la animación; opacity inicial podría ser 0 si la animación lo maneja desde ahí */
+             opacity: 1; /* Si la animación no empieza desde opacity 0, sino que el CSS de animación lo hace. */
+                         /* Si la animación @keyframes empieza desde opacity 0, esto puede ser 1. */
+        }
+
+        #splash-screen .logos-wrapper img,
+        #splash-screen .linea-divisora {
+            /* Estado inicial para la animación: invisible y escalado */
+            opacity: 0;
+            transform: scale(0.8);
+            transform-origin: center center; /* Importante para que el zoom sea desde el centro */
+        }
+
+        /* --- Animación "Zoom y Fade In desde el Centro" --- */
+        #splash-screen.loaded .logos-wrapper #logo1-splash {
+            animation: zoomFadeIn 0.7s cubic-bezier(0.390, 0.575, 0.565, 1.000) 0.2s forwards;
+        }
+
+        #splash-screen.loaded .logos-wrapper .linea-divisora {
+            animation: zoomFadeIn 0.7s cubic-bezier(0.390, 0.575, 0.565, 1.000) 0.5s forwards;
+        }
+
+        #splash-screen.loaded .logos-wrapper #logo2-splash {
+            animation: zoomFadeIn 0.7s cubic-bezier(0.390, 0.575, 0.565, 1.000) 0.8s forwards;
+        }
+
+        @keyframes zoomFadeIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Para el desvanecimiento de salida de todo el splash */
+        #splash-screen.fade-out {
+            opacity: 0 !important; /* Forzar opacidad 0 */
+            /* La transición para este fade-out ya está en _splash.css:
+               #splash-screen { transition: opacity 0.5s ease-in-out; }
+               Si no estuviera, se añadiría aquí:
+               transition: opacity 0.5s ease-out;
+            */
+        }
+    </style>
+</head>
+<body>
+    <div id="splash-screen">
+        <div class="logos-wrapper">
+            <img id="logo1-splash" src="assets/img/VELER_DARK.png" alt="Logo Veler Technologies">
+            <div class="linea-divisora"></div>
+            <img id="logo2-splash" src="assets/img/GNP_DARK.png" alt="Logo GNP Seguros">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const splashScreen = document.getElementById('splash-screen');
+
+            const entradaAnimMaxDelay = 800;
+            const entradaAnimDuration = 700;
+            const tiempoAnimEntradaCompleta = entradaAnimMaxDelay + entradaAnimDuration;
+
+            const tiempoVisibleEstatico = 2500;
+            const fadeOutEffectDuration = 500; // Este debe coincidir con la transición de opacidad en el CSS
+
+            const fadeOutStartTime = tiempoAnimEntradaCompleta + tiempoVisibleEstatico;
+            const tiempoTotalEnPantalla = fadeOutStartTime + fadeOutEffectDuration;
+
+            const THEME_MODE_KEY = 'theme_mode';
+            const SELECTED_THEME_FILE_KEY = 'selected_theme_file_key';
+            const DEFAULT_THEME_FILE = "assets/css/theme-veler-blue_2.css";
+
+            const savedThemeMode = localStorage.getItem(THEME_MODE_KEY) || 'dark';
+            const logoVelerSplash = document.getElementById('logo1-splash');
+            const logoGNPSplash = document.getElementById('logo2-splash');
+
+            if (savedThemeMode === 'light') {
+                document.documentElement.classList.add('light-theme');
+                if (logoVelerSplash) logoVelerSplash.src = 'assets/img/VELER_LIGHT.png';
+                if (logoGNPSplash) logoGNPSplash.src = 'assets/img/GNP_LIGHT.png';
+            } else {
+                document.documentElement.classList.remove('light-theme');
+                if (logoVelerSplash) logoVelerSplash.src = 'assets/img/VELER_DARK.png';
+                if (logoGNPSplash) logoGNPSplash.src = 'assets/img/GNP_DARK.png';
+            }
+
+            const savedThemeFile = localStorage.getItem(SELECTED_THEME_FILE_KEY) || DEFAULT_THEME_FILE;
+            const themeLinkSplash = document.getElementById('dynamic-theme-style-link-splash');
+            if (themeLinkSplash && savedThemeFile) {
+                themeLinkSplash.href = savedThemeFile;
+            }
+
+            if (splashScreen) {
+                // Esperar a que el tema CSS cargue antes de iniciar la animación para evitar FOUC
+                const linkCargado = themeLinkSplash.href ? new Promise(resolve => {
+                    themeLinkSplash.onload = resolve;
+                    themeLinkSplash.onerror = resolve; // Continuar incluso si hay error
+                }) : Promise.resolve();
+
+                linkCargado.then(() => {
+                    setTimeout(() => { // Pequeña demora adicional por si acaso
+                        splashScreen.classList.add('loaded');
+                    }, 50);
+                });
+            }
+
+            setTimeout(() => {
+                if (splashScreen) {
+                    splashScreen.classList.add('fade-out');
+                }
+            }, fadeOutStartTime);
+
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, tiempoTotalEnPantalla);
+        });
+    </script>
+</body>
+</html>
