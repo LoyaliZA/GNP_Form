@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotización Rápida - GNP Seguros</title>
+    <link rel="stylesheet" href="assets/css/main.css"> <link id="dynamic-theme-style-link" rel="stylesheet" href="assets/css/theme-veler-blue_2.css"> <link rel="icon" href="assets/img/V_icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <style>
+        /* Estilos básicos para la página de cotización */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px; /* Padding para evitar que el contenido toque los bordes en pantallas pequeñas */
+            box-sizing: border-box;
+            background-color: var(--bg-color); /* Usa variables de tema */
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-color-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .cotizacion-outer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .cotizacion-container {
+            background-color: var(--bg-container);
+            padding: 30px 35px; /* Ajustado para consistencia */
+            border-radius: 12px; /* Consistente con _form.css .seccion-formulario */
+            box-shadow: 0 4px 12px rgba(var(--bg-color-rgb, 0,0,0),0.07); /* Sombra de _form.css */
+            width: 100%;
+            max-width: 480px; /* Ancho similar al modal */
+            text-align: center;
+            border: 1px solid var(--border); /* Borde sutil */
+        }
+
+        .cotizacion-container h1 {
+            color: var(--accent-color);
+            margin-top: 0; /* Ajuste si hay logo arriba */
+            margin-bottom: 10px;
+            font-size: 1.8em; /* Tamaño de _form.css #seccion-revision h2 */
+            font-weight: 700;
+        }
+
+        .cotizacion-container .subtitulo-cotizacion { /* Similar a .subtitulo-ligero */
+            margin: -5px 0 25px 0;
+            font: italic 300 0.95em 'SF Pro Display';
+            color: var(--text-color-secondary);
+        }
+
+        .form-group-cotizacion {
+            margin-bottom: 18px; /* Espacio de _form.css .form-group */
+            text-align: left;
+        }
+
+        .form-group-cotizacion label {
+            display: block;
+            margin-bottom: 6px; /* Espacio de _form.css label */
+            font-weight: 500;
+            font-size: 0.88em; /* Tamaño de _form.css label */
+            color: var(--text-color-secondary);
+        }
+        .form-group-cotizacion label .required-marker { /* Estilo de _form.css */
+            color: var(--error-alert, #dc3545);
+            margin-left: 4px;
+            font-weight: bold;
+            font-size: 1.2em;
+            line-height: 1;
+        }
+
+
+        .form-control-cotizacion { /* Basado en .form-control de _form.css */
+            width: 100%;
+            padding: 10px 15px;
+            font-size: 0.95rem;
+            color: var(--input-text-color);
+            background-color: var(--input-bg);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent-color);
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+        .form-control-cotizacion:focus { /* Basado en .form-control:focus de _form.css */
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(var(--accent-color-rgb, 252, 108, 17), 0.25);
+        }
+        select.form-control-cotizacion { /* Estilo de select de _form.css */
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 1em 1em;
+            padding-right: 40px;
+        }
+        :root.light-theme select.form-control-cotizacion {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23495057' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+        }
+
+
+        .btn-cotizar { /* Basado en .btn-siguiente de _buttons.css */
+            background-color: var(--button-primary-bg);
+            color: var(--button-primary-text);
+            padding: 10px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.1s ease, color 0.3s ease;
+            width: 100%;
+            margin-top: 20px; /* Más espacio antes del botón */
+        }
+        .btn-cotizar:hover {
+            opacity: 0.85;
+        }
+        .btn-cotizar:active {
+             transform: scale(0.98);
+        }
+
+        /* Controles de tema en la esquina, adaptados de _header.css y _switch.css */
+        .theme-controls-cotizacion {
+            position: fixed; /* O absolute si prefieres */
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .theme-controls-cotizacion #theme-selector-cotizacion { /* Similar a #theme-selector */
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            background-color: var(--input-bg);
+            color: var(--input-text-color);
+            cursor: pointer;
+            font-size: 0.85em;
+            min-width: 120px;
+            height: 28px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+        .theme-controls-cotizacion #theme-selector-cotizacion:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.2);
+        }
+        /* Estilos del theme-switch (copiados/adaptados de _switch.css) */
+        .theme-controls-cotizacion .theme-switch {
+            position: relative;
+            display: block;
+            width: 50px;
+            height: 25px;
+            cursor: pointer;
+            background-color: var(--input-bg);
+            border: 1px solid var(--accent-color);
+            border-radius: 25px;
+            text-indent: -9999px;
+            transition: background-color 0.3s ease;
+        }
+        .theme-controls-cotizacion .theme-switch input[type="checkbox"] {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            position: absolute;
+        }
+        .theme-controls-cotizacion .theme-switch .slider {
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            width: 21px;
+            height: 21px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .theme-controls-cotizacion .slider .icon {
+            line-height: 1;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            color: var(--button-primary-text); /* Color del icono */
+        }
+        .theme-controls-cotizacion .slider .icon.material-symbols-outlined {
+             font-size: 16px;
+             position: absolute;
+             top: 50%;
+             left: 50%;
+             transform: translate(-50%, -50%);
+        }
+        .theme-controls-cotizacion .slider .sun { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(-90deg); }
+        .theme-controls-cotizacion .slider .moon { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+        .theme-controls-cotizacion .theme-switch input:checked + .slider { transform: translateX(25px); }
+        .theme-controls-cotizacion .theme-switch input:checked + .slider .sun { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+        .theme-controls-cotizacion .theme-switch input:checked + .slider .moon { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(90deg); }
+
+    </style>
+</head>
+<body>
+    <div class="theme-controls-cotizacion">
+        <select id="theme-selector-cotizacion" title="Seleccionar Tema de Color">
+            </select>
+        <label class="theme-switch" for="theme-checkbox-cotizacion">
+            <input type="checkbox" id="theme-checkbox-cotizacion" />
+            <div class="slider round">
+                <span class="icon material-symbols-outlined sun">light_mode</span>
+                <span class="icon material-symbols-outlined moon">dark_mode</span>
+            </div>
+        </label>
+    </div>
+
+    <div class="cotizacion-outer-container">
+        <div class="cotizacion-container">
+            <img id="logo-main-cotizacion" src="assets/img/GNP_Medium.png" alt="Logo GNP Seguros" style="max-height: 60px; margin-bottom: 20px;">
+            <h1>Cotiza tu Seguro Fácil y Rápido</h1>
+            <p class="subtitulo-cotizacion">Solo necesitamos unos pocos datos para darte una estimación.</p>
+
+            <form id="formCotizacionRapida">
+                <div class="form-group-cotizacion">
+                    <label for="cot-edad">Tu edad:<span class="required-marker">*</span></label>
+                    <input type="number" id="cot-edad" name="cot_edad" class="form-control-cotizacion" placeholder="Ej: 30" min="18" max="99" required>
+                </div>
+
+                <div class="form-group-cotizacion">
+                    <label for="cot-genero">Género:<span class="required-marker">*</span></label>
+                    <select id="cot-genero" name="cot_genero" class="form-control-cotizacion" required>
+                        <option value="" disabled selected>Selecciona...</option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Femenino</option>
+                    </select>
+                </div>
+
+                <div class="form-group-cotizacion">
+                    <label for="cot-fuma">¿Fumas actualmente?<span class="required-marker">*</span></label>
+                    <select id="cot-fuma" name="cot_fuma" class="form-control-cotizacion" required>
+                        <option value="no">No</option>
+                        <option value="si">Sí</option>
+                    </select>
+                </div>
+
+                <div class="form-group-cotizacion">
+                    <label for="cot-cp">Código Postal:<span class="required-marker">*</span></label>
+                    <input type="text" id="cot-cp" name="cot_cp" class="form-control-cotizacion" placeholder="Ej: 86000" pattern="[0-9]{5}" title="Ingresa 5 dígitos numéricos" required>
+                </div>
+
+                <button type="submit" class="btn-cotizar">Ver mis opciones</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeSwitchCot = document.getElementById('theme-checkbox-cotizacion');
+            const themeSelectorCot = document.getElementById('theme-selector-cotizacion');
+            const htmlEl = document.documentElement;
+            const formCotizacion = document.getElementById('formCotizacionRapida');
+            const dynamicThemeLink = document.getElementById('dynamic-theme-style-link'); // El link principal de tu app
+
+            // --- INICIO Lógica de Tema (Adaptada de tu config.js y _switch.js) ---
+            const CONFIG_COT = {
+                THEME_STORAGE_KEY: 'theme_mode', // Misma que en config.js
+                AVAILABLE_THEMES: [ // Sincronizar con tu config.js
+                    { name: "Veler Blue v2", file: "assets/css/theme-veler-blue_2.css" },
+                    { name: "Veler Blue", file: "assets/css/theme-veler-blue.css" },
+                    { name: "Teal Green v2", file: "assets/css/theme-teal-green_v2.css" },
+                    { name: "Teal Green", file: "assets/css/theme-teal-green.css" },
+                    { name: "Slate Mauve v2", file: "assets/css/theme-slate-mauve_2.css" },
+                    { name: "Slate Mauve", file: "assets/css/theme-slate-mauve.css" },
+                    { name: "Pink v2", file: "assets/css/theme-pink_2.css"},
+                    { name: "Pink", file: "assets/css/theme-pink.css" },
+                    { name: "Gold Teal v2", file: "assets/css/theme-gold-teal_2.css" },
+                    { name: "Gold Teal", file: "assets/css/theme-gold-teal.css" },
+                    { name: "Gold v2", file: "assets/css/theme-gold_2.css"},
+                    { name: "Gold", file: "assets/css/theme-gold.css"},
+                    { name: "Red Dark v2", file: "assets/css/theme-red-dark_2.css"},
+                    { name: "Red Dark", file: "assets/css/theme-red-dark.css"},
+                    { name: "GNP Default", file: "assets/css/theme-default.css" }
+                ],
+                DEFAULT_THEME_FILE: "assets/css/theme-veler-blue_2.css", // Sincronizar
+                SELECTED_THEME_FILE_KEY: 'selected_theme_file' // Misma que en config.js
+            };
+
+            function applyThemeModeCot(mode) {
+                htmlEl.classList.toggle('light-theme', mode === 'light');
+                // Cambiar logo si es necesario (ej. el logo GNP_Medium si tienes versiones light/dark)
+                const logoMain = document.getElementById('logo-main-cotizacion');
+                if (logoMain) {
+                    // Asumiendo que tienes 'GNP_Medium_Light.png' y 'GNP_Medium_Dark.png'
+                    // logoMain.src = mode === 'light' ? 'assets/img/GNP_Medium_Light.png' : 'assets/img/GNP_Medium_Dark.png';
+                }
+            }
+
+            function _initThemeSelectorDOMCot() {
+                let themeLink = dynamicThemeLink; // Usamos el link principal
+                if (!themeLink) { // Fallback por si no se encuentra (no debería pasar si index.html lo tiene)
+                    themeLink = document.createElement('link');
+                    themeLink.id = 'dynamic-theme-style-link';
+                    themeLink.rel = 'stylesheet';
+                    document.head.appendChild(themeLink);
+                }
+
+                if (themeSelectorCot) {
+                    CONFIG_COT.AVAILABLE_THEMES.forEach(theme => {
+                        const option = document.createElement('option');
+                        option.value = theme.file;
+                        option.textContent = theme.name;
+                        themeSelectorCot.appendChild(option);
+                    });
+                    const savedThemeFile = localStorage.getItem(CONFIG_COT.SELECTED_THEME_FILE_KEY) || CONFIG_COT.DEFAULT_THEME_FILE;
+                    const isValidSavedTheme = CONFIG_COT.AVAILABLE_THEMES.some(theme => theme.file === savedThemeFile);
+                    const themeFileToLoad = isValidSavedTheme ? savedThemeFile : CONFIG_COT.DEFAULT_THEME_FILE;
+
+                    if (themeLink.href !== window.location.origin + "/" + themeFileToLoad) { // Evitar recarga innecesaria si ya es el correcto
+                         themeLink.href = themeFileToLoad;
+                    }
+                    themeSelectorCot.value = themeFileToLoad;
+
+                    if (themeFileToLoad !== savedThemeFile && isValidSavedTheme) {
+                         localStorage.setItem(CONFIG_COT.SELECTED_THEME_FILE_KEY, themeFileToLoad);
+                    } else if (!isValidSavedTheme) {
+                         localStorage.setItem(CONFIG_COT.SELECTED_THEME_FILE_KEY, CONFIG_COT.DEFAULT_THEME_FILE);
+                    }
+
+
+                    themeSelectorCot.addEventListener('change', function() {
+                        themeLink.href = this.value;
+                        localStorage.setItem(CONFIG_COT.SELECTED_THEME_FILE_KEY, this.value);
+                        const currentMode = localStorage.getItem(CONFIG_COT.THEME_STORAGE_KEY) || 'dark';
+                        applyThemeModeCot(currentMode);
+                    });
+                }
+            }
+
+            function _initCurrentThemeModeCot() {
+                const savedMode = localStorage.getItem(CONFIG_COT.THEME_STORAGE_KEY) || 'dark';
+                applyThemeModeCot(savedMode);
+                if (themeSwitchCot) themeSwitchCot.checked = (savedMode === 'light');
+            }
+
+            // Inicializar Tema
+            _initThemeSelectorDOMCot();
+            _initCurrentThemeModeCot();
+            if (themeSwitchCot) {
+                themeSwitchCot.addEventListener('change', function() {
+                    const mode = this.checked ? 'light' : 'dark';
+                    applyThemeModeCot(mode);
+                    localStorage.setItem(CONFIG_COT.THEME_STORAGE_KEY, mode);
+                });
+            }
+            // --- FIN Lógica de Tema ---
+
+
+            // Manejo del formulario de cotización
+            if (formCotizacion) {
+                formCotizacion.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const edad = document.getElementById('cot-edad').value;
+                    const genero = document.getElementById('cot-genero').value;
+                    const fuma = document.getElementById('cot-fuma').value;
+                    const cp = document.getElementById('cot-cp').value;
+
+                    // Guardar en localStorage para pasar a la siguiente página
+                    localStorage.setItem('cotizacionRapidaData', JSON.stringify({ edad, genero, fuma, cp }));
+
+                    // Redirigir a la nueva página de opciones de seguro
+                    window.location.href = 'opciones-seguro.html'; // <--- CAMBIO AQUÍ
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opciones de Seguro - GNP</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link id="dynamic-theme-style-link" rel="stylesheet" href="assets/css/theme-veler-blue_2.css">
+    <link rel="icon" href="assets/img/V_icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    
+    <link rel="stylesheet" href="components/chatbot_seguros.css"> 
+    
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: var(--bg-color);
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-color-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .opciones-main-container {
+            width: 100%;
+            max-width: 960px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .opciones-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .opciones-header h1 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-size: 2em;
+            font-weight: 700;
+        }
+
+        .opciones-header .subtitulo-opciones {
+            color: var(--text-color-secondary);
+            font-size: 1.1em;
+            font-weight: 300;
+        }
+
+        .tarjetas-opciones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 35px;
+            justify-items: center;
+        }
+
+        .tarjeta-opcion {
+            background-color: var(--bg-container);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(var(--bg-color-rgb, 0,0,0),0.05);
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 320px;
+            transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1),
+                        box-shadow 0.25s cubic-bezier(0.25, 0.8, 0.25, 1),
+                        border-color 0.25s ease-in-out;
+        }
+
+        .tarjeta-opcion:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(var(--accent-color-rgb, 0,0,0), 0.15);
+            border-color: var(--accent-color);
+        }
+
+        .tarjeta-opcion h2 {
+            color: var(--accent-color);
+            font-size: 1.4em;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .tarjeta-opcion .precio-estimado {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--text-color-primary);
+            margin-bottom: 15px;
+        }
+        .tarjeta-opcion .precio-estimado span {
+            font-size: 0.6em;
+            font-weight: 300;
+            color: var(--text-color-secondary);
+        }
+
+        .tarjeta-opcion ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+            text-align: left;
+            flex-grow: 1;
+        }
+        .tarjeta-opcion ul li {
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            color: var(--text-color-secondary);
+            display: flex;
+            align-items: center;
+        }
+        .tarjeta-opcion ul li .material-symbols-outlined {
+            font-size: 1.1em;
+            margin-right: 8px;
+            color: var(--accent-color);
+        }
+
+        .btn-seleccionar-plan {
+            background-color: var(--button-primary-bg);
+            color: var(--button-primary-text);
+            padding: 10px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.1s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            margin-top: auto;
+        }
+        .btn-seleccionar-plan:hover {
+            opacity: 0.85;
+        }
+         .btn-seleccionar-plan:active {
+             transform: scale(0.98);
+        }
+
+        /* Controles de tema */
+        .theme-controls-opciones {
+            position: fixed; top: 20px; right: 20px; z-index: 1050; /* Z-index más alto por el chatbot */
+            display: flex; align-items: center; gap: 15px;
+        }
+        .theme-controls-opciones #theme-selector-opciones {
+            padding: 5px 10px; border-radius: 4px; border: 1px solid var(--border);
+            background-color: var(--input-bg); color: var(--input-text-color);
+            cursor: pointer; font-size: 0.85em; min-width: 120px; height: 28px;
+            box-sizing: border-box; transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+        .theme-controls-opciones #theme-selector-opciones:focus {
+            outline: none; border-color: var(--accent-color); box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.2);
+        }
+        .theme-controls-opciones .theme-switch {
+            position: relative; display: block; width: 50px; height: 25px; cursor: pointer;
+            background-color: var(--input-bg); border: 1px solid var(--accent-color);
+            border-radius: 25px; text-indent: -9999px; transition: background-color 0.3s ease;
+        }
+        .theme-controls-opciones .theme-switch input[type="checkbox"] { opacity: 0; width: 0; height: 0; position: absolute; }
+        .theme-controls-opciones .theme-switch .slider {
+            position: absolute; top: 1px; left: 1px; width: 21px; height: 21px;
+            background-color: var(--accent-color); border-radius: 50%;
+            transition: transform 0.3s ease, background-color 0.3s ease; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .theme-controls-opciones .slider .icon {
+            line-height: 1; transition: opacity 0.3s ease, transform 0.3s ease; color: var(--button-primary-text);
+        }
+        .theme-controls-opciones .slider .icon.material-symbols-outlined {
+             font-size: 16px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        }
+        .theme-controls-opciones .slider .sun { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(-90deg); }
+        .theme-controls-opciones .slider .moon { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+        .theme-controls-opciones .theme-switch input:checked + .slider { transform: translateX(25px); }
+        .theme-controls-opciones .theme-switch input:checked + .slider .sun { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+        .theme-controls-opciones .theme-switch input:checked + .slider .moon { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(90deg); }
+    </style>
+</head>
+<body>
+    <div class="theme-controls-opciones">
+        <select id="theme-selector-opciones" title="Seleccionar Tema de Color"></select>
+        <label class="theme-switch" for="theme-checkbox-opciones">
+            <input type="checkbox" id="theme-checkbox-opciones" />
+            <div class="slider round">
+                <span class="icon material-symbols-outlined sun">light_mode</span>
+                <span class="icon material-symbols-outlined moon">dark_mode</span>
+            </div>
+        </label>
+    </div>
+
+    <div class="opciones-main-container">
+        <div class="opciones-header">
+            <img id="logo-main-opciones" src="assets/img/veler_light.png" alt="Logo Veler Technologies" style="max-height: 70px; margin-bottom: 20px;">
+            <h1>Tus Opciones de Seguro</h1>
+            <p class="subtitulo-opciones">Hemos preparado estas alternativas basadas en tus datos. <br>Selecciona una para ver todos los detalles y completar tu solicitud.</p>
+        </div>
+
+        <div class="tarjetas-opciones-grid">
+            <div class="tarjeta-opcion">
+                <h2>Plan Esencial GNP</h2>
+                <div class="precio-estimado">$1,250 <span>MXN/mes</span></div>
+                <ul>
+                    <li><span class="material-symbols-outlined">local_hospital</span> Cobertura Nacional</li>
+                    <li><span class="material-symbols-outlined">paid</span> Suma Asegurada: $2,000,000</li>
+                    <li><span class="material-symbols-outlined">receipt_long</span> Deducible: $15,000</li>
+                    <li><span class="material-symbols-outlined">percent</span> Coaseguro: 10%</li>
+                    <li><span class="material-symbols-outlined">verified_user</span> Lorem ipsum dolor sit amet.</li>
+                </ul>
+                <a href="index.html?plan=esencial" class="btn-seleccionar-plan">Seleccionar Plan</a>
+            </div>
+
+            <div class="tarjeta-opcion">
+                <h2>Plan Confort GNP</h2>
+                <div class="precio-estimado">$1,800 <span>MXN/mes</span></div>
+                <ul>
+                    <li><span class="material-symbols-outlined">local_hospital</span> Cobertura Nacional Amplia</li>
+                    <li><span class="material-symbols-outlined">paid</span> Suma Asegurada: $5,000,000</li>
+                    <li><span class="material-symbols-outlined">receipt_long</span> Deducible: $10,000</li>
+                    <li><span class="material-symbols-outlined">percent</span> Coaseguro: 10% (Tope $50,000)</li>
+                    <li><span class="material-symbols-outlined">emergency_home</span> Emergencia en el extranjero.</li>
+                    <li><span class="material-symbols-outlined">verified_user</span> Consectetur adipiscing elit.</li>
+                </ul>
+                <a href="index.html?plan=confort" class="btn-seleccionar-plan">Seleccionar Plan</a>
+            </div>
+
+            <div class="tarjeta-opcion">
+                <h2>Plan Premium Global</h2>
+                <div class="precio-estimado">$3,500 <span>MXN/mes</span></div>
+                <ul>
+                    <li><span class="material-symbols-outlined">flight_takeoff</span> Cobertura Internacional</li>
+                    <li><span class="material-symbols-outlined">paid</span> Suma Asegurada: $10,000,000 USD</li>
+                    <li><span class="material-symbols-outlined">receipt_long</span> Deducible: $500 USD</li>
+                    <li><span class="material-symbols-outlined">percent</span> Coaseguro: 0% en el extranjero (red)</li>
+                    <li><span class="material-symbols-outlined">health_and_safety</span> Todos los beneficios premium.</li>
+                    <li><span class="material-symbols-outlined">verified_user</span> Sed do eiusmod tempor incididunt.</li>
+                </ul>
+                <a href="index.html?plan=premium" class="btn-seleccionar-plan">Seleccionar Plan</a>
+            </div>
+        </div>
+    </div>
+
+    <button id="chatbot-gnp-toggle-button" class="chatbot-gnp-toggle-button">
+        <span class="material-symbols-outlined icon-open">support_agent</span>
+        <span class="material-symbols-outlined icon-close" style="display:none;">close</span>
+    </button>
+    
+    <div id="chatbotGNPContainer" class="chatbot-gnp-container" style="display: none;">
+        <div class="chatbot-gnp-header">
+            <img src="assets/img/Mascota/asistente_gnp_icon.png" alt="Asistente GNP" class="chatbot-gnp-avatar">
+            <div class="chatbot-gnp-header-info">
+                <span class="chatbot-gnp-name">Asistente de Seguros GNP</span>
+                <span class="chatbot-gnp-status">En línea para ayudarte</span>
+            </div>
+            <button id="chatbot-gnp-close-button" class="chatbot-gnp-close-button">&times;</button>
+        </div>
+        <div class="chatbot-gnp-chat-area" id="chatbotGNPChatArea">
+            <div class="chatbot-gnp-message bot-message" id="initialBotMessageSection">
+                <div class="chatbot-gnp-bubble">
+                    <p>¡Hola! 👋 Soy tu Asistente Virtual GNP. Estoy aquí para ayudarte con tus dudas sobre nuestros planes de seguro.</p>
+                    <p>¿Sobre qué te gustaría saber?</p>
+                    <div class="chatbot-gnp-quick-replies">
+                        <button onclick="showGNPFAQ('faqCoberturaEsencial')">Plan Esencial</button>
+                        <button onclick="showGNPFAQ('faqDeducibleCoaseguro')">Deducible y Coaseguro</button>
+                        <button onclick="showGNPFAQ('faqComoContratar')">¿Cómo contratar?</button>
+                        <button onclick="showGNPFAQ('faqContactoAgente')">Contactar un Agente</button>
+                    </div>
+                    <div class="chatbot-gnp-timestamp">Ahora mismo</div>
+                </div>
+            </div>
+    
+            <div class="chatbot-gnp-message bot-message" id="faqCoberturaEsencial" style="display: none;">
+                <div class="chatbot-gnp-bubble">
+                    <p><strong>🛡️ Sobre el Plan Esencial GNP...</strong></p>
+                    <p>El Plan Esencial te ofrece una cobertura nacional con una suma asegurada de $2,000,000 MXN, un deducible de $15,000 MXN y un coaseguro del 10%. Es ideal si buscas protección completa a un costo accesible.</p>
+                    <p>¿Tienes alguna pregunta específica sobre este plan?</p>
+                    <div class="chatbot-gnp-quick-replies">
+                        <button onclick="showGNPInitialOptions()">Ver otras preguntas</button>
+                    </div>
+                    <div class="chatbot-gnp-timestamp">Información</div>
+                </div>
+            </div>
+    
+            <div class="chatbot-gnp-message bot-message" id="faqDeducibleCoaseguro" style="display: none;">
+                <div class="chatbot-gnp-bubble">
+                    <p><strong>💰 ¿Qué es Deducible y Coaseguro?</strong></p>
+                    <p>El <strong>deducible</strong> es la cantidad fija que pagas primero en caso de un siniestro antes de que el seguro comience a cubrir.</p>
+                    <p>El <strong>coaseguro</strong> es un porcentaje del total de los gastos cubiertos (después del deducible) que también corre por tu cuenta. Por ejemplo, un coaseguro del 10% significa que tú pagas ese porcentaje y GNP el 90% restante.</p>
+                    <div class="chatbot-gnp-quick-replies">
+                        <button onclick="showGNPInitialOptions()">Ver otras preguntas</button>
+                    </div>
+                    <div class="chatbot-gnp-timestamp">Información</div>
+                </div>
+            </div>
+            
+            <div class="chatbot-gnp-message bot-message" id="faqComoContratar" style="display: none;">
+                <div class="chatbot-gnp-bubble">
+                    <p><strong>✍️ ¿Cómo puedo contratar un seguro?</strong></p>
+                    <p>¡Es muy sencillo! Una vez que eliges un plan en esta página, haz clic en "Seleccionar Plan". Esto te llevará a un formulario donde podrás ingresar tus datos para completar la solicitud. Si tienes dudas durante el proceso, ¡no dudes en preguntar!</p>
+                    <div class="chatbot-gnp-quick-replies">
+                        <button onclick="showGNPInitialOptions()">Ver otras preguntas</button>
+                    </div>
+                    <div class="chatbot-gnp-timestamp">Información</div>
+                </div>
+            </div>
+    
+            <div class="chatbot-gnp-message bot-message" id="faqContactoAgente" style="display: none;">
+                <div class="chatbot-gnp-bubble">
+                    <p><strong>🧑‍💼 ¿Cómo contacto a un agente?</strong></p>
+                    <p>Si prefieres atención personalizada, un agente GNP puede asesorarte. Puedes indicarlo al final del proceso de solicitud o buscar un agente en nuestro <a href='#' onclick='alert(\"Redirigiendo a directorio de agentes...\")'>directorio oficial</a>.</p>
+                    <div class="chatbot-gnp-quick-replies">
+                        <button onclick="showGNPInitialOptions()">Ver otras preguntas</button>
+                    </div>
+                    <div class="chatbot-gnp-timestamp">Información</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeSwitchOps = document.getElementById('theme-checkbox-opciones');
+            const themeSelectorOps = document.getElementById('theme-selector-opciones');
+            const htmlEl = document.documentElement;
+            const dynamicThemeLink = document.getElementById('dynamic-theme-style-link');
+
+             const CONFIG_OPS = {
+                THEME_STORAGE_KEY: 'theme_mode',
+                AVAILABLE_THEMES: [
+                    { name: "Veler Blue v2", file: "assets/css/theme-veler-blue_2.css" },
+                    { name: "Veler Blue", file: "assets/css/theme-veler-blue.css" },
+                    { name: "Teal Green v2", file: "assets/css/theme-teal-green_v2.css" },
+                    { name: "Teal Green", file: "assets/css/theme-teal-green.css" },
+                    { name: "Slate Mauve v2", file: "assets/css/theme-slate-mauve_2.css" },
+                    { name: "Slate Mauve", file: "assets/css/theme-slate-mauve.css" },
+                    { name: "Pink v2", file: "assets/css/theme-pink_2.css"},
+                    { name: "Pink", file: "assets/css/theme-pink.css" },
+                    { name: "Gold Teal v2", file: "assets/css/theme-gold-teal_2.css" },
+                    { name: "Gold Teal", file: "assets/css/theme-gold-teal.css" },
+                    { name: "Gold v2", file: "assets/css/theme-gold_2.css"},
+                    { name: "Gold", file: "assets/css/theme-gold.css"},
+                    { name: "Red Dark v2", file: "assets/css/theme-red-dark_2.css"},
+                    { name: "Red Dark", file: "assets/css/theme-red-dark.css"},
+                    { name: "GNP Default", file: "assets/css/theme-default.css" }
+                ],
+                DEFAULT_THEME_FILE: "assets/css/theme-veler-blue_2.css",
+                SELECTED_THEME_FILE_KEY: 'selected_theme_file'
+            };
+
+            function applyThemeModeOps(mode) {
+                htmlEl.classList.toggle('light-theme', mode === 'light');
+                 // Cambiar logo principal de la página si es necesario
+                const logoMain = document.getElementById('logo-main-opciones');
+                if (logoMain) {
+                    logoMain.src = mode === 'light' ? 'assets/img/VELER_LIGHT.png' : 'assets/img/VELER_DARK.png';
+                }
+            }
+
+            function _initThemeSelectorDOMOps() {
+                let themeLink = dynamicThemeLink;
+                if (!themeLink) {
+                    themeLink = document.createElement('link');
+                    themeLink.id = 'dynamic-theme-style-link';
+                    themeLink.rel = 'stylesheet';
+                    document.head.appendChild(themeLink);
+                }
+
+                if (themeSelectorOps) {
+                    CONFIG_OPS.AVAILABLE_THEMES.forEach(theme => {
+                        const option = document.createElement('option');
+                        option.value = theme.file;
+                        option.textContent = theme.name;
+                        themeSelectorOps.appendChild(option);
+                    });
+                    const savedThemeFile = localStorage.getItem(CONFIG_OPS.SELECTED_THEME_FILE_KEY) || CONFIG_OPS.DEFAULT_THEME_FILE;
+                    const isValidSavedTheme = CONFIG_OPS.AVAILABLE_THEMES.some(theme => theme.file === savedThemeFile);
+                    const themeFileToLoad = isValidSavedTheme ? savedThemeFile : CONFIG_OPS.DEFAULT_THEME_FILE;
+
+                    if (themeLink.href !== window.location.origin + "/" + themeFileToLoad) {
+                         themeLink.href = themeFileToLoad;
+                    }
+                    themeSelectorOps.value = themeFileToLoad;
+                     if (themeFileToLoad !== savedThemeFile && isValidSavedTheme) {
+                         localStorage.setItem(CONFIG_OPS.SELECTED_THEME_FILE_KEY, themeFileToLoad);
+                    } else if (!isValidSavedTheme) {
+                         localStorage.setItem(CONFIG_OPS.SELECTED_THEME_FILE_KEY, CONFIG_OPS.DEFAULT_THEME_FILE);
+                    }
+
+                    themeSelectorOps.addEventListener('change', function() {
+                        themeLink.href = this.value;
+                        localStorage.setItem(CONFIG_OPS.SELECTED_THEME_FILE_KEY, this.value);
+                        const currentMode = localStorage.getItem(CONFIG_OPS.THEME_STORAGE_KEY) || 'dark';
+                        applyThemeModeOps(currentMode);
+                    });
+                }
+            }
+
+            function _initCurrentThemeModeOps() {
+                const savedMode = localStorage.getItem(CONFIG_OPS.THEME_STORAGE_KEY) || 'dark';
+                applyThemeModeOps(savedMode); // Aplica el modo y cambia el logo si es necesario
+                if (themeSwitchOps) themeSwitchOps.checked = (savedMode === 'light');
+            }
+
+            _initThemeSelectorDOMOps();
+            _initCurrentThemeModeOps();
+
+            if (themeSwitchOps) {
+                themeSwitchOps.addEventListener('change', function() {
+                    const mode = this.checked ? 'light' : 'dark';
+                    applyThemeModeOps(mode);
+                    localStorage.setItem(CONFIG_OPS.THEME_STORAGE_KEY, mode);
+                });
+            }
+
+            const cotizacionData = JSON.parse(localStorage.getItem('cotizacionRapidaData'));
+            if (cotizacionData) {
+                console.log("Datos de cotización rápida:", cotizacionData);
+            }
+
+            const botonesSeleccionar = document.querySelectorAll('.btn-seleccionar-plan');
+            botonesSeleccionar.forEach(boton => {
+                boton.addEventListener('click', function(e) {
+                    const url = new URL(this.href);
+                    const planSeleccionado = url.searchParams.get('plan');
+                    localStorage.setItem('planSeleccionado', planSeleccionado);
+                    console.log(`Plan seleccionado: ${planSeleccionado}`);
+                });
+            });
+        });
+    </script>
+    
+    <script src="components/chatbot_seguros.js"></script>
+</body>
+</html>

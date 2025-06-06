@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="assets/css/main.css">
+    <title>GNP Form - Solicitud Seguro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link id="dynamic-theme-style-link" rel="stylesheet" href="assets/css/theme-veler-blue_2.css"> <link rel="icon" href="assets/img/V_icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+
+<body class="body-sidebar-expanded">
+    <div id="splash-screen">
+        <div class="logos-wrapper">
+            <img id="logo1-splash" src="assets/img/VELER_DARK.png" alt="Logo Veler Technologies">
+            <div class="linea-divisora"></div>
+            <img id="logo2-splash" src="assets/img/GNP_DARK.png" alt="Logo GNP Seguros">
+        </div>
+    </div>
+
+    <aside id="sidebar-navegacion">
+        <div class="sidebar-top-area">
+            <img id="logo-veler-sidebar" src="assets/img/VELER_DARK.png" alt="Logo Veler Technologies">
+            <button class="sidebar-toggle material-symbols-outlined" title="Contraer/Expandir menú">
+                menu_open
+            </button>
+        </div>
+        <div class="sidebar-bottom-area">
+            <nav class="sidebar-menu">
+                 <ul>
+                    <li class="menu-item" data-section="seccion-solicitantes"> <span class="menu-icon material-symbols-outlined">person</span> <span class="menu-text">Solicitantes</span> <span class="menu-status"></span> </li>
+                    <li class="menu-item" data-section="seccion-domicilios"> <span class="menu-icon material-symbols-outlined">home</span> <span class="menu-text">Domicilios</span> <span class="menu-status"></span> </li>
+                    <li class="menu-item" data-section="seccion-actividades_riesgo"> <span class="menu-icon material-symbols-outlined">warning</span> <span class="menu-text">Actividades de Riesgo</span> <span class="menu-status"></span> </li>
+                    <li class="menu-item" data-section="seccion-habitos"> <span class="menu-icon material-symbols-outlined">smoking_rooms</span> <span class="menu-text">Hábitos</span> <span class="menu-status"></span> </li>
+                    <li class="menu-item" data-section="seccion-deportes"> <span class="menu-icon material-symbols-outlined">sports_soccer</span> <span class="menu-text">Deportes</span> <span class="menu-status"></span> </li>
+                    <li class="menu-item" data-section="seccion-informacion_medica"> <span class="menu-icon material-symbols-outlined">health_and_safety</span> <span class="menu-text">Info. Médica</span> <span class="menu-status"></span> </li>
+                    <li class="menu-item" data-section="seccion-padecimientos_detalle"> <span class="menu-icon material-symbols-outlined">stethoscope</span> <span class="menu-text">Padecimientos</span> <span class="menu-status"></span> </li>
+                    <li class="menu-item" data-section="seccion-planes_seguro"> <span class="menu-icon material-symbols-outlined">assignment</span> <span class="menu-text">Plan Solicitado</span> <span class="menu-status"></span> </li>
+                    <li class="menu-item" data-section="seccion-solicitud"> <span class="menu-icon material-symbols-outlined">description</span> <span class="menu-text">Detalles Solicitud</span> <span class="menu-status"></span> </li>
+                    <li class="menu-item" data-section="seccion-contratante"> <span class="menu-icon material-symbols-outlined">business_center</span> <span class="menu-text">Contratante</span> <span class="menu-status"></span> </li>
+                    <li class="menu-item" data-section="seccion-coberturas_adicionales"> <span class="menu-icon material-symbols-outlined">add_circle</span> <span class="menu-text">Coberturas Adic.</span> <span class="menu-status"></span> </li>
+                    <li class="menu-item" data-section="seccion-beneficiarios"> <span class="menu-icon material-symbols-outlined">group</span> <span class="menu-text">Beneficiarios</span> <span class="menu-status"></span> </li>
+                    <li class="menu-item" data-section="seccion-forma_pago"> <span class="menu-icon material-symbols-outlined">credit_card</span> <span class="menu-text">Forma de Pago</span> <span class="menu-status"></span> </li>
+                    <li class="menu-item" data-section="seccion-declaraciones_legales"> <span class="menu-icon material-symbols-outlined">gavel</span> <span class="menu-text">Declaraciones</span> <span class="menu-status"></span> </li>
+                    <li class="menu-item" data-section="seccion-agente"> <span class="menu-icon material-symbols-outlined">badge</span> <span class="menu-text">Agente</span> <span class="menu-status"></span> </li>
+                 </ul>
+            </nav>
+            <div class="sidebar-progress">
+                <div class="progress-bar"> <div class="progress-fill"></div> </div>
+                <span class="progress-text">0% completado</span>
+            </div>
+        </div>
+    </aside>
+
+    <header id="main-header">
+        <div class="header-content-wrapper">
+             <div class="theme-controls">
+                <select id="theme-selector" title="Seleccionar Tema de Color">
+                    </select>
+
+                <div class="theme-switch-wrapper">
+                    <label class="theme-switch" for="theme-checkbox">
+                        <input type="checkbox" id="theme-checkbox" />
+                        <div class="slider round">
+                            <span class="icon material-symbols-outlined sun">light_mode</span>
+                            <span class="icon material-symbols-outlined moon">dark_mode</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="transition-nudge" class="transition-nudge-container" style="display: none;">
+        <div class="nudge-content">
+            <span class="material-symbols-outlined nudge-icon">auto_awesome</span>
+            <p id="transition-nudge-message">¡Mensaje motivacional aquí!</p>
+            <div class="nudge-spinner"></div>
+        </div>
+    </div>
+
+    <main id="formulario-completo" style="display: none;">
+        <form id="miFormularioDinamico">
+
+            <div class="table-form seccion-formulario" id="seccion-solicitantes">
+                <h2>Solicitantes</h2>
+                <p class="subtitulo-ligero">Comencemos con tus datos personales.</p>
+                <div class="form-columns-container">
+                    <div class="form-group question-group">
+                        <label for="sol_codigo_cliente">Código de cliente:</label>
+                        <input type="text" id="sol_codigo_cliente" name="sol_codigo_cliente" class="form-control" placeholder="Código de cliente" maxlength="20">
+                    </div>
+                    <div class="form-group question-group">
+                        <label for="sol_primer_apellido">Primer apellido:<span class="required-marker">*</span></label>
+                        <input type="text" id="sol_primer_apellido" name="sol_primer_apellido" class="form-control" placeholder="Primer apellido" maxlength="50" required>
+                    </div>
+                    <div class="form-group question-group">
+                        <label for="sol_segundo_apellido">Segundo apellido:</label>
+                        <input type="text" id="sol_segundo_apellido" name="sol_segundo_apellido" class="form-control" placeholder="Segundo apellido" maxlength="50">
+                    </div>
+                    <div class="form-group question-group">
+                        <label for="sol_nombres">Nombre(s):<span class="required-marker">*</span></label>
+                        <input type="text" id="sol_nombres" name="sol_nombres" class="form-control" placeholder="Nombre(s)" maxlength="100" required>
+                    </div>
+                    <div class="form-group question-group">
+                        <label for="sol_fecha_nacimiento">Fecha de nacimiento:<span class="required-marker">*</span></label>
+                        <input type="date" id="sol_fecha_nacimiento" name="sol_fecha_nacimiento" class="form-control" required>
+                    </div>
+                    <div class="form-group question-group">
+    <label for="sol_rfc">RFC:
+        <span class="help-icon-wrapper">
+            <span class="help-icon material-symbols-outlined" data-tooltip-target="tooltip-rfc">help</span>
+            <div class="tooltip-content" id="tooltip-rfc">
+                El Registro Federal de Contribuyentes (RFC) es una clave única de registro utilizada en México para identificar a cada persona física o moral con actividad económica. Formato: XXXX000000XXX
+            </div>
+        </span>
+    </label>
+    <input type="text" id="sol_rfc" name="sol_rfc" class="form-control" placeholder="RFC con homoclave" maxlength="13">
+</div>
+                    <div class="form-group question-group">
+                        <label for="sol_curp">CURP:</label>
+                        <input type="text" id="sol_curp" name="sol_curp" class="form-control" placeholder="CURP" maxlength="18">
+                    </div>
+                    <div class="form-group question-group">
+                        <label for="sol_pais_nacimiento">País de nacimiento:</label>
+                        <input type="text" id="sol_pais_nacimiento" name="sol_pais_nacimiento" class="form-control" placeholder="País de nacimiento" maxlength="50">
+                    </div>
+                    <div class="form-group question-group">
+                        <label for="sol_nacionalidad">Nacionalidad:</label>
+                        <input type="text" id="sol_nacionalidad" name="sol_nacionalidad" class="form-control" placeholder="Nacionalidad" maxlength="50">
+                    </div>
+                    <div class="form-group question-group">
+                        <label for="sol_ocupacion">Ocupación:</label>
+                        <input type="text" id="sol_ocupacion" name="sol_ocupacion" class="form-control" placeholder="Ocupación" maxlength="100">
+                    </div>
+                    <div class="form-group question-group">
+                        <label for="sol_genero">Género:</label> <select id="sol_genero" name="sol_genero" class="form-control"> <option value="" disabled selected>Seleccione...</option>
+                            <option value="F">Femenino</option>
+                            <option value="M">Masculino</option>
+                        </select>
+                    </div>
+                    <div class="form-group question-group">
+    <label for="sol_certificado_digital_fiel">No. serie certificado digital:
+        <span class="help-icon-wrapper">
+            <span class="help-icon material-symbols-outlined" data-tooltip-target="tooltip-fiel">help</span>
+            <div class="tooltip-content" id="tooltip-fiel">
+                Número de serie de tu e.firma (antes Firma Electrónica Avanzada - FIEL). Es un identificador único de tu certificado digital emitido por el SAT.
+            </div>
+        </span>
+    </label>
+    <input type="text" id="sol_certificado_digital_fiel" name="sol_certificado_digital_fiel" class="form-control" placeholder="No. serie FIEL" maxlength="50">
+</div>
+
+                    <div class="form-group question-group">
+                        <label for="sol_email">Correo electrónico:</label> <input type="email" id="sol_email" name="sol_email" class="form-control" placeholder="Correo electrónico" maxlength="100"> </div>
+                    <div class="form-group question-group">
+                        <label>
+                            <input type="checkbox" id="sol_cargo_gobierno" name="sol_cargo_gobierno" value="true">
+                            ¿Desempeñó cargo en gobierno?
+                        </label>
+                    </div>
+                    <div class="form-group question-group">
+                        <label for="sol_cargo_dependencia">Cargo y dependencia (si aplica):</label>
+                        <input type="text" id="sol_cargo_dependencia" name="sol_cargo_dependencia" class="form-control" placeholder="Cargo y dependencia" maxlength="100">
+                    </div>
+                    <div class="form-group question-group">
+                        <label for="sol_estatura">Estatura (metros):</label>
+                        <input type="number" id="sol_estatura" name="sol_estatura" class="form-control" placeholder="Ej: 1.75" step="0.01" min="0.5" max="2.5">
+                    </div>
+                    <div class="form-group question-group">
+                        <label for="sol_peso">Peso (kg):</label>
+                        <input type="number" id="sol_peso" name="sol_peso" class="form-control" placeholder="Ej: 70.5" step="0.1" min="10" max="300">
+                    </div>
+                </div>
+                 <div class="botones-navegacion">
+                    <button type="button" class="btn-siguiente">Siguiente</button>
+                </div>
+            </div>
+
+            <div class="table-form seccion-formulario" id="seccion-domicilios">
+                <h2>Domicilios</h2>
+                 <p class="subtitulo-ligero">Información de tu residencia actual.</p>
+                 <div class="form-columns-container">
+                    <div class="form-group question-group"> <label for="dom_calle">Calle:</label> <input type="text" id="dom_calle" name="dom_calle" class="form-control" placeholder="Calle" maxlength="100"> </div>
+                    <div class="form-group question-group"> <label for="dom_no_exterior">No. Exterior:</label> <input type="text" id="dom_no_exterior" name="dom_no_exterior" class="form-control" placeholder="No. Exterior" maxlength="10"> </div>
+                    <div class="form-group question-group"> <label for="dom_no_interior">No. Interior:</label> <input type="text" id="dom_no_interior" name="dom_no_interior" class="form-control" placeholder="No. Interior (si aplica)" maxlength="10"> </div>
+                    <div class="form-group question-group"> <label for="dom_colonia">Colonia:</label> <input type="text" id="dom_colonia" name="dom_colonia" class="form-control" placeholder="Colonia" maxlength="100"> </div>
+                    <div class="form-group question-group"> <label for="dom_cp">Código Postal:</label> <input type="text" id="dom_cp" name="dom_cp" class="form-control" placeholder="Código Postal" maxlength="10"> </div>
+                     <div class="form-group question-group"> <label for="dom_municipio">Municipio/Alcaldía:</label> <input type="text" id="dom_municipio" name="dom_municipio" class="form-control" placeholder="Municipio o Alcaldía" maxlength="100"> </div>
+                     <div class="form-group question-group"> <label for="dom_estado">Estado:</label> <input type="text" id="dom_estado" name="dom_estado" class="form-control" placeholder="Estado" maxlength="100"> </div>
+                    <div class="form-group question-group"> <label for="dom_tipo_identificacion">Tipo Identificación (Domicilio):</label> <input type="text" id="dom_tipo_identificacion" name="dom_tipo_identificacion" class="form-control" placeholder="Ej: INE, Pasaporte" maxlength="50"> </div>
+                    <div class="form-group question-group"> <label for="dom_institucion_emisora">Institución Emisora (Domicilio):</label> <input type="text" id="dom_institucion_emisora" name="dom_institucion_emisora" class="form-control" placeholder="Ej: INE, SRE" maxlength="50"> </div>
+                    <div class="form-group question-group"> <label for="dom_folio_identificacion">Folio Identificación (Domicilio):</label> <input type="text" id="dom_folio_identificacion" name="dom_folio_identificacion" class="form-control" placeholder="Folio/Número" maxlength="50"> </div>
+                    <div class="form-group question-group"> <label for="dom_telefono">Teléfono Fijo:</label> <input type="tel" id="dom_telefono" name="dom_telefono" class="form-control" placeholder="Teléfono Fijo" maxlength="20"> </div>
+                     <div class="form-group question-group"> <label for="dom_celular">Teléfono Celular:<span class="required-marker">*</span></label> <input type="tel" id="dom_celular" name="dom_celular" class="form-control" placeholder="Teléfono Celular (10 dígitos)" maxlength="20" required> </div>
+                    <div class="form-group question-group"> <label for="dom_extension">Extensión:</label> <input type="text" id="dom_extension" name="dom_extension" class="form-control" placeholder="Extensión (si aplica)" maxlength="10"> </div>
+                 </div>
+                 <div class="botones-navegacion"> <button type="button" class="btn-anterior">Anterior</button> <button type="button" class="btn-siguiente">Siguiente</button> </div>
+            </div>
+
+            <div class="table-form seccion-formulario" id="seccion-actividades_riesgo">
+                <h2>Actividades de Riesgo</h2>
+                 <p class="subtitulo-ligero">Indica si realizas alguna de estas actividades por tu ocupación o pasatiempo.</p>
+                 <div class="form-columns-container">
+                    <div class="form-group question-group"> <label><input type="checkbox" id="labores_administrativas" name="act_labores_administrativas" value="true">Labores Administrativas</label> </div>
+                    <div class="form-group question-group"> <label><input type="checkbox" id="operador_maquinaria_pesada" name="act_operador_maquinaria_pesada" value="true">Operador Maquinaria Pesada</label> </div>
+                    <div class="form-group question-group"> <label><input type="checkbox" id="trabaja_explosivos" name="act_trabaja_explosivos" value="true">Trabaja con Explosivos</label> </div>
+                    <div class="form-group question-group"> <label><input type="checkbox" id="visita_obras" name="act_visita_obras" value="true">Visita Obras en Construcción/Campo</label> </div>
+                    <div class="form-group question-group"> <label><input type="checkbox" id="uso_armas" name="act_uso_armas" value="true">Uso/Portación de Armas</label> </div>
+                    <div class="form-group question-group"> <label><input type="checkbox" id="actividad_agricola" name="act_actividad_agricola" value="true">Realiza Actividad Agrícola/Ganadera</label> </div>
+                    <div class="form-group question-group"> <label><input type="checkbox" id="utiliza_motocicleta" name="act_utiliza_motocicleta" value="true">Utiliza Motocicleta Regularmente</label> </div>
+                    <div class="form-group question-group"> <label><input type="checkbox" id="viaja_aviones_particulares" name="act_viaja_aviones_particulares" value="true">Viaja en Aviones Particulares/No Comerciales</label> </div>
+                     <div class="form-group question-group full-width-column"> <label for="act_otra_actividad_riesgo">Otra actividad de riesgo no listada:</label> <input type="text" id="act_otra_actividad_riesgo" name="act_otra_actividad_riesgo" class="form-control" placeholder="Describe brevemente (si aplica)" maxlength="150"> </div>
+                </div>
+                 <div class="botones-navegacion"> <button type="button" class="btn-anterior">Anterior</button> <button type="button" class="btn-siguiente">Siguiente</button> </div>
+            </div>
+
+            <div class="table-form seccion-formulario" id="seccion-habitos">
+                <h2>Hábitos</h2>
+                 <p class="subtitulo-ligero">Información relevante sobre tu estilo de vida.</p>
+                 <div class="form-columns-container">
+                    <div class="form-group question-group"> <label>¿Fuma actualmente?</label> <div class="radio-group"> <label><input type="radio" name="hab_fuma" value="si"> Sí</label> <label><input type="radio" name="hab_fuma" value="no" checked> No</label> </div> </div>
+                    <div class="form-group question-group"> <label for="hab_cigarrillos_dia">Cigarrillos al día (si fuma):</label> <input type="number" id="hab_cigarrillos_dia" name="hab_cigarrillos_dia" class="form-control" placeholder="Cantidad" min="0"> </div>
+                    <div class="form-group question-group"> <label for="hab_cuando_dejo_fumar">Si dejó de fumar, ¿hace cuánto tiempo?</label> <input type="text" id="hab_cuando_dejo_fumar" name="hab_cuando_dejo_fumar" class="form-control" placeholder="Ej: 2 años, 6 meses" maxlength="50"> </div>
+                     <div class="form-group question-group"> <label>¿Consume bebidas alcohólicas?</label> <div class="radio-group"> <label><input type="radio" name="hab_consume_alcohol" value="si"> Sí</label> <label><input type="radio" name="hab_consume_alcohol" value="no" checked> No</label> </div> </div>
+                     <div class="form-group question-group"> <label for="hab_frecuencia_alcohol">Frecuencia y cantidad (si consume alcohol):</label> <input type="text" id="hab_frecuencia_alcohol" name="hab_frecuencia_alcohol" class="form-control" placeholder="Ej: 2 copas fines de semana" maxlength="100"> </div>
+                    <div class="form-group question-group"> <label>¿Consume o ha consumido drogas (no prescritas)?</label> <div class="radio-group"> <label><input type="radio" name="hab_consume_drogas" value="si"> Sí</label> <label><input type="radio" name="hab_consume_drogas" value="no" checked> No</label> </div> </div>
+                     <div class="form-group question-group"> <label for="hab_tipo_droga_frecuencia">Tipo de droga y frecuencia (si consume):</label> <input type="text" id="hab_tipo_droga_frecuencia" name="hab_tipo_droga_frecuencia" class="form-control" placeholder="Describe brevemente" maxlength="150"> </div>
+                     <div class="form-group question-group" id="pregunta-embarazo" style="display: block;"> <label>¿Está actualmente embarazada? (Aplicable a mujeres)</label> <div class="radio-group"> <label><input type="radio" name="hab_embarazada" value="si"> Sí</label> <label><input type="radio" name="hab_embarazada" value="no" checked> No</label> <label><input type="radio" name="hab_embarazada" value="na"> No Aplica</label> </div> </div>
+                     <div class="form-group question-group"> <label for="hab_semanas_embarazo">Semanas de gestación (si está embarazada):</label> <input type="number" id="hab_semanas_embarazo" name="hab_semanas_embarazo" class="form-control" placeholder="Semanas" min="0" max="45"> </div>
+                </div>
+                 <div class="botones-navegacion"> <button type="button" class="btn-anterior">Anterior</button> <button type="button" class="btn-siguiente">Siguiente</button> </div>
+            </div>
+
+            <div class="table-form seccion-formulario" id="seccion-deportes">
+                <h2>Deportes</h2>
+                 <p class="subtitulo-ligero">¿Practicas alguno de estos deportes o actividades con regularidad?</p>
+                 <div class="form-columns-container">
+                    <div class="form-group question-group"> <label for="dep_tipo_practica">Tipo de práctica:</label> <select id="dep_tipo_practica" name="dep_tipo_practica" class="form-control"> <option value="" disabled selected>Seleccione...</option> <option value="Profesional">Profesional</option> <option value="Amateur">Amateur / Recreativo</option> <option value="Ninguno">Ninguno / No aplica</option> </select> </div>
+                    <div class="form-group question-group"> <label for="dep_nombre_deporte">Nombre del Deporte (si aplica):</label> <input type="text" id="dep_nombre_deporte" name="dep_nombre_deporte" class="form-control" placeholder="Nombre del Deporte" maxlength="50"> </div>
+                    <div class="form-group question-group"> <label for="dep_frecuencia_deporte">Frecuencia (si aplica):</label> <select id="dep_frecuencia_deporte" name="dep_frecuencia_deporte" class="form-control"> <option value="" disabled selected>Seleccione...</option> <option value="Diario">Diario</option> <option value="Varias veces/semana">Varias veces por semana</option> <option value="1-2 veces/semana">1-2 veces por semana</option> <option value="Ocasional">Ocasional</option> <option value="No aplica">No aplica</option> </select> </div>
+                     <hr style="border-color: var(--border); margin: 20px 0;" class="full-width-column"> <p style="color: var(--text-color-secondary); margin-bottom: 15px;" class="full-width-column"><strong>Actividades de Riesgo Específicas:</strong> Marca si practicas alguna.</p>
+                     <div class="form-group question-group"> <label><input type="checkbox" name="dep_alpinismo" value="true"> Alpinismo / Montañismo / Escalada</label> </div>
+                     <div class="form-group question-group"> <label><input type="checkbox" name="dep_artes_marciales" value="true"> Artes marciales (contacto)</label> </div>
+                     <div class="form-group question-group"> <label><input type="checkbox" name="dep_automovilismo" value="true"> Automovilismo / Motociclismo deportivo</label> </div>
+                     <div class="form-group question-group"> <label><input type="checkbox" name="dep_boxeo" value="true"> Boxeo</label> </div>
+                     <div class="form-group question-group"> <label><input type="checkbox" name="dep_buceo" value="true"> Buceo (Scuba)</label> </div>
+                     <div class="form-group question-group"> <label><input type="checkbox" name="dep_paracaidismo" value="true"> Paracaidismo / Parapente / Ala Delta</label> </div>
+                     <div class="form-group question-group"> <label><input type="checkbox" name="dep_tauromaquia" value="true"> Tauromaquia</label> </div>
+                     <div class="form-group question-group"> <label><input type="checkbox" name="dep_otros_riesgos"> Otros deportes/actividades de riesgo</label> </div>
+                     <div class="form-group question-group full-width-column"> <label for="dep_descripcion_otros">Describe otros (si marcaste la casilla):</label> <input type="text" id="dep_descripcion_otros" name="dep_descripcion_otros" class="form-control" placeholder="Describe brevemente" maxlength="150"> </div>
+                </div>
+                 <div class="botones-navegacion"> <button type="button" class="btn-anterior">Anterior</button> <button type="button" class="btn-siguiente">Siguiente</button> </div>
+            </div>
+
+            <div class="table-form seccion-formulario" id="seccion-informacion_medica">
+                <h2>Información Médica General</h2>
+                 <p class="subtitulo-ligero">Responde sí o no a las siguientes preguntas sobre tu salud.</p>
+                 <div class="form-columns-container">
+                    <div class="form-group question-group full-width-column"> <label>¿Padeces o has padecido alguna enfermedad crónica o relevante? (Ej: diabetes, hipertensión, cáncer, enf. corazón, VIH, hepatitis, enf. neurológicas, etc.)</label> <div class="radio-group"> <label><input type="radio" name="med_padece_enfermedad" value="si"> Sí</label> <label><input type="radio" name="med_padece_enfermedad" value="no" checked> No</label> </div> </div>
+                    <div class="form-group question-group full-width-column"> <label>¿Te encuentras actualmente bajo tratamiento médico o vigilancia por alguna enfermedad o padecimiento?</label> <div class="radio-group"> <label><input type="radio" name="med_en_tratamiento" value="si"> Sí</label> <label><input type="radio" name="med_en_tratamiento" value="no" checked> No</label> </div> </div>
+                    <div class="form-group question-group full-width-column"> <label>¿Has sido hospitalizado, intervenido quirúrgicamente o sufrido algún accidente importante en los últimos 5 años?</label> <div class="radio-group"> <label><input type="radio" name="med_hospitalizado_cirugia" value="si"> Sí</label> <label><input type="radio" name="med_hospitalizado_cirugia" value="no" checked> No</label> </div> </div>
+                    <div class="form-group question-group full-width-column"> <label>¿Tienes alguna discapacidad física o limitación funcional?</label> <div class="radio-group"> <label><input type="radio" name="med_discapacidad" value="si"> Sí</label> <label><input type="radio" name="med_discapacidad" value="no" checked> No</label> </div> </div>
+                    <div class="form-group question-group full-width-column"> <label>¿Tienes algún otro padecimiento, síntoma, estudio pendiente o resultado anormal que no hayas mencionado?</label> <div class="radio-group"> <label><input type="radio" name="med_otro_padecimiento" value="si"> Sí</label> <label><input type="radio" name="med_otro_padecimiento" value="no" checked> No</label> </div> </div>
+                    <div class="form-group question-group full-width-column"> <label for="med_detalles_padecimiento">Si respondiste "Sí" a alguna pregunta anterior, por favor detalla aquí:</label> <textarea id="med_detalles_padecimiento" name="med_detalles_padecimiento" class="form-control" rows="4" placeholder="Describe brevemente el padecimiento, fecha de diagnóstico, tratamiento, estado actual..."></textarea> </div>
+                 </div>
+                 <div class="botones-navegacion"> <button type="button" class="btn-anterior">Anterior</button> <button type="button" class="btn-siguiente">Siguiente</button> </div>
+            </div>
+
+             <div class="table-form seccion-formulario" id="seccion-padecimientos_detalle">
+                <h2>Detalle de Padecimientos</h2>
+                 <p class="subtitulo-ligero">Proporciona más información si respondiste "Sí" en la sección anterior.</p>
+                 <div class="form-columns-container">
+                    <div class="padecimiento-bloque full-width-column"> <h4>Padecimiento 1</h4>
+                        <div class="form-columns-container"> <div class="form-group question-group"> <label for="pad_nombre_padecimiento_1">Nombre del Padecimiento/Diagnóstico:</label> <input type="text" id="pad_nombre_padecimiento_1" name="pad_nombre_padecimiento_1" class="form-control" placeholder="Nombre del Padecimiento" maxlength="100"> </div>
+                           <div class="form-group question-group"> <label for="pad_tipo_evento_1">Tipo de Evento:</label> <select id="pad_tipo_evento_1" name="pad_tipo_evento_1" class="form-control"> <option value="" disabled selected>Seleccione...</option> <option value="Enfermedad">Enfermedad</option> <option value="Accidente">Accidente</option> <option value="Congénito">Congénito</option> <option value="Otro">Otro</option> </select> </div>
+                           <div class="form-group question-group"> <label for="pad_fecha_inicio_1">Fecha de Inicio/Diagnóstico:</label> <input type="date" id="pad_fecha_inicio_1" name="pad_fecha_inicio_1" class="form-control"> </div>
+                           <div class="form-group question-group"> <label for="pad_tipo_tratamiento_1">Tipo de Tratamiento recibido/actual:</label> <select id="pad_tipo_tratamiento_1" name="pad_tipo_tratamiento_1" class="form-control"> <option value="" disabled selected>Seleccione...</option> <option value="Quirúrgico">Quirúrgico</option> <option value="Médico (fármacos)">Médico (fármacos)</option> <option value="Terapia física/rehabilitación">Terapia física/rehabilitación</option> <option value="Psicológico/Psiquiátrico">Psicológico/Psiquiátrico</option> <option value="Observación/Vigilancia">Observación/Vigilancia</option> <option value="Otro">Otro</option> <option value="Ninguno">Ninguno</option> </select> </div>
+                           <div class="form-group question-group"> <label>¿Requirió hospitalización?</label> <div class="radio-group"> <label><input type="radio" name="pad_hospitalizado_1" value="si"> Sí</label> <label><input type="radio" name="pad_hospitalizado_1" value="no" checked> No</label> </div> </div>
+                           <div class="form-group question-group"> <label for="pad_duracion_hosp_1">Días de hospitalización (si aplica):</label> <input type="number" id="pad_duracion_hosp_1" name="pad_duracion_hosp_1" class="form-control" placeholder="Días" min="0"> </div>
+                           <div class="form-group question-group"> <label for="pad_complicacion_1">Complicaciones o secuelas (si hubo):</label> <input type="text" id="pad_complicacion_1" name="pad_complicacion_1" class="form-control" placeholder="Describe brevemente" maxlength="150"> </div>
+                           <div class="form-group question-group"> <label>¿Toma medicamento actualmente para esto?</label> <div class="radio-group"> <label><input type="radio" name="pad_toma_medicamento_1" value="si"> Sí</label> <label><input type="radio" name="pad_toma_medicamento_1" value="no" checked> No</label> </div> </div>
+                           <div class="form-group question-group"> <label for="pad_medicamento_1">Medicamento, dosis y frecuencia (si aplica):</label> <input type="text" id="pad_medicamento_1" name="pad_medicamento_1" class="form-control" placeholder="Nombre, dosis, cada cuánto tiempo" maxlength="150"> </div>
+                           <div class="form-group question-group"> <label for="pad_estado_salud_1">Estado de Salud Actual respecto a este padecimiento:</label> <select id="pad_estado_salud_1" name="pad_estado_salud_1" class="form-control"> <option value="" disabled selected>Seleccione...</option> <option value="Totalmente recuperado/curado">Totalmente recuperado/curado</option> <option value="Estable/Controlado">Estable/Controlado</option> <option value="En tratamiento activo">En tratamiento activo</option> <option value="Con secuelas leves">Con secuelas leves</option> <option value="Con secuelas moderadas/graves">Con secuelas moderadas/graves</option> </select> </div>
+                           <div class="form-group question-group"> <label for="pad_medico_tratante_1">Médico tratante y hospital (si aplica):</label> <input type="text" id="pad_medico_tratante_1" name="pad_medico_tratante_1" class="form-control" placeholder="Nombre del médico y/o clínica/hospital" maxlength="150"> </div>
+                       </div>
+                    </div>
+                     </div>
+                 <div class="botones-navegacion"> <button type="button" class="btn-anterior">Anterior</button> <button type="button" class="btn-siguiente">Siguiente</button> </div>
+            </div>
+
+             <div class="table-form seccion-formulario" id="seccion-planes_seguro">
+                <h2>Plan de Seguro Solicitado</h2>
+                 <p class="subtitulo-ligero">Detalles de la cobertura que deseas contratar.</p>
+                 <div class="form-columns-container">
+                    <div class="form-group question-group"> <label for="plan_nombre_plan">Nombre del Plan:<span class="required-marker">*</span></label> <input type="text" id="plan_nombre_plan" name="plan_nombre_plan" class="form-control" placeholder="Ej: Línea Azul Plenitud, GNP Nacional" maxlength="50" required> </div>
+                    <div class="form-group question-group"> <label for="plan_tipo_plan">Tipo de Plan (Cobertura Geográfica):<span class="required-marker">*</span></label> <select id="plan_tipo_plan" name="plan_tipo_plan" class="form-control" required> <option value="" disabled selected>Seleccione...</option> <option value="Nacional">Nacional</option> <option value="Internacional">Internacional</option> <option value="Regional">Regional (si aplica)</option> </select> </div>
+                    <div class="form-group question-group"> <label for="plan_suma_asegurada">Suma Asegurada:<span class="required-marker">*</span></label> <input type="number" id="plan_suma_asegurada" name="plan_suma_asegurada" class="form-control" placeholder="Monto sin comas ni puntos" step="1000" min="0" required> </div>
+                    <div class="form-group question-group"> <label for="plan_tipo_suma_asegurada">Tipo Suma Asegurada:</label> <select id="plan_tipo_suma_asegurada" name="plan_tipo_suma_asegurada" class="form-control"> <option value="" disabled selected>Seleccione...</option> <option value="Por Padecimiento">Por Padecimiento</option> <option value="Anual">Anual</option> <option value="Vitalicia">Vitalicia</option> <option value="Única">Única</option> </select> </div>
+                    <div class="form-group question-group"> <label for="plan_deducible">Deducible:<span class="required-marker">*</span></label> <input type="number" id="plan_deducible" name="plan_deducible" class="form-control" placeholder="Monto sin comas ni puntos" step="100" min="0" required> </div>
+                    <div class="form-group question-group"> <label for="plan_tipo_deducible">Tipo Deducible:</label> <select id="plan_tipo_deducible" name="plan_tipo_deducible" class="form-control"> <option value="Por evento/padecimiento" selected>Por evento/padecimiento</option> <option value="Anual">Anual</option> <option value="Otro">Otro (especificar)</option> </select> </div>
+                    <div class="form-group question-group"> <label for="plan_coaseguro">Coaseguro (%):<span class="required-marker">*</span></label> <input type="number" id="plan_coaseguro" name="plan_coaseguro" class="form-control" placeholder="Porcentaje Ej: 10" step="1" min="0" max="100" required> </div>
+                     <div class="form-group question-group"> <label for="plan_tope_coaseguro">Tope Coaseguro (si aplica):</label> <input type="number" id="plan_tope_coaseguro" name="plan_tope_coaseguro" class="form-control" placeholder="Monto máximo de coaseguro" step="1000" min="0"> </div>
+                     <div class="form-group question-group"> <label for="plan_nivel_hospitalario">Nivel Hospitalario:</label> <input type="text" id="plan_nivel_hospitalario" name="plan_nivel_hospitalario" class="form-control" placeholder="Ej: Óptimo, Medio, Básico" maxlength="50"> </div>
+                    <div class="form-group question-group"> <label for="plan_folio_riesgo_selecto">Folio Riesgo Selecto (si aplica):</label> <input type="text" id="plan_folio_riesgo_selecto" name="plan_folio_riesgo_selecto" class="form-control" placeholder="Folio asignado" maxlength="50"> </div>
+                 </div>
+                 <div class="botones-navegacion"> <button type="button" class="btn-anterior">Anterior</button> <button type="button" class="btn-siguiente">Siguiente</button> </div>
+            </div>
+
+             <div class="table-form seccion-formulario" id="seccion-solicitud">
+                <h2>Detalles de la Solicitud</h2>
+                 <p class="subtitulo-ligero">Información adicional sobre esta solicitud específica.</p>
+                 <div class="form-columns-container">
+                    <div class="form-group question-group"> <label for="soli_fecha_solicitud">Fecha de Solicitud:<span class="required-marker">*</span></label> <input type="date" id="soli_fecha_solicitud" name="soli_fecha_solicitud" class="form-control" required> </div>
+                    <div class="form-group question-group"> <label>¿Planea viajar o residir fuera de México en los próximos 12 meses?</label> <div class="radio-group"> <label><input type="radio" name="soli_viaje_extranjero" value="si"> Sí</label> <label><input type="radio" name="soli_viaje_extranjero" value="no" checked> No</label> </div> </div>
+                    <div class="form-group question-group full-width-column"> <label for="soli_destino_viaje">Destino(s) y duración del viaje (si aplica):</label> <input type="text" id="soli_destino_viaje" name="soli_destino_viaje" class="form-control" placeholder="País(es), Ciudad(es) y tiempo estimado" maxlength="200"> </div>
+                    <div class="form-group question-group"> <label>¿Esta solicitud es una conversión de una Póliza Colectiva a Individual?</label> <div class="radio-group"> <label><input type="radio" name="soli_conversion_individual" value="si"> Sí</label> <label><input type="radio" name="soli_conversion_individual" value="no" checked> No</label> </div> </div>
+                    <div class="form-group question-group"> <label for="soli_poliza_colectiva">Póliza Colectiva Origen (si aplica):</label> <input type="text" id="soli_poliza_colectiva" name="soli_poliza_colectiva" class="form-control" placeholder="No. Póliza Colectiva" maxlength="50"> </div>
+                    <div class="form-group question-group"> <label for="soli_certificados">Certificado(s) Origen (si aplica):</label> <input type="text" id="soli_certificados" name="soli_certificados" class="form-control" placeholder="No. Certificado(s)" maxlength="100"> </div>
+                    <div class="form-group question-group"> <label>¿Solicita Reconocimiento/Reducción de Periodos de Espera por Antigüedad de otra compañía?</label> <div class="radio-group"> <label><input type="radio" name="soli_reduccion_periodos_espera" value="si"> Sí</label> <label><input type="radio" name="soli_reduccion_periodos_espera" value="no" checked> No</label> </div> </div>
+                    <div class="form-group question-group"> <label for="soli_compania_procedente">Compañía Procedente (si aplica):</label> <input type="text" id="soli_compania_procedente" name="soli_compania_procedente" class="form-control" placeholder="Nombre de la Aseguradora anterior" maxlength="100"> </div>
+                    <div class="form-group question-group"> <label for="soli_poliza_anterior">Número de Póliza Anterior (si aplica):</label> <input type="text" id="soli_poliza_anterior" name="soli_poliza_anterior" class="form-control" placeholder="No. Póliza Anterior" maxlength="50"> </div>
+                    <div class="form-group question-group"> <label for="soli_fecha_antiguedad">Fecha de Antigüedad reconocida (si aplica):</label> <input type="date" id="soli_fecha_antiguedad" name="soli_fecha_antiguedad" class="form-control"> </div>
+                    <div class="form-group question-group"> <label for="soli_firma_titular">Firma del Titular Solicitante (Adjuntar imagen o PDF):</label> <input type="file" id="soli_firma_titular" name="soli_firma_titular" class="form-control" accept="image/*,.pdf"> </div>
+                    <div class="form-group question-group"> <label for="soli_fecha_firma">Fecha de Firma:<span class="required-marker">*</span></label> <input type="date" id="soli_fecha_firma" name="soli_fecha_firma" class="form-control" required> </div>
+                 </div>
+                 <div class="botones-navegacion"> <button type="button" class="btn-anterior">Anterior</button> <button type="button" class="btn-siguiente">Siguiente</button> </div>
+            </div>
+
+            <div class="table-form seccion-formulario" id="seccion-contratante">
+                 <h2>Contratante <span class="subtitulo-ligero">(Llenar solo si es diferente al Solicitante Titular)</span></h2>
+                 <div class="form-columns-container">
+                    <div class="form-group question-group full-width-column"> <label for="con_igual_titular">¿El contratante es el mismo que el solicitante titular?</label> <div class="radio-group"> <label><input type="radio" name="con_igual_titular" value="si" checked> Sí</label> <label><input type="radio" name="con_igual_titular" value="no"> No (Llenar los siguientes campos)</label> </div> </div>
+                 </div>
+                 <div id="datos-contratante-diferente" style="display:none;">
+                    <div class="form-columns-container">
+                        <div class="form-group question-group"> <label for="con_tipo_persona">Tipo Persona:</label> <select id="con_tipo_persona" name="con_tipo_persona" class="form-control"> <option value="Fisica" selected>Física</option> <option value="Moral">Moral</option> </select> </div>
+                        <div class="form-group question-group"> <label for="con_codigo_cliente">Código de cliente (Contratante):</label> <input type="text" id="con_codigo_cliente" name="con_codigo_cliente" class="form-control" placeholder="Código de cliente (si aplica)" maxlength="20"> </div>
+                        <div class="form-group question-group"> <label for="con_primer_apellido">Primer apellido / Razón Social:</label> <input type="text" id="con_primer_apellido" name="con_primer_apellido" class="form-control" placeholder="Primer apellido o Razón Social" maxlength="100"> </div>
+                        <div class="form-group question-group"> <label for="con_segundo_apellido">Segundo apellido (si aplica):</label> <input type="text" id="con_segundo_apellido" name="con_segundo_apellido" class="form-control" placeholder="Segundo apellido" maxlength="50"> </div>
+                        <div class="form-group question-group"> <label for="con_nombres">Nombre(s) (si aplica):</label> <input type="text" id="con_nombres" name="con_nombres" class="form-control" placeholder="Nombre(s)" maxlength="100"> </div>
+                        <div class="form-group question-group"> <label for="con_fecha_nacimiento">Fecha de nacimiento / Constitución:</label> <input type="date" id="con_fecha_nacimiento" name="con_fecha_nacimiento" class="form-control"> </div>
+                        <div class="form-group question-group"> <label for="con_rfc">RFC:</label> <input type="text" id="con_rfc" name="con_rfc" class="form-control" placeholder="RFC con homoclave" maxlength="13"> </div>
+                        <div class="form-group question-group"> <label for="con_curp">CURP (si aplica):</label> <input type="text" id="con_curp" name="con_curp" class="form-control" placeholder="CURP" maxlength="18"> </div>
+                        <div class="form-group question-group"> <label for="con_genero">Género (si aplica):</label> <select id="con_genero" name="con_genero" class="form-control"> <option value="" disabled selected>Seleccione...</option> <option value="F">Femenino</option> <option value="M">Masculino</option> </select> </div>
+                        <div class="form-group question-group"> <label for="con_pais_nacimiento">País de nacimiento / Constitución:</label> <input type="text" id="con_pais_nacimiento" name="con_pais_nacimiento" class="form-control" placeholder="País" maxlength="50"> </div>
+                        <div class="form-group question-group"> <label for="con_nacionalidad">Nacionalidad:</label> <input type="text" id="con_nacionalidad" name="con_nacionalidad" class="form-control" placeholder="Nacionalidad" maxlength="50"> </div>
+                        <div class="form-group question-group"> <label for="con_ocupacion">Ocupación / Giro Mercantil:</label> <input type="text" id="con_ocupacion" name="con_ocupacion" class="form-control" placeholder="Ocupación o Giro" maxlength="100"> </div>
+                        <div class="form-group question-group"> <label for="con_actividad_principal">Actividad Económica Principal:</label> <input type="text" id="con_actividad_principal" name="con_actividad_principal" class="form-control" placeholder="Actividad principal" maxlength="150"> </div>
+                        <div class="form-group question-group"> <label for="con_certificado_digital_fiel">No. serie certificado digital (FIEL):</label> <input type="text" id="con_certificado_digital_fiel" name="con_certificado_digital_fiel" class="form-control" placeholder="No. serie FIEL (opcional)" maxlength="50"> </div>
+                        <div class="form-group question-group"> <label for="con_email">Correo electrónico (Contratante):</label> <input type="email" id="con_email" name="con_email" class="form-control" placeholder="correo@contratante.com" maxlength="100"> </div>
+                        <div class="form-group question-group full-width-column"> <label for="con_domicilio_fiscal">Domicilio Fiscal Completo:</label> <textarea id="con_domicilio_fiscal" name="con_domicilio_fiscal" class="form-control" rows="3" placeholder="Calle, No Ext, No Int, Colonia, CP, Municipio, Estado"></textarea> </div>
+                        <div class="form-group question-group"> <label for="con_telefono">Teléfono (Contratante):</label> <input type="tel" id="con_telefono" name="con_telefono" class="form-control" placeholder="Teléfono (10 dígitos)" maxlength="20"> </div>
+                        <div class="form-group question-group"> <label>¿Desempeña o ha desempeñado cargo relevante en gobierno (últimos 12 meses)?</label> <div class="radio-group"> <label><input type="radio" name="con_cargo_gobierno" value="si"> Sí</label> <label><input type="radio" name="con_cargo_gobierno" value="no" checked> No</label> </div> </div>
+                        <div class="form-group question-group"> <label for="con_cargo_dependencia">Cargo y dependencia (si marcó la casilla anterior):</label> <input type="text" id="con_cargo_dependencia" name="con_cargo_dependencia" class="form-control" placeholder="Cargo y dependencia" maxlength="100"> </div>
+                        <div class="form-group question-group"> <label for="con_tipo_identificacion">Tipo Identificación Oficial (Contratante):</label> <input type="text" id="con_tipo_identificacion" name="con_tipo_identificacion" class="form-control" placeholder="Ej: INE, Pasaporte, Acta Const." maxlength="50"> </div>
+                        <div class="form-group question-group"> <label for="con_institucion_emisora">Institución Emisora (Identificación):</label> <input type="text" id="con_institucion_emisora" name="con_institucion_emisora" class="form-control" placeholder="Ej: INE, SRE, Notario Público" maxlength="50"> </div>
+                        <div class="form-group question-group"> <label for="con_folio_identificacion">Folio Identificación:</label> <input type="text" id="con_folio_identificacion" name="con_folio_identificacion" class="form-control" placeholder="Folio/Número de la identificación" maxlength="50"> </div>
+                        <div class="form-group question-group"> <label for="con_relacion_titular">Relación con el Solicitante Titular:</label> <input type="text" id="con_relacion_titular" name="con_relacion_titular" class="form-control" placeholder="Ej: Padre/Madre, Empleador, Otro" maxlength="50"> </div>
+                    </div>
+                 </div>
+                <div class="botones-navegacion"> <button type="button" class="btn-anterior">Anterior</button> <button type="button" class="btn-siguiente">Siguiente</button> </div>
+            </div>
+
+            <div class="table-form seccion-formulario" id="seccion-coberturas_adicionales">
+                 <h2>Coberturas Adicionales</h2> <p class="subtitulo-ligero">Selecciona las coberturas extra que deseas añadir a tu plan (opcional).</p>
+                 <div class="form-columns-container">
+                     <div class="cobertura-adicional-bloque full-width-column">
+                        <h4>Cobertura 1</h4>
+                         <div class="form-columns-container"> <div class="form-group question-group"> <label for="cob_nombre_1">Nombre/Clave Cobertura:</label> <input type="text" id="cob_nombre_1" name="cob_nombre_1" class="form-control" placeholder="Ej: Emergencia en el Extranjero, Ayuda Maternidad" maxlength="100"> </div>
+                            <div class="form-group question-group"> <label for="cob_suma_asegurada_1">Suma Asegurada (si aplica):</label> <input type="number" id="cob_suma_asegurada_1" name="cob_suma_asegurada_1" class="form-control" placeholder="Monto" step="1000" min="0"> </div>
+                            <div class="form-group question-group"> <label for="cob_prima_1">Prima Adicional (si se conoce):</label> <input type="number" id="cob_prima_1" name="cob_prima_1" class="form-control" placeholder="Prima" step="0.01" min="0"> </div>
+                         </div>
+                     </div>
+                     </div>
+                 <div class="botones-navegacion"> <button type="button" class="btn-anterior">Anterior</button> <button type="button" class="btn-siguiente">Siguiente</button> </div>
+            </div>
+
+            <div class="table-form seccion-formulario" id="seccion-beneficiarios">
+                 <h2>Beneficiarios</h2> <p class="subtitulo-ligero">Personas designadas para recibir la indemnización por fallecimiento.</p>
+                 <div class="form-columns-container">
+                     <div class="beneficiario-bloque full-width-column">
+                         <h4>Beneficiario 1</h4>
+                         <div class="form-columns-container"> <div class="form-group question-group"> <label for="ben_primer_apellido_1">Primer apellido:<span class="required-marker">*</span></label> <input type="text" id="ben_primer_apellido_1" name="ben_primer_apellido_1" class="form-control" placeholder="Primer apellido" maxlength="50" required> </div>
+                            <div class="form-group question-group"> <label for="ben_segundo_apellido_1">Segundo apellido:</label> <input type="text" id="ben_segundo_apellido_1" name="ben_segundo_apellido_1" class="form-control" placeholder="Segundo apellido (si aplica)" maxlength="50"> </div>
+                            <div class="form-group question-group"> <label for="ben_nombres_1">Nombre(s):<span class="required-marker">*</span></label> <input type="text" id="ben_nombres_1" name="ben_nombres_1" class="form-control" placeholder="Nombre(s)" maxlength="100" required> </div>
+                            <div class="form-group question-group"> <label for="ben_fecha_nacimiento_1">Fecha de nacimiento:</label> <input type="date" id="ben_fecha_nacimiento_1" name="ben_fecha_nacimiento_1" class="form-control"> </div>
+                            <div class="form-group question-group"> <label for="ben_genero_1">Género:</label> <select id="ben_genero_1" name="ben_genero_1" class="form-control"> <option value="" disabled selected>Seleccione...</option> <option value="F">Femenino</option> <option value="M">Masculino</option> </select> </div>
+                            <div class="form-group question-group"> <label for="ben_telefono_1">Teléfono (opcional):</label> <input type="tel" id="ben_telefono_1" name="ben_telefono_1" class="form-control" placeholder="Teléfono de contacto" maxlength="20"> </div>
+                            <div class="form-group question-group full-width-column"> <label for="ben_domicilio_1">Domicilio:</label> <textarea id="ben_domicilio_1" name="ben_domicilio_1" class="form-control" rows="2" placeholder="Domicilio Completo (Calle, No, Colonia, CP, Ciudad, Estado)"></textarea> </div>
+                            <div class="form-group question-group"> <label for="ben_relacion_solicitante_1">Parentesco con Solicitante Titular:<span class="required-marker">*</span></label> <input type="text" id="ben_relacion_solicitante_1" name="ben_relacion_solicitante_1" class="form-control" placeholder="Ej: Cónyuge, Hijo(a), Padre/Madre, Hermano(a)" maxlength="50" required> </div>
+                            <div class="form-group question-group"> <label for="ben_porcentaje_cobertura_1">Porcentaje (%):<span class="required-marker">*</span></label> <input type="number" id="ben_porcentaje_cobertura_1" name="ben_porcentaje_cobertura_1" class="form-control" placeholder="%" step="1" min="1" max="100" required> </div>
+                            <div class="form-group question-group full-width-column"> <label> <input type="checkbox" name="ben_es_contingente_1" value="true"> ¿Es beneficiario contingente? (Recibe solo si el/los principal(es) fallecen antes) </label> </div>
+                         </div>
+                         <p style="font-size: 0.85em; color: var(--text-color-secondary); margin-top: 10px;">Nota: La suma de los porcentajes de los beneficiarios principales debe ser 100%.</p>
+                     </div>
+                      </div>
+                 <div class="botones-navegacion"> <button type="button" class="btn-anterior">Anterior</button> <button type="button" class="btn-siguiente">Siguiente</button> </div>
+            </div>
+
+            <div class="table-form seccion-formulario" id="seccion-forma_pago">
+                 <h2>Forma de Pago</h2> <p class="subtitulo-ligero">Elige cómo deseas pagar tu póliza.</p>
+                 <div class="form-columns-container">
+                    <div class="form-group question-group"> <label for="pago_forma_pago">Forma de Pago (Periodicidad):<span class="required-marker">*</span></label> <select id="pago_forma_pago" name="pago_forma_pago" class="form-control" required> <option value="" disabled selected>Seleccione...</option> <option value="Anual">Anual</option> <option value="Semestral">Semestral</option> <option value="Trimestral">Trimestral</option> <option value="Mensual">Mensual</option> </select> </div>
+                    <div class="form-group question-group"> <label for="pago_via_pago">Medio de Pago Inicial y/o Recurrente:<span class="required-marker">*</span></label> <select id="pago_via_pago" name="pago_via_pago" class="form-control" required> <option value="" disabled selected>Seleccione...</option> <option value="Tarjeta Crédito">Tarjeta de Crédito</option> <option value="Tarjeta Débito">Tarjeta de Débito</option> <option value="CLABE">Cuenta CLABE (Domiciliación)</option> <option value="Referencia Bancaria">Referencia Bancaria (Pago en ventanilla/SPEI)</option> <option value="Otro">Otro</option> </select> </div>
+                 </div>
+                 <div id="datos-pago-tarjeta-clabe" style="display: block;"> <div class="form-columns-container">
+                        <div class="form-group question-group"> <label for="pago_tipo_cuenta">Tipo (si aplica):</label> <select id="pago_tipo_cuenta" name="pago_tipo_cuenta" class="form-control"> <option value="" disabled selected>Seleccione...</option> <option value="Crédito">Crédito</option> <option value="Débito">Débito</option> <option value="CLABE">CLABE (Domiciliación)</option> </select> </div>
+                        <div class="form-group question-group"> <label for="pago_numero_tarjeta_cuenta">Número Tarjeta (16 dígitos) / Cuenta CLABE (18 dígitos):</label> <input type="text" id="pago_numero_tarjeta_cuenta" name="pago_numero_tarjeta_cuenta" class="form-control" placeholder="Número completo" maxlength="18" inputmode="numeric"> </div>
+                        <div class="form-group question-group"> <label for="pago_fecha_vencimiento">Fecha Vencimiento (Tarjeta):</label> <input type="text" id="pago_fecha_vencimiento" name="pago_fecha_vencimiento" class="form-control" placeholder="MM/AA" maxlength="5"> </div>
+                        <div class="form-group question-group"> <label for="pago_cvv">CVV (Tarjeta):</label> <input type="text" id="pago_cvv" name="pago_cvv" class="form-control" placeholder="3 o 4 dígitos" maxlength="4" inputmode="numeric"> </div>
+                        <div class="form-group question-group"> <label for="pago_banco">Banco Emisor:</label> <input type="text" id="pago_banco" name="pago_banco" class="form-control" placeholder="Nombre del Banco" maxlength="50"> </div>
+                        <div class="form-group question-group full-width-column"> <label> <input type="checkbox" id="pago_titular_igual_contratante" name="pago_titular_igual_contratante" value="true" checked> El titular de la cuenta/tarjeta es el mismo Contratante de la póliza. </label> </div>
+                    </div>
+                     <div id="datos-tarjetahabiente-diferente" style="display:none;">
+                         <div class="form-columns-container">
+                            <div class="form-group question-group"> <label for="pago_nombre_titular_cuenta">Nombre Completo del Titular de la Cuenta/Tarjeta:</label> <input type="text" id="pago_nombre_titular_cuenta" name="pago_nombre_titular_cuenta" class="form-control" placeholder="Nombre Completo" maxlength="150"> </div>
+                            <div class="form-group question-group"> <label for="pago_rfc_titular_cuenta">RFC del Titular de la Cuenta/Tarjeta:</label> <input type="text" id="pago_rfc_titular_cuenta" name="pago_rfc_titular_cuenta" class="form-control" placeholder="RFC con homoclave" maxlength="13"> </div>
+                            <div class="form-group question-group"> <label for="pago_parentesco_titular">Parentesco con el Contratante:</label> <input type="text" id="pago_parentesco_titular" name="pago_parentesco_titular" class="form-control" placeholder="Ej: Cónyuge, Padre/Madre, Hijo(a)" maxlength="50"> </div>
+                            <div class="form-group question-group"> <label for="pago_autorizacion_cargo">Autorización de Cargo a Terceros (Adjuntar formato):</label> <input type="file" id="pago_autorizacion_cargo" name="pago_autorizacion_cargo" class="form-control" accept="image/*,.pdf"> </div>
+                        </div>
+                     </div>
+                </div>
+                <div class="botones-navegacion"> <button type="button" class="btn-anterior">Anterior</button> <button type="button" class="btn-siguiente">Siguiente</button> </div>
+            </div>
+
+            <div class="table-form seccion-formulario" id="seccion-declaraciones_legales">
+                 <h2>Declaraciones y Consentimientos</h2> <p class="subtitulo-ligero">Confirmaciones importantes para continuar.</p>
+                 <div class="form-columns-container">
+                    <div class="form-group question-group full-width-column"> <label>¿Usted, el contratante o algún beneficiario tiene o ha tenido relación con actividades consideradas ilícitas o vinculadas a la delincuencia organizada?</label> <div class="radio-group"> <label><input type="radio" name="dec_nexos_delincuencia" value="si"> Sí</label> <label><input type="radio" name="dec_nexos_delincuencia" value="no" checked> No</label> </div> </div>
+                    <div class="form-group question-group full-width-column"> <label for="dec_detalles_nexos">En caso afirmativo, explique brevemente:</label> <textarea id="dec_detalles_nexos" name="dec_detalles_nexos" class="form-control" rows="3" placeholder="Explique la situación"></textarea> </div>
+                     <hr style="border-color: var(--border); margin: 20px 0;" class="full-width-column"> <div class="form-group question-group full-width-column"> <label style="font-weight: bold; display: block; margin-bottom: 10px;">Consentimientos:</label> <label> <input type="checkbox" id="dec_consentimiento_datos" name="dec_consentimiento_datos" value="true" required> He leído y acepto el <a href="/aviso-privacidad" target="_blank" title="Abrir Aviso de Privacidad en nueva pestaña">Aviso de Privacidad</a> y otorgo mi consentimiento para el tratamiento de mis datos personales, incluyendo los sensibles, para los fines informados.<span class="required-marker">*</span> </label> </div>
+                     <div class="form-group question-group full-width-column"> <label> <input type="checkbox" id="dec_comunicaciones" name="dec_comunicaciones" value="true" checked> Acepto recibir comunicaciones relacionadas con mi póliza, pagos y servicios por medios electrónicos (correo electrónico, SMS, WhatsApp). </label> </div>
+                    <div class="form-group question-group full-width-column"> <label for="dec_email_entrega_documentos">Confirmo que el correo electrónico para entrega de documentos contractuales (póliza, condiciones) es:<span class="required-marker">*</span></label> <input type="email" id="dec_email_entrega_documentos" name="dec_email_entrega_documentos" class="form-control" placeholder="Confirma tu correo principal" maxlength="100" required> </div>
+                    <div class="form-group question-group full-width-column"> <label> <input type="checkbox" id="dec_veracidad_informacion" name="dec_veracidad_informacion" value="true" required> Declaro bajo protesta de decir verdad que toda la información proporcionada en esta solicitud es completa y verídica.<span class="required-marker">*</span> </label> </div>
+                    <div class="form-group question-group full-width-column"> <label> <input type="checkbox" id="dec_firma_electronica" name="dec_firma_electronica" value="true"> Acepto el uso de medios electrónicos y/o mi firma electrónica/autógrafa digitalizada para formalizar esta solicitud y la futura póliza. </label> </div>
+                 </div>
+                 <div class="botones-navegacion"> <button type="button" class="btn-anterior">Anterior</button> <button type="button" class="btn-siguiente">Siguiente</button> </div>
+            </div>
+
+            <div class="table-form seccion-formulario" id="seccion-agente">
+                 <h2>Información del Agente</h2> <p class="subtitulo-ligero">Datos del intermediario de seguros.</p>
+                 <div class="form-columns-container">
+                    <div class="form-group question-group"> <label for="agente_nombre">Nombre Completo del Agente:<span class="required-marker">*</span></label> <input type="text" id="agente_nombre" name="agente_nombre" class="form-control" placeholder="Nombre Completo" maxlength="100" required> </div>
+                    <div class="form-group question-group"> <label for="agente_clave">Clave del Agente:<span class="required-marker">*</span></label> <input type="text" id="agente_clave" name="agente_clave" class="form-control" placeholder="Clave asignada por GNP" maxlength="20" required> </div>
+                    <div class="form-group question-group"> <label for="agente_nombre_2">Nombre Agente 2 (si aplica):</label> <input type="text" id="agente_nombre_2" name="agente_nombre_2" class="form-control" placeholder="Nombre Completo Agente 2" maxlength="100"> </div>
+                    <div class="form-group question-group"> <label for="agente_clave_2">Clave Agente 2 (si aplica):</label> <input type="text" id="agente_clave_2" name="agente_clave_2" class="form-control" placeholder="Clave Agente 2" maxlength="20"> </div>
+                    <div class="form-group question-group"> <label for="agente_distribucion">Distribución de Comisión Agente 1 (%):</label> <input type="number" id="agente_distribucion" name="agente_distribucion" class="form-control" placeholder="%" step="0.1" min="0" max="100" value="100"> </div>
+                    <div class="form-group question-group"> <label for="agente_distribucion_2">Distribución de Comisión Agente 2 (%):</label> <input type="number" id="agente_distribucion_2" name="agente_distribucion_2" class="form-control" placeholder="%" step="0.1" min="0" max="100" value="0"> </div>
+                    <div class="form-group question-group"> <label for="agente_fecha_conocimiento">Fecha desde que conoce al Cliente/Contratante:</label> <input type="text" id="agente_fecha_conocimiento" name="agente_fecha_conocimiento" class="form-control" placeholder="MM/AAAA" maxlength="7"> </div>
+                    <div class="form-group question-group"> <label>¿Recomienda al solicitante para ser asegurado por GNP?</label> <div class="radio-group"> <label><input type="radio" name="agente_recomendacion" value="si" checked> Sí</label> <label><input type="radio" name="agente_recomendacion" value="no"> No</label> </div> </div>
+                    <div class="form-group question-group full-width-column"> <label for="agente_observaciones">Observaciones del Agente:</label> <textarea id="agente_observaciones" name="agente_observaciones" class="form-control" rows="3" placeholder="Comentarios relevantes sobre el cliente o la solicitud"></textarea> </div>
+                    <div class="form-group question-group"> <label for="agente_firma">Firma del Agente (Adjuntar imagen o PDF):</label> <input type="file" id="agente_firma" name="agente_firma" class="form-control" accept="image/*,.pdf"> </div>
+                    <div class="form-group question-group"> <label for="agente_fecha_firma">Fecha Firma Agente:<span class="required-marker">*</span></label> <input type="date" id="agente_fecha_firma" name="agente_fecha_firma" class="form-control" required> </div>
+                 </div>
+                 <div class="botones-navegacion"> <button type="button" class="btn-anterior">Anterior</button> <button type="button" class="btn-siguiente btn-final">Ir a Revisión Final</button> </div>
+            </div>
+
+
+            <div id="seccion-revision" class="seccion-formulario" style="display: none;">
+                 <h2>Revisa tu información</h2>
+                 <p class="subtitulo-ligero">Por favor, verifica cuidadosamente que todos los datos sean correctos antes de enviar.</p>
+                 <div id="resumen-final">
+                     </div>
+                 <div class="final-nudge-area">
+                     <div class="testimonial">
+                        <span class="material-symbols-outlined">record_voice_over</span>
+                        <div>
+                            <p>"Saber que mi familia está protegida con GNP me da una tranquilidad invaluable. El proceso fue más sencillo de lo que esperaba."</p>
+                            <span>- Ana L., Cliente GNP desde 2021</span>
+                        </div>
+                     </div>
+                     <div class="data-point">
+                        <span class="material-symbols-outlined">shield_lock</span>
+                        <p>Más del <strong>95% de nuestros clientes</strong> renuevan su póliza año tras año. ¡Confía en los expertos!</p>
+                     </div>
+                     <div class="emotional-appeal">
+                        <span class="material-symbols-outlined">volunteer_activism</span>
+                        <p>Estás a un solo clic de asegurar lo que más importa. <strong>¡Completa tu solicitud hoy!</strong></p>
+                     </div>
+                 </div>
+                 <div class="botones-navegacion">
+                      <button type="button" class="btn-anterior btn-volver-a-editar">Volver a Editar</button>
+                      <button type="submit" class="btn-primary">Enviar Formulario</button>
+                 </div>
+             </div>
+
+        </form>
+    </main>
+
+    <div id="modal-overlay"></div>
+    <div id="modal-container">
+         <div class="modal-content">
+             <div id="modal-icon-area">
+                 <span id="modal-error-icon" class="material-symbols-outlined"></span>
+                 <img id="modal-success-logo" src="assets/img/V_icon.png" alt="Veler Icon" />
+             </div>
+             <h3 id="modal-title"></h3>
+             <p id="modal-message"></p>
+             <div id="modal-buttons">
+                 <button id="modal-ok-btn" class="btn-primary">OK</button>
+                 <button id="modal-close-btn" class="btn-anterior">Cerrar</button>
+             </div>
+         </div>
+    </div>
+<script type="module" src="assets/js/main.js"></script> 
+    
+
+</body>
+</html>
