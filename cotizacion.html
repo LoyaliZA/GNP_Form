@@ -229,6 +229,16 @@
 
             <form id="formCotizacionRapida">
                 <div class="form-group-cotizacion">
+                    <label for="cot-nombre">Nombre completo:<span class="required-marker">*</span></label>
+                    <input type="text" id="cot-nombre" name="cot_nombre" class="form-control-cotizacion" placeholder="Tu nombre completo" required>
+                </div>
+
+                <div class="form-group-cotizacion">
+                    <label for="cot-email">Correo electrónico:<span class="required-marker">*</span></label>
+                    <input type="email" id="cot-email" name="cot_email" class="form-control-cotizacion" placeholder="tucorreo@ejemplo.com" required>
+                </div>
+
+                <div class="form-group-cotizacion">
                     <label for="cot-edad">Tu edad:<span class="required-marker">*</span></label>
                     <input type="number" id="cot-edad" name="cot_edad" class="form-control-cotizacion" placeholder="Ej: 30" min="18" max="99" required>
                 </div>
@@ -366,16 +376,19 @@
             if (formCotizacion) {
                 formCotizacion.addEventListener('submit', function(event) {
                     event.preventDefault();
+                    // CAMBIO: Capturar los nuevos valores de nombre y correo
+                    const nombre = document.getElementById('cot-nombre').value;
+                    const email = document.getElementById('cot-email').value;
                     const edad = document.getElementById('cot-edad').value;
                     const genero = document.getElementById('cot-genero').value;
                     const fuma = document.getElementById('cot-fuma').value;
                     const cp = document.getElementById('cot-cp').value;
 
-                    // Guardar en localStorage para pasar a la siguiente página
-                    localStorage.setItem('cotizacionRapidaData', JSON.stringify({ edad, genero, fuma, cp }));
+                    // CAMBIO: Guardar todos los datos en localStorage
+                    localStorage.setItem('cotizacionRapidaData', JSON.stringify({ nombre, email, edad, genero, fuma, cp }));
 
                     // Redirigir a la nueva página de opciones de seguro
-                    window.location.href = 'opciones-seguro.html'; // <--- CAMBIO AQUÍ
+                    window.location.href = 'opciones-seguro.html';
                 });
             }
         });
