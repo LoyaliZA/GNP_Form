@@ -37,7 +37,7 @@ export const formSections = [
             { id: "sol_cargo_dependencia", name: "sol_cargo_dependencia[]", label: "Cargo y dependencia (si aplica):", type: "text", placeholder: "Cargo y dependencia", maxLength: 100, required: false, sequentialReveal: true, conditionalShow: { fieldId: "sol_cargo_gobierno", checked: true } }
         ]
     },
-    // --- 2. SECCIÓN CONTRATANTE (Reordenada y con lógica Física/Moral) ---
+// --- 2. SECCIÓN CONTRATANTE (CORREGIDA) ---
     {
         id: "seccion-contratante",
         title: "Contratante",
@@ -51,18 +51,21 @@ export const formSections = [
                 condition: { fieldId: "con_igual_titular", value: "no" },
                 fields: [
                     { id: "con_tipo_persona", name: "con_tipo_persona", label: "Tipo Persona:", type: "select", required: true, defaultValue: "Fisica", options: [{value:"Fisica",text:"Física"},{value:"Moral",text:"Moral"}], sequentialReveal: true },
-                    { id: "con_codigo_cliente", name: "con_codigo_cliente", label: "Código de cliente (Contratante):", type: "text", placeholder: "Código de cliente (si aplica)", maxLength:20, required: false, sequentialReveal: true },
                     
-                    // CAMBIO: Lógica para Persona Física / Moral
-                    { id: "con_razon_social", name: "con_razon_social", label: "Razón Social:", type: "text", placeholder: "Razón Social completa", maxLength: 150, required: true, sequentialReveal: true, conditionalShow: { fieldId: "con_tipo_persona", value: "Moral" } },
-                    { id: "con_primer_apellido", name: "con_primer_apellido", label: "Primer apellido:", type: "text", placeholder: "Primer apellido", maxLength:100, required: true, sequentialReveal: true, conditionalShow: { fieldId: "con_tipo_persona", value: "Fisica" } },
-                    { id: "con_segundo_apellido", name: "con_segundo_apellido", label: "Segundo apellido:", type: "text", placeholder: "Segundo apellido", maxLength:50, required: false, sequentialReveal: true, conditionalShow: { fieldId: "con_tipo_persona", value: "Fisica" } },
-                    { id: "con_nombres", name: "con_nombres", label: "Nombre(s):", type: "text", placeholder: "Nombre(s)", maxLength:100, required: false, sequentialReveal: true, conditionalShow: { fieldId: "con_tipo_persona", value: "Fisica" } },
+                    // --- CAMBIOS REALIZADOS ---
+                    // 1. CAMPO "con_codigo_cliente" ELIMINADO
+                    
+                    { id: "con_razon_social", name: "con_razon_social", label: "Razón Social:", type: "text", placeholder: "Razón Social completa", maxLength: 150, required: true, conditionalShow: { fieldId: "con_tipo_persona", value: "Moral" } },
+                    { id: "con_primer_apellido", name: "con_primer_apellido", label: "Primer apellido:", type: "text", placeholder: "Primer apellido", maxLength:100, required: true, conditionalShow: { fieldId: "con_tipo_persona", value: "Fisica" } },
+                    { id: "con_segundo_apellido", name: "con_segundo_apellido", label: "Segundo apellido:", type: "text", placeholder: "Segundo apellido", maxLength:50, required: false, conditionalShow: { fieldId: "con_tipo_persona", value: "Fisica" } },
+                    { id: "con_nombres", name: "con_nombres", label: "Nombre(s):", type: "text", placeholder: "Nombre(s)", maxLength:100, required: false, conditionalShow: { fieldId: "con_tipo_persona", value: "Fisica" } },
                     
                     { id: "con_fecha_nacimiento", name: "con_fecha_nacimiento", label: "Fecha de nacimiento / Constitución:", type: "date", required: true, sequentialReveal: true },
                     { id: "con_rfc", name: "con_rfc", label: "RFC:", type: "text", placeholder: "RFC con homoclave", maxLength:13, required: true, sequentialReveal: true },
-                    { id: "con_curp", name: "con_curp", label: "CURP (si aplica):", type: "text", placeholder: "CURP", maxLength:18, required: false, sequentialReveal: true, conditionalShow: { fieldId: "con_tipo_persona", value: "Fisica" } },
-                    { id: "con_genero", name: "con_genero", label: "Género (si aplica):", type: "select", required: false, options: [{value:"",text:"Seleccione...",disabled:true,selected:true},{value:"F",text:"Femenino"},{value:"M",text:"Masculino"}], sequentialReveal: true, conditionalShow: { fieldId: "con_tipo_persona", value: "Fisica" } },
+                    { id: "con_curp", name: "con_curp", label: "CURP (si aplica):", type: "text", placeholder: "CURP", maxLength:18, required: false, conditionalShow: { fieldId: "con_tipo_persona", value: "Fisica" } },
+                    
+                    // 2. ETIQUETA DE "con_genero" ACTUALIZADA
+                    { id: "con_genero", name: "con_genero", label: "Sexo al nacer (si aplica):", type: "select", required: false, options: [{value:"",text:"Seleccione...",disabled:true,selected:true},{value:"F",text:"Femenino"},{value:"M",text:"Masculino"}], conditionalShow: { fieldId: "con_tipo_persona", value: "Fisica" } },
                     
                     { id: "con_pais_nacimiento", name: "con_pais_nacimiento", label: "País de nacimiento / Constitución:", type: "text", placeholder: "País", maxLength:50, required: true, sequentialReveal: true },
                     { id: "con_nacionalidad", name: "con_nacionalidad", label: "Nacionalidad:", type: "text", placeholder: "Nacionalidad", maxLength:50, required: true, sequentialReveal: true },
