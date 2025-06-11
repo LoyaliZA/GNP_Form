@@ -446,7 +446,7 @@ export function initializeFormLogic() {
         });
     };
 
-    addConditionalListener("con_igual_titular", () => {
+    addConditionalListener("contratanteMismoSolicitante", () => {
         const sel = DOMElements.$form.querySelector('input[name="con_igual_titular"]:checked');
         const datosContratanteDiferente = document.getElementById('datos-contratante-diferente');
         if (datosContratanteDiferente) {
@@ -503,6 +503,10 @@ export function initializeFormLogic() {
     }, true);
      DOMElements.$form.addEventListener('change', (event) => {
         if (event.target.matches('select, input[type="checkbox"], input[type="radio"]')) {
+    // --- INICIO DE LÍNEAS AÑADIDAS ---
+            const activeSection = DOMElements.$form.querySelector('.seccion-formulario.seccion-activa');
+            if (activeSection) initSequentialRevealForSection(activeSection);
+            // --- FIN DE LÍNEAS AÑADIDAS ---
              actualizarProgreso();
         }
     }, true);

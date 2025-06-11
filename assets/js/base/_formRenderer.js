@@ -125,6 +125,9 @@ export function renderDynamicForm(formDefinition) {
     DOMElements.$form.innerHTML = ''; // Limpiar cualquier contenido estático previo
 
     formDefinition.forEach(sectionDef => {
+        // Ignora la sección de revisión aquí para renderizarla al final de forma controlada
+        if (sectionDef.id === "seccion-revision") return;
+
         const sectionDiv = document.createElement('div');
         sectionDiv.className = 'table-form seccion-formulario';
         sectionDiv.id = sectionDef.id;
@@ -147,31 +150,25 @@ export function renderDynamicForm(formDefinition) {
         sectionDef.fields.forEach(fieldDef => {
             const formGroupDiv = document.createElement('div');
             formGroupDiv.className = 'form-group question-group';
-            // ID para el form-group, útil para lógica condicional que oculta/muestra todo el grupo
-            // También usado por initSequentialRevealForSection
             formGroupDiv.id = `group-${fieldDef.id}`;
-
 
             let fieldLabel, fieldInput;
 
-            if (fieldDef.type === 'checkbox' && !fieldDef.options) { // Checkbox único
-                // Para checkbox único, el label contiene el input
+            if (fieldDef.type === 'checkbox' && !fieldDef.options) {
                 const combinedLabel = document.createElement('label');
                 fieldInput = createInputElement(fieldDef);
                 combinedLabel.appendChild(fieldInput);
-                combinedLabel.appendChild(document.createTextNode(` ${fieldDef.label}`)); // El texto del label
+                combinedLabel.appendChild(document.createTextNode(` ${fieldDef.label}`));
                 if (fieldDef.required) {
                     const marker = document.createElement('span');
                     marker.className = 'required-marker';
                     marker.textContent = '*';
                     combinedLabel.appendChild(marker);
                 }
-                // Tooltip para checkbox único iría aquí si es necesario
                 formGroupDiv.appendChild(combinedLabel);
             } else {
-                fieldLabel = createLabelElement(fieldDef); // Crea el <label for="...">
+                fieldLabel = createLabelElement(fieldDef);
                 formGroupDiv.appendChild(fieldLabel);
-
                 switch (fieldDef.type) {
                     case 'select':
                         fieldInput = createSelectElement(fieldDef);
@@ -182,7 +179,7 @@ export function renderDynamicForm(formDefinition) {
                     case 'radio':
                         fieldInput = createRadioGroupElement(fieldDef);
                         break;
-                    default: // text, number, date, email, file, etc.
+                    default:
                         fieldInput = createInputElement(fieldDef);
                         break;
                 }
@@ -193,15 +190,70 @@ export function renderDynamicForm(formDefinition) {
 
         sectionDiv.appendChild(columnsContainer);
 
-        // Botones de Navegación (simplificado, expandir según necesidad)
+        // --- INICIO DE LA CORRECCIÓN ---
+        // Este bloque es el que se añade para procesar las sub-secciones condicionales
+        if (sectionDef.conditionalSubSections) {
+            sectionDef.conditionalSubSections.forEach(subSectionDef => {
+                const subSectionContainer = document.createElement('div');
+                subSectionContainer.id = subSectionDef.id;
+                subSectionContainer.style.display = 'none'; // Oculto por defecto
+
+                const subColumnsContainer = document.createElement('div');
+                subColumnsContainer.className = 'form-columns-container';
+
+                // Reutilizamos la misma lógica que ya tienes para crear los campos
+                subSectionDef.fields.forEach(fieldDef => {
+                    const formGroupDiv = document.createElement('div');
+                    formGroupDiv.className = 'form-group question-group';
+                    formGroupDiv.id = `group-${fieldDef.id}`;
+                    
+                    let fieldLabel, fieldInput;
+
+                    if (fieldDef.type === 'checkbox' && !fieldDef.options) {
+                        const combinedLabel = document.createElement('label');
+                        fieldInput = createInputElement(fieldDef);
+                        combinedLabel.appendChild(fieldInput);
+                        combinedLabel.appendChild(document.createTextNode(` ${fieldDef.label}`));
+                        if (fieldDef.required) {
+                            const marker = document.createElement('span');
+                            marker.className = 'required-marker';
+                            marker.textContent = '*';
+                            combinedLabel.appendChild(marker);
+                        }
+                        formGroupDiv.appendChild(combinedLabel);
+                    } else {
+                        fieldLabel = createLabelElement(fieldDef);
+                        formGroupDiv.appendChild(fieldLabel);
+                        switch (fieldDef.type) {
+                            case 'select':
+                                fieldInput = createSelectElement(fieldDef);
+                                break;
+                            case 'textarea':
+                                fieldInput = createTextareaElement(fieldDef);
+                                break;
+                            case 'radio':
+                                fieldInput = createRadioGroupElement(fieldDef);
+                                break;
+                            default:
+                                fieldInput = createInputElement(fieldDef);
+                                break;
+                        }
+                        formGroupDiv.appendChild(fieldInput);
+                    }
+                    subColumnsContainer.appendChild(formGroupDiv);
+                });
+
+                subSectionContainer.appendChild(subColumnsContainer);
+                sectionDiv.appendChild(subSectionContainer);
+            });
+        }
+        // --- FIN DE LA CORRECCIÓN ---
+
         const navButtonsDiv = document.createElement('div');
         navButtonsDiv.className = 'botones-navegacion';
 
-        // Lógica para determinar qué botones mostrar.
-        // Esto eventualmente podría venir de la definición de la sección también.
         const esPrimeraSeccionNavegable = DOMElements.$seccionesNavegables[0]?.id === sectionDef.id;
         const esUltimaSeccionNavegable = DOMElements.$seccionesNavegables[DOMElements.$seccionesNavegables.length - 1]?.id === sectionDef.id;
-
 
         if (!esPrimeraSeccionNavegable && sectionDef.id !== "seccion-revision") {
             const prevButton = document.createElement('button');
@@ -224,21 +276,16 @@ export function renderDynamicForm(formDefinition) {
             reviewButton.textContent = 'Ir a Revisión Final';
             navButtonsDiv.appendChild(reviewButton);
         }
-        // Si solo hay un botón, empujarlo a la derecha (o manejar con flex CSS)
-        if (navButtonsDiv.children.length === 1) {
-            // DOMElements.$form.css podría manejar esto con justify-content: flex-end
-        }
-
+        
         sectionDiv.appendChild(navButtonsDiv);
         DOMElements.$form.appendChild(sectionDiv);
     });
 
-    // Renderizar la sección de revisión (estructura básica)
     const reviewSectionDef = formDefinition.find(s => s.id === "seccion-revision");
-    if (reviewSectionDef) { // Si se define una sección de revisión
+    if (reviewSectionDef) {
         const reviewSectionDiv = document.createElement('div');
-        reviewSectionDiv.id = reviewSectionDef.id; // O usa "seccion-revision" directamente
-        reviewSectionDiv.className = 'seccion-formulario'; // No 'table-form'
+        reviewSectionDiv.id = reviewSectionDef.id;
+        reviewSectionDiv.className = 'seccion-formulario';
         reviewSectionDiv.style.display = 'none';
 
         const titleH2 = document.createElement('h2');
@@ -253,11 +300,8 @@ export function renderDynamicForm(formDefinition) {
         }
 
         const resumenFinalDiv = document.createElement('div');
-        resumenFinalDiv.id = 'resumen-final'; // Para que generateFinalSummary lo encuentre
+        resumenFinalDiv.id = 'resumen-final';
         reviewSectionDiv.appendChild(resumenFinalDiv);
-
-        // Aquí podrías también generar el "final-nudge-area" si lo defines en formDefinition
-        // o dejarlo estático en index.html si prefieres.
 
         const reviewNavButtonsDiv = document.createElement('div');
         reviewNavButtonsDiv.className = 'botones-navegacion';
@@ -275,6 +319,4 @@ export function renderDynamicForm(formDefinition) {
 
         DOMElements.$form.appendChild(reviewSectionDiv);
     }
-
-
 }

@@ -48,7 +48,7 @@ export const formSections = [
         conditionalSubSections: [
             {
                 id: "datos-contratante-diferente",
-                condition: { fieldId: "con_igual_titular_group", value: "no" },
+                condition: { fieldId: "con_igual_titular", value: "no" },
                 fields: [
                     { id: "con_tipo_persona", name: "con_tipo_persona", label: "Tipo Persona:", type: "select", required: true, defaultValue: "Fisica", options: [{value:"Fisica",text:"Física"},{value:"Moral",text:"Moral"}], sequentialReveal: true },
                     { id: "con_codigo_cliente", name: "con_codigo_cliente", label: "Código de cliente (Contratante):", type: "text", placeholder: "Código de cliente (si aplica)", maxLength:20, required: false, sequentialReveal: true },
