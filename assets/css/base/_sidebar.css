@@ -122,20 +122,56 @@
     color: var(--sidebar-text-color, var(--text-color-primary));
     transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, color 0.3s ease;
 }
+
+
+
+
+
+/* --- Forma de dona delgada 
+
 .menu-status {
-    width: 10px;
-    height: 10px;
-    margin-left: auto;
-    /* --- VARIABLE: Color status --- */
-    background-color: var(--sidebar-status-default-bg, var(--border));
-    border-radius: 50%;
-    flex-shrink: 0;
-    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, background-color 0.3s ease;
+  width: 18px;
+  height: 18px; 
+  flex-shrink: 0;
+  margin-left: auto;
+  border-radius: 50%;
+
+  background: conic-gradient(
+    var(--sidebar-status-completed-bg, #4CAF50) var(--progress-angle, 0deg),
+    var(--sidebar-status-default-bg, #E0E0E0) 0deg
+  );
+
+  -webkit-mask: radial-gradient(transparent 6px, black 7px);
+          mask: radial-gradient(transparent 6px, black 7px);
+  
+  transition: background 0.4s ease;
+}--- */
+
+
+
+
+
+/* --- Forma de dona gruesa */
+
+.menu-status {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-left: auto;
+  border-radius: 50%;
+
+  background: conic-gradient(
+    var(--sidebar-status-completed-bg, #4CAF50) var(--progress-angle, 0deg),
+    var(--sidebar-status-default-bg, #E0E0E0) 0deg
+  );
+
+  -webkit-mask: radial-gradient(transparent 4px, black 5px);
+          mask: radial-gradient(transparent 4px, black 5px);
+
+  transition: background 0.4s ease;
 }
-.menu-item.completed .menu-status {
-    /* --- VARIABLE: Color status completado --- */
-    background-color: var(--sidebar-status-completed-bg, #4CAF50); /* Verde por defecto */
-}
+
+/* --- FIN: del bloque para reemplazar --- */
 
 /* Estilos .sidebar-progress, .progress-bar, .progress-fill, .progress-text */
 .sidebar-progress {

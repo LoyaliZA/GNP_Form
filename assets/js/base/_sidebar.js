@@ -60,44 +60,63 @@ export function actualizarProgreso() {
 
     let totalCamposVisiblesRequeridos = 0;
     let camposCompletadosVisiblesRequeridos = 0;
-    // let todasSeccionesNavegablesCompletadas = true; // No se usa actualmente
 
     DOMElements.$seccionesNavegables.forEach((section) => {
-        let sectionIsEffectivelyComplete = true;
-        let sectionHasVisibleRequiredFields = false;
+        // --- 1. CÁLCULO PARA CADA CÍRCULO INDIVIDUAL ---
+        let camposEnSeccionRequeridos = 0;
+        let camposEnSeccionCompletados = 0;
+        
         const inputsInSection = section.querySelectorAll('.form-group [name]');
 
         inputsInSection.forEach(input => {
             const formGroup = input.closest('.form-group.question-group');
-            const isVisible = formGroup && (formGroup.style.display !== 'none' && formGroup.classList.contains('field-visible'));
+            // Un campo se considera "visible" para el cálculo si su contenedor está visible
+            const isVisible = formGroup && (formGroup.style.display !== 'none');
 
-            if (isVisible && !input.disabled) {
-                if (input.required) {
-                    sectionHasVisibleRequiredFields = true;
-                    totalCamposVisiblesRequeridos++;
-                    if (input.checkValidity()) {
-                        camposCompletadosVisiblesRequeridos++;
-                    } else {
-                        sectionIsEffectivelyComplete = false;
-                        // todasSeccionesNavegablesCompletadas = false; // No se usa actualmente
-                    }
+            if (isVisible && !input.disabled && input.required) {
+                // A. Contadores para la sección actual (para el círculo)
+                camposEnSeccionRequeridos++;
+                // B. Contadores para el progreso total (para la barra de abajo)
+                totalCamposVisiblesRequeridos++;
+
+                if (input.checkValidity()) {
+                    camposEnSeccionCompletados++;
+                    camposCompletadosVisiblesRequeridos++;
                 }
             }
         });
 
         const menuItem = DOMElements.$sidebarMenuItems.find(item => item.getAttribute('data-section') === section.id);
         if (menuItem) {
-            const markAsCompleted = !sectionHasVisibleRequiredFields || sectionIsEffectivelyComplete;
-            menuItem.classList.toggle('completed', markAsCompleted);
+            const statusElement = menuItem.querySelector('.menu-status');
+            
+            // Si hay campos requeridos en la sección, calcula el porcentaje.
+            // Si no hay, se considera 100% completa.
+            const porcentajeSeccion = camposEnSeccionRequeridos > 0
+                ? (camposEnSeccionCompletados / camposEnSeccionRequeridos) * 100
+                : 100;
+
+            // Convierte el porcentaje (0-100) a un ángulo (0-360) para el CSS
+            const angulo = (porcentajeSeccion / 100) * 360;
+
+            // --- 2. ACTUALIZACIÓN DEL ESTILO DEL CÍRCULO ---
+            if (statusElement) {
+                // Actualiza la variable CSS que controla el relleno del gradiente
+                statusElement.style.setProperty('--progress-angle', `${angulo}deg`);
+            }
+            
+            // Añade/quita la clase 'completed' si está al 100% (para que el borde cambie de color)
+            menuItem.classList.toggle('completed', porcentajeSeccion === 100);
         }
     });
 
-    const porcentaje = totalCamposVisiblesRequeridos > 0
+    // --- 3. CÁLCULO PARA LA BARRA DE PROGRESO GENERAL (sin cambios) ---
+    const porcentajeTotal = totalCamposVisiblesRequeridos > 0
         ? Math.round((camposCompletadosVisiblesRequeridos / totalCamposVisiblesRequeridos) * 100)
         : (DOMElements.$seccionesNavegables.length > 0 ? 0 : 100);
 
-    if (DOMElements.$progressBarFill) DOMElements.$progressBarFill.style.width = `${porcentaje}%`;
-    if (DOMElements.$progressText) DOMElements.$progressText.textContent = `${porcentaje}% completado`;
+    if (DOMElements.$progressBarFill) DOMElements.$progressBarFill.style.width = `${porcentajeTotal}%`;
+    if (DOMElements.$progressText) DOMElements.$progressText.textContent = `${porcentajeTotal}% completado`;
 }
 
 
