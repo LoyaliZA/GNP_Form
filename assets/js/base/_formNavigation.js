@@ -243,27 +243,42 @@ function handleFormButtonClick(event) {
     if (!$button) return;
 
     if ($button.classList.contains('btn-siguiente')) {
-        if ($button.classList.contains('btn-final')) {
-            // Before going to review, check validity of the current section
-            const currentSection = DOMElements.$seccionesNavegables[state.currentSeccionIndex];
-            let currentSectionValid = true;
-            if (currentSection) {
-                currentSection.querySelectorAll('.form-group.field-visible [name]:required').forEach(field => {
-                    if (!field.checkValidity()) {
-                        currentSectionValid = false;
-                        field.classList.add('is-invalid'); // Mark invalid field
+
+        // =====================================================================
+        // INICIO DE LA MODIFICACIÓN: VALIDACIÓN DE SECCIÓN
+        // =====================================================================
+        const currentSection = DOMElements.$seccionesNavegables[state.currentSeccionIndex];
+        let isSectionValid = true;
+        let firstInvalidField = null;
+
+        if (currentSection) {
+            const fieldsToValidate = currentSection.querySelectorAll('.form-group.field-visible [name]:required');
+            
+            fieldsToValidate.forEach(field => {
+                if (!field.checkValidity()) {
+                    isSectionValid = false;
+                    field.classList.add('is-invalid');
+                    if (!firstInvalidField) {
+                        firstInvalidField = field;
                     }
-                });
-            }
-            if (!currentSectionValid) {
-                 // Find the showModal function, assuming it's globally available or imported
-                if (typeof showModal === 'function') { // Placeholder for actual modal call
-                   showModal('error', 'Por favor, completa los campos requeridos en esta sección antes de continuar.', 'Campos Incompletos');
                 } else {
-                    alert('Por favor, completa los campos requeridos en esta sección.');
+                    field.classList.remove('is-invalid');
                 }
-                return;
+            });
+        }
+
+        if (!isSectionValid) {
+            if (firstInvalidField) {
+                firstInvalidField.focus();
             }
+            alert('Por favor, completa todos los campos obligatorios (*) para continuar.');
+            return; // Detiene la navegación si la sección no es válida.
+        }
+        // =====================================================================
+        // FIN DE LA MODIFICACIÓN
+        // =====================================================================
+
+        if ($button.classList.contains('btn-final')) {
             showReviewMode();
         } else if (state.currentSeccionIndex < DOMElements.$seccionesNavegables.length - 1) {
             showSection(state.currentSeccionIndex + 1);
@@ -280,7 +295,17 @@ function handleFormButtonClick(event) {
 }
 
 function handleMenuItemClick(event) {
-    if (DOMElements.$formularioCompleto.classList.contains('modo-revision')) return; // No navigation from sidebar in review mode
+    // =====================================================================
+    // INICIO DE LA MODIFICACIÓN: BLOQUEO DE NAVEGACIÓN
+    // =====================================================================
+    console.log("Navegación desde el menú deshabilitada.");
+    return; // Se previene el salto entre secciones desde el menú.
+    // =====================================================================
+    // FIN DE LA MODIFICACIÓN
+    // =====================================================================
+    
+    /* CÓDIGO ORIGINAL COMENTADO
+    if (DOMElements.$formularioCompleto.classList.contains('modo-revision')) return;
 
     const sectionId = event.currentTarget.getAttribute('data-section');
     const targetIndex = DOMElements.$seccionesNavegables.findIndex(sec => sec.id === sectionId);
@@ -289,13 +314,12 @@ function handleMenuItemClick(event) {
         showSection(targetIndex);
         const isMobile = window.innerWidth <= CONFIG.MOBILE_BREAKPOINT;
         if (isMobile && DOMElements.$body.classList.contains('sidebar-visible')) {
-            // This needs access to toggleSidebar or a similar mechanism
-            // For now, assuming toggleSidebar is globally accessible or imported if needed
-            if (typeof hideSidebarOnMobile === 'function') { // Assuming toggleSidebar from _sidebar.js is imported as hideSidebarOnMobile
+            if (typeof hideSidebarOnMobile === 'function') { 
                 hideSidebarOnMobile();
             }
         }
     }
+    */
 }
 
 export function initializeFormNavigation() {
