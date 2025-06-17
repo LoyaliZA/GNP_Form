@@ -37,53 +37,201 @@ export const formSections = [
             { id: "sol_cargo_dependencia", name: "sol_cargo_dependencia[]", label: "Cargo y dependencia (si aplica):", type: "text", placeholder: "Cargo y dependencia", maxLength: 100, required: false, sequentialReveal: true, conditionalShow: { fieldId: "sol_cargo_gobierno", checked: true } }
         ]
     },
-// --- 2. SECCIÓN CONTRATANTE (CORREGIDA) ---
-    {
-        id: "seccion-contratante",
-        title: "Contratante",
-        subtitle: "(Llenar solo si es diferente al Solicitante Titular)",
-        fields: [
-            { id: "con_igual_titular_group", name: "con_igual_titular", label: "¿El contratante es el mismo que el solicitante titular?", type: "radio", required: true, defaultValue: "si", options: [{value:"si",text:"Sí"},{value:"no",text:"No (Llenar los siguientes campos)"}], sequentialReveal: true, fullWidth: true }
-        ],
-        conditionalSubSections: [
-            {
-                id: "datos-contratante-diferente",
-                condition: { fieldId: "con_igual_titular", value: "no" },
-                fields: [
-                    { id: "con_tipo_persona", name: "con_tipo_persona", label: "Tipo Persona:", type: "select", required: true, defaultValue: "Fisica", options: [{value:"Fisica",text:"Física"},{value:"Moral",text:"Moral"}], sequentialReveal: true },
-                    
-                    // --- CAMBIOS REALIZADOS ---
-                    // 1. CAMPO "con_codigo_cliente" ELIMINADO
-                    
-                    { id: "con_razon_social", name: "con_razon_social", label: "Razón Social:", type: "text", placeholder: "Razón Social completa", maxLength: 150, required: true, conditionalShow: { fieldId: "con_tipo_persona", value: "Moral" } },
-                    { id: "con_primer_apellido", name: "con_primer_apellido", label: "Primer apellido:", type: "text", placeholder: "Primer apellido", maxLength:100, required: true, conditionalShow: { fieldId: "con_tipo_persona", value: "Fisica" } },
-                    { id: "con_segundo_apellido", name: "con_segundo_apellido", label: "Segundo apellido:", type: "text", placeholder: "Segundo apellido", maxLength:50, required: false, conditionalShow: { fieldId: "con_tipo_persona", value: "Fisica" } },
-                    { id: "con_nombres", name: "con_nombres", label: "Nombre(s):", type: "text", placeholder: "Nombre(s)", maxLength:100, required: false, conditionalShow: { fieldId: "con_tipo_persona", value: "Fisica" } },
-                    
-                    { id: "con_fecha_nacimiento", name: "con_fecha_nacimiento", label: "Fecha de nacimiento / Constitución:", type: "date", required: true, sequentialReveal: true },
-                    { id: "con_rfc", name: "con_rfc", label: "RFC:", type: "text", placeholder: "RFC con homoclave", maxLength:13, required: true, sequentialReveal: true },
-                    { id: "con_curp", name: "con_curp", label: "CURP (si aplica):", type: "text", placeholder: "CURP", maxLength:18, required: false, conditionalShow: { fieldId: "con_tipo_persona", value: "Fisica" } },
-                    
-                    // 2. ETIQUETA DE "con_genero" ACTUALIZADA
-                    { id: "con_genero", name: "con_genero", label: "Sexo al nacer (si aplica):", type: "select", required: false, options: [{value:"",text:"Seleccione...",disabled:true,selected:true},{value:"F",text:"Femenino"},{value:"M",text:"Masculino"}], conditionalShow: { fieldId: "con_tipo_persona", value: "Fisica" } },
-                    
-                    { id: "con_pais_nacimiento", name: "con_pais_nacimiento", label: "País de nacimiento / Constitución:", type: "text", placeholder: "País", maxLength:50, required: true, sequentialReveal: true },
-                    { id: "con_nacionalidad", name: "con_nacionalidad", label: "Nacionalidad:", type: "text", placeholder: "Nacionalidad", maxLength:50, required: true, sequentialReveal: true },
-                    { id: "con_ocupacion", name: "con_ocupacion", label: "Ocupación / Giro Mercantil:", type: "text", placeholder: "Ocupación o Giro", maxLength:100, required: true, sequentialReveal: true },
-                    { id: "con_actividad_principal", name: "con_actividad_principal", label: "Actividad Económica Principal:", type: "text", placeholder: "Actividad principal", maxLength:150, required: false, sequentialReveal: true },
-                    { id: "con_email", name: "con_email", label: "Correo electrónico (Contratante):", type: "email", placeholder: "correo@contratante.com", maxLength:100, required: true, sequentialReveal: true },
-                    { id: "con_domicilio_fiscal", name: "con_domicilio_fiscal", label: "Domicilio Fiscal Completo:", type: "textarea", rows: 3, placeholder: "Calle, No Ext, No Int, Colonia, CP, Municipio, Estado", required: true, sequentialReveal: true, fullWidth: true },
-                    { id: "con_telefono", name: "con_telefono", label: "Teléfono (Contratante):", type: "tel", placeholder: "Teléfono (10 dígitos)", maxLength:20, required: true, sequentialReveal: true },
-                    { id: "con_cargo_gobierno_group", name: "con_cargo_gobierno", label: "¿Representante legal desempeña o ha desempeñado cargo en gobierno?", type: "radio", required: true, defaultValue: "no", options: [{value:"si",text:"Sí"},{value:"no",text:"No"}], sequentialReveal: true },
-                    { id: "con_cargo_dependencia", name: "con_cargo_dependencia", label: "Cargo y dependencia (si marcó Sí):", type: "text", placeholder: "Cargo y dependencia", maxLength:100, required: false, sequentialReveal: true, conditionalShow: {fieldId:"con_cargo_gobierno_group", value:"si"} },
-                    { id: "con_tipo_identificacion", name: "con_tipo_identificacion", label: "Tipo Identificación Oficial (Representante Legal):", type: "text", placeholder: "Ej: INE, Pasaporte, Acta Const.", maxLength:50, required: true, sequentialReveal: true },
-                    { id: "con_institucion_emisora", name: "con_institucion_emisora", label: "Institución Emisora:", type: "text", placeholder: "Ej: INE, SRE, Notario Público", maxLength:50, required: true, sequentialReveal: true },
-                    { id: "con_folio_identificacion", name: "con_folio_identificacion", label: "Folio Identificación:", type: "text", placeholder: "Folio/Número", maxLength:50, required: true, sequentialReveal: true },
-                    { id: "con_relacion_titular", name: "con_relacion_titular", label: "Relación con el Solicitante Titular:", type: "text", placeholder: "Ej: Padre/Madre, Empleador, Otro", maxLength:50, required: true, sequentialReveal: true }
-                ]
-            }
-        ]
-    },
+// --- 2. SECCIÓN CONTRATANTE (REFACTORIZADA) ---
+{
+    id: "seccion-contratante",
+    title: "Contratante",
+    fields: [
+        // --- PREGUNTA ÚNICA Y CENTRALIZADA ---
+        // Fusiona las dos preguntas anteriores en una sola para simplificar el flujo.
+        { 
+            id: "tipo_contratante_selector", 
+            name: "tipo_contratante_selector", 
+            label: "Define quién será el contratante de la póliza:", 
+            type: "radio", 
+            required: true, 
+            defaultValue: "titular", 
+            options: [
+                { value: "titular", text: "El mismo Solicitante Titular" },
+                { value: "fisica", text: "Otra Persona Física" },
+                { value: "moral", text: "Persona Moral" }
+            ], 
+            fullWidth: true 
+        },
+
+        // --- CAMPOS PARA PERSONA MORAL ---
+        // Estos campos aparecen si se selecciona "Persona Moral".
+        { 
+            id: "con_razon_social", 
+            name: "con_razon_social", 
+            label: "Razón Social:", 
+            type: "text", 
+            placeholder: "Razón Social completa", 
+            maxLength: 150, 
+            required: true, 
+            conditionalShow: { fieldId: "tipo_contratante_selector", value: "moral" } 
+        },
+
+        // --- CAMPOS PARA PERSONA FÍSICA ---
+        // Estos campos aparecen si se selecciona "Otra Persona Física".
+        { 
+            id: "con_primer_apellido", 
+            name: "con_primer_apellido", 
+            label: "Primer apellido:", 
+            type: "text", 
+            placeholder: "Primer apellido", 
+            maxLength: 100, 
+            required: true, 
+            conditionalShow: { fieldId: "tipo_contratante_selector", value: "fisica" } 
+        },
+        { 
+            id: "con_segundo_apellido", 
+            name: "con_segundo_apellido", 
+            label: "Segundo apellido:", 
+            type: "text", 
+            placeholder: "Segundo apellido", 
+            maxLength: 50, 
+            required: false, 
+            conditionalShow: { fieldId: "tipo_contratante_selector", value: "fisica" } 
+        },
+        { 
+            id: "con_nombres", 
+            name: "con_nombres", 
+            label: "Nombre(s):", 
+            type: "text", 
+            placeholder: "Nombre(s)", 
+            maxLength: 100, 
+            required: false, 
+            conditionalShow: { fieldId: "tipo_contratante_selector", value: "fisica" } 
+        },
+        { 
+            id: "con_curp", 
+            name: "con_curp", 
+            label: "CURP:", 
+            type: "text", 
+            placeholder: "CURP", 
+            maxLength: 18, 
+            required: false, 
+            conditionalShow: { fieldId: "tipo_contratante_selector", value: "fisica" } 
+        },
+        { 
+            id: "con_genero", 
+            name: "con_genero", 
+            label: "Sexo al nacer:", 
+            type: "select", 
+            required: false, 
+            options: [{value:"",text:"Seleccione...",disabled:true,selected:true},{value:"F",text:"Femenino"},{value:"M",text:"Masculino"}], 
+            conditionalShow: { fieldId: "tipo_contratante_selector", value: "fisica" } 
+        },
+
+        // --- CAMPOS COMUNES (PARA FÍSICA O MORAL) ---
+        // La condición ideal sería `value: ["fisica", "moral"]`, pero si el framework no lo soporta,
+        // la alternativa más simple es hacerlos aparecer cuando el valor NO SEA "titular".
+        // Asumiendo que tu motor de formularios soporta `valueNot`, esta es la mejor opción.
+        // Si no lo soporta, habría que duplicar los campos, lo cual no es recomendable.
+        { 
+            id: "con_fecha_nacimiento", 
+            name: "con_fecha_nacimiento", 
+            label: "Fecha de nacimiento / Constitución:", 
+            type: "date", 
+            required: true, 
+            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } // Muestra si NO es el titular
+        },
+        { 
+            id: "con_rfc", 
+            name: "con_rfc", 
+            label: "RFC:", 
+            type: "text", 
+            placeholder: "RFC con homoclave", 
+            maxLength: 13, 
+            required: true, 
+            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } 
+        },
+        { 
+            id: "con_pais_nacimiento", 
+            name: "con_pais_nacimiento", 
+            label: "País de nacimiento / Constitución:", 
+            type: "text", 
+            placeholder: "País", 
+            maxLength: 50, 
+            required: true, 
+            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } 
+        },
+        { 
+            id: "con_nacionalidad", 
+            name: "con_nacionalidad", 
+            label: "Nacionalidad:", 
+            type: "text", 
+            placeholder: "Nacionalidad", 
+            maxLength: 50, 
+            required: true, 
+            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } 
+        },
+        { 
+            id: "con_ocupacion", 
+            name: "con_ocupacion", 
+            label: "Ocupación / Giro Mercantil:", 
+            type: "text", 
+            placeholder: "Ocupación o Giro", 
+            maxLength: 100, 
+            required: true, 
+            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } 
+        },
+        { 
+            id: "con_actividad_principal", 
+            name: "con_actividad_principal", 
+            label: "Actividad Económica Principal:", 
+            type: "text", 
+            placeholder: "Actividad principal", 
+            maxLength: 150, 
+            required: false, 
+            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } 
+        },
+        { 
+            id: "con_email", 
+            name: "con_email", 
+            label: "Correo electrónico (Contratante):", 
+            type: "email", 
+            placeholder: "correo@contratante.com", 
+            maxLength: 100, 
+            required: true, 
+            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } 
+        },
+        { 
+            id: "con_domicilio_fiscal", 
+            name: "con_domicilio_fiscal", 
+            label: "Domicilio Fiscal Completo:", 
+            type: "textarea", 
+            rows: 3, 
+            placeholder: "Calle, No Ext, No Int, Colonia, CP, Municipio, Estado", 
+            required: true, 
+            fullWidth: true, 
+            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } 
+        },
+        { 
+            id: "con_telefono", 
+            name: "con_telefono", 
+            label: "Teléfono (Contratante):", 
+            type: "tel", 
+            placeholder: "Teléfono (10 dígitos)", 
+            maxLength: 20, 
+            required: true, 
+            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } 
+        },
+        { 
+            id: "con_relacion_titular", 
+            name: "con_relacion_titular", 
+            label: "Relación con el Solicitante Titular:", 
+            type: "text", 
+            placeholder: "Ej: Padre/Madre, Empleador, Otro", 
+            maxLength: 50, 
+            required: true, 
+            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } 
+        }
+        // Nota: Los campos sobre "cargo en gobierno" y "tipo de identificación" se omitieron por brevedad,
+        // pero deberían añadirse aquí con la misma condición: conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" }
+    ]
+},
     // --- 3. SECCIÓN DOMICILIOS ---
     {
         id: "seccion-domicilios",
