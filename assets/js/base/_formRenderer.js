@@ -1,15 +1,14 @@
-// GNP_Local/assets/js/base/_formRenderer.js
+// Contenido completo para: GNP_Local/assets/js/base/_formRenderer.js
+
 import { DOMElements } from '../config.js';
 
+// --- Funciones auxiliares (las que ya tenías) ---
 function createLabelElement(fieldDef) {
     const label = document.createElement('label');
-    // Si el tipo es checkbox y no tiene opciones (es un checkbox único),
-    // el 'for' no es necesario de la misma manera o se puede omitir si el input va dentro.
-    // Para otros tipos, el 'for' es bueno.
     if (fieldDef.type !== 'checkbox' || fieldDef.options) {
         label.setAttribute('for', fieldDef.id);
     }
-    label.textContent = fieldDef.label; // Texto principal del label
+    label.textContent = fieldDef.label;
 
     if (fieldDef.required) {
         const requiredMarker = document.createElement('span');
@@ -21,18 +20,15 @@ function createLabelElement(fieldDef) {
     if (fieldDef.tooltipText) {
         const helpIconWrapper = document.createElement('span');
         helpIconWrapper.className = 'help-icon-wrapper';
-
         const helpIcon = document.createElement('span');
         helpIcon.className = 'help-icon material-symbols-outlined';
         helpIcon.textContent = 'help';
         const tooltipId = `tooltip-${fieldDef.id}`;
         helpIcon.dataset.tooltipTarget = tooltipId;
-
         const tooltipContent = document.createElement('div');
         tooltipContent.className = 'tooltip-content';
         tooltipContent.id = tooltipId;
         tooltipContent.textContent = fieldDef.tooltipText;
-
         helpIconWrapper.appendChild(helpIcon);
         helpIconWrapper.appendChild(tooltipContent);
         label.appendChild(helpIconWrapper);
@@ -45,15 +41,13 @@ function createInputElement(fieldDef) {
     input.type = fieldDef.type;
     input.id = fieldDef.id;
     input.name = fieldDef.name;
-    if (fieldDef.type !== 'checkbox' && fieldDef.type !== 'radio') { // Checkboxes y radios no suelen llevar .form-control
+    if (fieldDef.type !== 'checkbox' && fieldDef.type !== 'radio') {
         input.className = 'form-control';
     }
-
-
     if (fieldDef.placeholder) input.placeholder = fieldDef.placeholder;
     if (fieldDef.maxLength) input.maxLength = fieldDef.maxLength;
     if (fieldDef.required) input.required = true;
-    if (fieldDef.value) input.value = fieldDef.value; // Útil para value de checkbox/radio o default de text
+    if (fieldDef.value) input.value = fieldDef.value;
     if (fieldDef.type === 'number') {
         if (fieldDef.step) input.step = fieldDef.step;
         if (fieldDef.min) input.min = fieldDef.min;
@@ -68,7 +62,6 @@ function createSelectElement(fieldDef) {
     select.name = fieldDef.name;
     select.className = 'form-control';
     if (fieldDef.required) select.required = true;
-
     if (fieldDef.options) {
         fieldDef.options.forEach(opt => {
             const option = document.createElement('option');
@@ -90,22 +83,21 @@ function createTextareaElement(fieldDef) {
     if (fieldDef.placeholder) textarea.placeholder = fieldDef.placeholder;
     if (fieldDef.maxLength) textarea.maxLength = fieldDef.maxLength;
     if (fieldDef.required) textarea.required = true;
-    textarea.rows = fieldDef.rows || 3; // Default a 3 filas
+    textarea.rows = fieldDef.rows || 3;
     return textarea;
 }
 
 function createRadioGroupElement(fieldDef) {
     const groupDiv = document.createElement('div');
     groupDiv.className = 'radio-group';
-
     fieldDef.options.forEach(opt => {
         const label = document.createElement('label');
-        const radio = createInputElement({ // Reutiliza createInputElement
+        const radio = createInputElement({
             type: 'radio',
-            id: `${fieldDef.id}_${opt.value}`, // ID único para el input de radio
+            id: `${fieldDef.id}_${opt.value}`,
             name: fieldDef.name,
             value: opt.value,
-            required: fieldDef.required // La obligatoriedad aplica al grupo
+            required: fieldDef.required
         });
         if (fieldDef.defaultValue === opt.value) {
             radio.checked = true;
@@ -117,21 +109,21 @@ function createRadioGroupElement(fieldDef) {
     return groupDiv;
 }
 
+// --- FUNCIÓN renderDynamicForm COMPLETA Y CORREGIDA ---
 export function renderDynamicForm(formDefinition) {
     if (!DOMElements.$form) {
         console.error('Elemento <form id="miFormularioDinamico"> no encontrado.');
         return;
     }
-    DOMElements.$form.innerHTML = ''; // Limpiar cualquier contenido estático previo
+    DOMElements.$form.innerHTML = '';
 
     formDefinition.forEach(sectionDef => {
-        // Ignora la sección de revisión aquí para renderizarla al final de forma controlada
         if (sectionDef.id === "seccion-revision") return;
 
         const sectionDiv = document.createElement('div');
         sectionDiv.className = 'table-form seccion-formulario';
         sectionDiv.id = sectionDef.id;
-        sectionDiv.style.display = 'none'; // Ocultas inicialmente
+        sectionDiv.style.display = 'none';
 
         const titleH2 = document.createElement('h2');
         titleH2.textContent = sectionDef.title;
@@ -151,6 +143,20 @@ export function renderDynamicForm(formDefinition) {
             const formGroupDiv = document.createElement('div');
             formGroupDiv.className = 'form-group question-group';
             formGroupDiv.id = `group-${fieldDef.id}`;
+
+            if (fieldDef.type === 'separator') {
+                formGroupDiv.innerHTML = `<h4 class="form-separator">${fieldDef.title || ''}</h4>`;
+                formGroupDiv.classList.add('separator-group', 'full-width-column');
+                columnsContainer.appendChild(formGroupDiv);
+                return;
+            }
+
+            if (fieldDef.type === 'info') {
+                formGroupDiv.innerHTML = `<p class="form-info-text">${fieldDef.text || ''}</p>`;
+                formGroupDiv.classList.add('info-group', 'full-width-column');
+                columnsContainer.appendChild(formGroupDiv);
+                return;
+            }
 
             let fieldLabel, fieldInput;
 
@@ -190,25 +196,18 @@ export function renderDynamicForm(formDefinition) {
 
         sectionDiv.appendChild(columnsContainer);
 
-        // --- INICIO DE LA CORRECCIÓN ---
-        // Este bloque es el que se añade para procesar las sub-secciones condicionales
         if (sectionDef.conditionalSubSections) {
             sectionDef.conditionalSubSections.forEach(subSectionDef => {
                 const subSectionContainer = document.createElement('div');
                 subSectionContainer.id = subSectionDef.id;
-                subSectionContainer.style.display = 'none'; // Oculto por defecto
-
+                subSectionContainer.style.display = 'none';
                 const subColumnsContainer = document.createElement('div');
                 subColumnsContainer.className = 'form-columns-container';
-
-                // Reutilizamos la misma lógica que ya tienes para crear los campos
                 subSectionDef.fields.forEach(fieldDef => {
                     const formGroupDiv = document.createElement('div');
                     formGroupDiv.className = 'form-group question-group';
                     formGroupDiv.id = `group-${fieldDef.id}`;
-                    
                     let fieldLabel, fieldInput;
-
                     if (fieldDef.type === 'checkbox' && !fieldDef.options) {
                         const combinedLabel = document.createElement('label');
                         fieldInput = createInputElement(fieldDef);
@@ -225,35 +224,24 @@ export function renderDynamicForm(formDefinition) {
                         fieldLabel = createLabelElement(fieldDef);
                         formGroupDiv.appendChild(fieldLabel);
                         switch (fieldDef.type) {
-                            case 'select':
-                                fieldInput = createSelectElement(fieldDef);
-                                break;
-                            case 'textarea':
-                                fieldInput = createTextareaElement(fieldDef);
-                                break;
-                            case 'radio':
-                                fieldInput = createRadioGroupElement(fieldDef);
-                                break;
-                            default:
-                                fieldInput = createInputElement(fieldDef);
-                                break;
+                            case 'select': fieldInput = createSelectElement(fieldDef); break;
+                            case 'textarea': fieldInput = createTextareaElement(fieldDef); break;
+                            case 'radio': fieldInput = createRadioGroupElement(fieldDef); break;
+                            default: fieldInput = createInputElement(fieldDef); break;
                         }
                         formGroupDiv.appendChild(fieldInput);
                     }
                     subColumnsContainer.appendChild(formGroupDiv);
                 });
-
                 subSectionContainer.appendChild(subColumnsContainer);
                 sectionDiv.appendChild(subSectionContainer);
             });
         }
-        // --- FIN DE LA CORRECCIÓN ---
-
+        
         const navButtonsDiv = document.createElement('div');
         navButtonsDiv.className = 'botones-navegacion';
-
-        const esPrimeraSeccionNavegable = DOMElements.$seccionesNavegables[0]?.id === sectionDef.id;
-        const esUltimaSeccionNavegable = DOMElements.$seccionesNavegables[DOMElements.$seccionesNavegables.length - 1]?.id === sectionDef.id;
+        const esPrimeraSeccionNavegable = DOMElements.$seccionesNavegables && DOMElements.$seccionesNavegables.length > 0 && DOMElements.$seccionesNavegables[0]?.id === sectionDef.id;
+        const esUltimaSeccionNavegable = DOMElements.$seccionesNavegables && DOMElements.$seccionesNavegables.length > 0 && DOMElements.$seccionesNavegables[DOMElements.$seccionesNavegables.length - 1]?.id === sectionDef.id;
 
         if (!esPrimeraSeccionNavegable && sectionDef.id !== "seccion-revision") {
             const prevButton = document.createElement('button');
@@ -262,7 +250,6 @@ export function renderDynamicForm(formDefinition) {
             prevButton.textContent = 'Anterior';
             navButtonsDiv.appendChild(prevButton);
         }
-
         if (!esUltimaSeccionNavegable && sectionDef.id !== "seccion-revision") {
             const nextButton = document.createElement('button');
             nextButton.type = 'button';
@@ -287,22 +274,18 @@ export function renderDynamicForm(formDefinition) {
         reviewSectionDiv.id = reviewSectionDef.id;
         reviewSectionDiv.className = 'seccion-formulario';
         reviewSectionDiv.style.display = 'none';
-
         const titleH2 = document.createElement('h2');
         titleH2.textContent = reviewSectionDef.title || "Revisa tu información";
         reviewSectionDiv.appendChild(titleH2);
-
         if (reviewSectionDef.subtitle) {
             const subtitleP = document.createElement('p');
             subtitleP.className = 'subtitulo-ligero';
             subtitleP.textContent = reviewSectionDef.subtitle;
             reviewSectionDiv.appendChild(subtitleP);
         }
-
         const resumenFinalDiv = document.createElement('div');
         resumenFinalDiv.id = 'resumen-final';
         reviewSectionDiv.appendChild(resumenFinalDiv);
-
         const reviewNavButtonsDiv = document.createElement('div');
         reviewNavButtonsDiv.className = 'botones-navegacion';
         const editButton = document.createElement('button');
@@ -316,7 +299,6 @@ export function renderDynamicForm(formDefinition) {
         reviewNavButtonsDiv.appendChild(editButton);
         reviewNavButtonsDiv.appendChild(submitButton);
         reviewSectionDiv.appendChild(reviewNavButtonsDiv);
-
         DOMElements.$form.appendChild(reviewSectionDiv);
     }
 }

@@ -39,197 +39,148 @@ export const formSections = [
     },
 // --- 2. SECCIÓN CONTRATANTE (REFACTORIZADA) ---
 {
-    id: "seccion-contratante",
-    title: "Contratante",
+    id: "seccion-tipo-solicitud",
+    title: "Tipo de Solicitud y Asegurados",
     fields: [
-        // --- PREGUNTA ÚNICA Y CENTRALIZADA ---
-        // Fusiona las dos preguntas anteriores en una sola para simplificar el flujo.
-        { 
-            id: "tipo_contratante_selector", 
-            name: "tipo_contratante_selector", 
-            label: "Define quién será el contratante de la póliza:", 
-            type: "radio", 
-            required: true, 
-            defaultValue: "titular", 
+        {
+            id: "tipo_solicitud_selector", name: "tipo_solicitud_selector",
+            label: "Selecciona el tipo de solicitud:", type: "radio", required: true, defaultValue: "individual",
             options: [
-                { value: "titular", text: "El mismo Solicitante Titular" },
-                { value: "fisica", text: "Otra Persona Física" },
-                { value: "moral", text: "Persona Moral" }
-            ], 
-            fullWidth: true 
+                { value: "individual", text: "1. Solicitud Individual (Yo soy el contratante y único asegurado)" },
+                { value: "grupal", text: "2. Solicitud Grupal (Quiero asegurar a otras personas)" },
+                { value: "empresa", text: "3. Solicitud para Empresa (Contrato a nombre de una Persona Moral)" }
+            ],
+            fullWidth: true
         },
-
-        // --- CAMPOS PARA PERSONA MORAL ---
-        // Estos campos aparecen si se selecciona "Persona Moral".
-        { 
-            id: "con_razon_social", 
-            name: "con_razon_social", 
-            label: "Razón Social:", 
-            type: "text", 
-            placeholder: "Razón Social completa", 
-            maxLength: 150, 
-            required: true, 
-            conditionalShow: { fieldId: "tipo_contratante_selector", value: "moral" } 
+        {
+            id: "info_solicitud_individual", type: "info",
+            text: "Perfecto. Tus datos como solicitante se usarán como los datos del contratante y asegurado.",
+            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "individual" }
         },
-
-        // --- CAMPOS PARA PERSONA FÍSICA ---
-        // Estos campos aparecen si se selecciona "Otra Persona Física".
-        { 
-            id: "con_primer_apellido", 
-            name: "con_primer_apellido", 
-            label: "Primer apellido:", 
-            type: "text", 
-            placeholder: "Primer apellido", 
-            maxLength: 100, 
-            required: true, 
-            conditionalShow: { fieldId: "tipo_contratante_selector", value: "fisica" } 
+        {
+            id: "numero_personas_grupo", name: "numero_personas_grupo",
+            label: "¿Cuántas personas (además de ti) deseas registrar?", type: "number",
+            min: 1, max: 10, placeholder: "1", required: true,
+            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "grupal" }
         },
-        { 
-            id: "con_segundo_apellido", 
-            name: "con_segundo_apellido", 
-            label: "Segundo apellido:", 
-            type: "text", 
-            placeholder: "Segundo apellido", 
-            maxLength: 50, 
-            required: false, 
-            conditionalShow: { fieldId: "tipo_contratante_selector", value: "fisica" } 
+        ...[...Array(10)].map((_, i) => ([
+            {
+                id: `separador_persona_${i + 1}`, type: "separator",
+                title: `Datos de la Persona ${i + 1}`,
+                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "grupal" }
+            },
+            {
+                id: `nombre_persona_${i + 1}`, name: `nombre_persona_${i + 1}`,
+                label: `Nombre(s):`, type: "text", required: true,
+                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "grupal" }
+            },
+            {
+                id: `apellidos_persona_${i + 1}`, name: `apellidos_persona_${i + 1}`,
+                label: `Apellido(s):`, type: "text", required: true,
+                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "grupal" }
+            },
+            {
+                id: `curp_persona_${i + 1}`, name: `curp_persona_${i + 1}`,
+                label: `CURP:`, type: "text", maxLength: 18, required: true,
+                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "grupal" }
+            },
+            {
+                id: `fecha_nacimiento_persona_${i + 1}`, name: `fecha_nacimiento_persona_${i + 1}`,
+                label: `Fecha de nacimiento:`, type: "date", required: true,
+                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "grupal" }
+            }
+        ])).flat(),
+        // --------------------------------------------------------------------------
+        // ESCENARIO 3: SOLICITUD PARA EMPRESA (PERSONA MORAL)
+        // --------------------------------------------------------------------------
+        {
+            id: "info_empresa_separador",
+            type: "separator",
+            title: "Datos de la Empresa",
+            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
         },
-        { 
-            id: "con_nombres", 
-            name: "con_nombres", 
-            label: "Nombre(s):", 
-            type: "text", 
-            placeholder: "Nombre(s)", 
-            maxLength: 100, 
-            required: false, 
-            conditionalShow: { fieldId: "tipo_contratante_selector", value: "fisica" } 
+        {
+            id: "empresa_razon_social",
+            name: "empresa_razon_social",
+            label: "Razón Social:",
+            type: "text",
+            required: true,
+            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
         },
-        { 
-            id: "con_curp", 
-            name: "con_curp", 
-            label: "CURP:", 
-            type: "text", 
-            placeholder: "CURP", 
-            maxLength: 18, 
-            required: false, 
-            conditionalShow: { fieldId: "tipo_contratante_selector", value: "fisica" } 
+        {
+            id: "empresa_rfc",
+            name: "empresa_rfc",
+            label: "RFC:",
+            type: "text",
+            maxLength: 13,
+            required: true,
+            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
         },
-        { 
-            id: "con_genero", 
-            name: "con_genero", 
-            label: "Sexo al nacer:", 
-            type: "select", 
-            required: false, 
-            options: [{value:"",text:"Seleccione...",disabled:true,selected:true},{value:"F",text:"Femenino"},{value:"M",text:"Masculino"}], 
-            conditionalShow: { fieldId: "tipo_contratante_selector", value: "fisica" } 
+        {
+            id: "empresa_giro",
+            name: "empresa_giro",
+            label: "Giro o Actividad Económica:",
+            type: "text",
+            required: true,
+            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
         },
-
-        // --- CAMPOS COMUNES (PARA FÍSICA O MORAL) ---
-        // La condición ideal sería `value: ["fisica", "moral"]`, pero si el framework no lo soporta,
-        // la alternativa más simple es hacerlos aparecer cuando el valor NO SEA "titular".
-        // Asumiendo que tu motor de formularios soporta `valueNot`, esta es la mejor opción.
-        // Si no lo soporta, habría que duplicar los campos, lo cual no es recomendable.
-        { 
-            id: "con_fecha_nacimiento", 
-            name: "con_fecha_nacimiento", 
-            label: "Fecha de nacimiento / Constitución:", 
-            type: "date", 
-            required: true, 
-            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } // Muestra si NO es el titular
+        {
+            id: "empresa_email",
+            name: "empresa_email",
+            label: "Correo electrónico de contacto:",
+            type: "email",
+            required: true,
+            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
         },
-        { 
-            id: "con_rfc", 
-            name: "con_rfc", 
-            label: "RFC:", 
-            type: "text", 
-            placeholder: "RFC con homoclave", 
-            maxLength: 13, 
-            required: true, 
-            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } 
+        {
+            id: "empresa_telefono",
+            name: "empresa_telefono",
+            label: "Teléfono de contacto:",
+            type: "tel",
+            required: true,
+            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
         },
-        { 
-            id: "con_pais_nacimiento", 
-            name: "con_pais_nacimiento", 
-            label: "País de nacimiento / Constitución:", 
-            type: "text", 
-            placeholder: "País", 
-            maxLength: 50, 
-            required: true, 
-            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } 
+        {
+            id: "empresa_num_empleados",
+            name: "empresa_num_empleados",
+            label: "Número de empleados (si aplica):",
+            type: "number",
+            min: 1,
+            required: false,
+            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
         },
-        { 
-            id: "con_nacionalidad", 
-            name: "con_nacionalidad", 
-            label: "Nacionalidad:", 
-            type: "text", 
-            placeholder: "Nacionalidad", 
-            maxLength: 50, 
-            required: true, 
-            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } 
+        {
+            id: "empresa_tipo_sociedad",
+            name: "empresa_tipo_sociedad",
+            label: "Tipo de empresa:",
+            type: "select",
+            required: true,
+            options: [
+                { value: "", text: "Seleccione...", disabled: true, selected: true },
+                { value: "S.A._de_C.V.", text: "S.A. de C.V." },
+                { value: "S._de_R.L.", text: "S. de R.L." },
+                { value: "S.A.S.", text: "S.A.S." },
+                { value: "S.C.", text: "S.C." },
+                { value: "Otro", text: "Otro" }
+            ],
+            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
         },
-        { 
-            id: "con_ocupacion", 
-            name: "con_ocupacion", 
-            label: "Ocupación / Giro Mercantil:", 
-            type: "text", 
-            placeholder: "Ocupación o Giro", 
-            maxLength: 100, 
-            required: true, 
-            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } 
+        {
+            id: "empresa_cargo_solicitante",
+            name: "empresa_cargo_solicitante",
+            label: "Puesto o cargo que ocupa en la empresa:",
+            type: "text",
+            required: true,
+            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
         },
-        { 
-            id: "con_actividad_principal", 
-            name: "con_actividad_principal", 
-            label: "Actividad Económica Principal:", 
-            type: "text", 
-            placeholder: "Actividad principal", 
-            maxLength: 150, 
-            required: false, 
-            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } 
-        },
-        { 
-            id: "con_email", 
-            name: "con_email", 
-            label: "Correo electrónico (Contratante):", 
-            type: "email", 
-            placeholder: "correo@contratante.com", 
-            maxLength: 100, 
-            required: true, 
-            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } 
-        },
-        { 
-            id: "con_domicilio_fiscal", 
-            name: "con_domicilio_fiscal", 
-            label: "Domicilio Fiscal Completo:", 
-            type: "textarea", 
-            rows: 3, 
-            placeholder: "Calle, No Ext, No Int, Colonia, CP, Municipio, Estado", 
-            required: true, 
-            fullWidth: true, 
-            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } 
-        },
-        { 
-            id: "con_telefono", 
-            name: "con_telefono", 
-            label: "Teléfono (Contratante):", 
-            type: "tel", 
-            placeholder: "Teléfono (10 dígitos)", 
-            maxLength: 20, 
-            required: true, 
-            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } 
-        },
-        { 
-            id: "con_relacion_titular", 
-            name: "con_relacion_titular", 
-            label: "Relación con el Solicitante Titular:", 
-            type: "text", 
-            placeholder: "Ej: Padre/Madre, Empleador, Otro", 
-            maxLength: 50, 
-            required: true, 
-            conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" } 
+        {
+            id: "empresa_documento_legal",
+            name: "empresa_documento_legal",
+            label: "Documento que acredite su representación legal:",
+            type: "file", // Asumiendo que tu framework soporta type: "file"
+            required: true,
+            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
         }
-        // Nota: Los campos sobre "cargo en gobierno" y "tipo de identificación" se omitieron por brevedad,
-        // pero deberían añadirse aquí con la misma condición: conditionalShow: { fieldId: "tipo_contratante_selector", valueNot: "titular" }
     ]
 },
     // --- 3. SECCIÓN DOMICILIOS ---
