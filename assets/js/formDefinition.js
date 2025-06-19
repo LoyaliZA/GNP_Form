@@ -37,152 +37,132 @@ export const formSections = [
             { id: "sol_cargo_dependencia", name: "sol_cargo_dependencia[]", label: "Cargo y dependencia (si aplica):", type: "text", placeholder: "Cargo y dependencia", maxLength: 100, required: false, sequentialReveal: true, conditionalShow: { fieldId: "sol_cargo_gobierno", checked: true } }
         ]
     },
-// --- 2. SECCIÓN CONTRATANTE (REFACTORIZADA) ---
-{
-    id: "seccion-tipo-solicitud",
-    title: "Tipo de Solicitud y Asegurados",
-    fields: [
-        {
-            id: "tipo_solicitud_selector", name: "tipo_solicitud_selector",
-            label: "Selecciona el tipo de solicitud:", type: "radio", required: true, defaultValue: "individual",
-            options: [
-                { value: "individual", text: "1. Solicitud Individual (Yo soy el contratante y único asegurado)" },
-                { value: "grupal", text: "2. Solicitud Grupal (Quiero asegurar a otras personas)" },
-                { value: "empresa", text: "3. Solicitud para Empresa (Contrato a nombre de una Persona Moral)" }
-            ],
-            fullWidth: true
-        },
-        {
-            id: "info_solicitud_individual", type: "info",
-            text: "Perfecto. Tus datos como solicitante se usarán como los datos del contratante y asegurado.",
-            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "individual" }
-        },
-        {
-            id: "numero_personas_grupo", name: "numero_personas_grupo",
-            label: "¿Cuántas personas (además de ti) deseas registrar?", type: "number",
-            min: 1, max: 10, placeholder: "1", required: true,
-            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "grupal" }
-        },
-        ...[...Array(10)].map((_, i) => ([
+    // --- 2. SECCIÓN CONTRATANTE (REFACTORIZADA) ---
+    {
+        id: "seccion-tipo-solicitud",
+        title: "Contratante y asegurados",
+        fields: [
             {
-                id: `separador_persona_${i + 1}`, type: "separator",
-                title: `Datos de la Persona ${i + 1}`,
+                id: "tipo_solicitud_selector",
+                name: "tipo_solicitud_selector",
+                label: "Selecciona el tipo de solicitud:",
+                type: "radio",
+                required: true,
+                defaultValue: "individual",
+                options: [
+                    { value: "individual", text: "1. Solicitud Individual (Yo soy el contratante y único asegurado)" },
+                    { value: "grupal", text: "2. Solicitud Grupal (Quiero asegurar a otras personas)" },
+                    { value: "empresa", text: "3. Solicitud para Empresa (Contrato a nombre de una Persona Moral)" }
+                ],
+                fullWidth: true
+            },
+            // --- Escenario 1: Individual ---
+            {
+                id: "info_solicitud_individual",
+                type: "info",
+                text: "Perfecto. Tus datos como solicitante se usarán como los datos del contratante y asegurado.",
+                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "individual" }
+            },
+
+            // --- Escenario 2: Grupal ---
+            {
+                id: "numero_personas_grupo",
+                name: "numero_personas_grupo",
+                label: "¿Cuántas personas (además de ti) deseas registrar?",
+                type: "number",
+                min: 1, max: 10, placeholder: "Ej: 3",
+                required: true,
                 conditionalShow: { fieldId: "tipo_solicitud_selector", value: "grupal" }
             },
+
+            ...[...Array(10)].map((_, i) => ([
+                {
+                    id: `separador_persona_${i + 1}`, type: "separator",
+                    title: `Datos de la Persona ${i + 1}`,
+                    conditionalShow: { fieldId: "tipo_solicitud_selector", value: "grupal" }
+                },
+                {
+                    id: `nombre_persona_${i + 1}`, name: `nombre_persona_${i + 1}`,
+                    label: `Nombre(s):`, type: "text", placeholder: "Nombre completo", required: true,
+                    conditionalShow: { fieldId: "tipo_solicitud_selector", value: "grupal" }
+                },
+                {
+                    id: `apellidos_persona_${i + 1}`, name: `apellidos_persona_${i + 1}`,
+                    label: `Apellido(s):`, type: "text", placeholder: "Ambos apellidos", required: true,
+                    conditionalShow: { fieldId: "tipo_solicitud_selector", value: "grupal" }
+                },
+                {
+                    id: `curp_persona_${i + 1}`, name: `curp_persona_${i + 1}`,
+                    label: `CURP:`, type: "text", placeholder: "CURP a 18 posiciones", maxLength: 18, required: true,
+                    conditionalShow: { fieldId: "tipo_solicitud_selector", value: "grupal" }
+                },
+                {
+                    id: `fecha_nacimiento_persona_${i + 1}`, name: `fecha_nacimiento_persona_${i + 1}`,
+                    label: `Fecha de nacimiento:`, type: "date", required: true,
+                    conditionalShow: { fieldId: "tipo_solicitud_selector", value: "grupal" }
+                }
+            ])).flat(),
+            // --- Escenario 3: Empresa ---
             {
-                id: `nombre_persona_${i + 1}`, name: `nombre_persona_${i + 1}`,
-                label: `Nombre(s):`, type: "text", required: true,
-                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "grupal" }
+                id: "info_empresa_separador", type: "separator",
+                title: "Datos de la Empresa",
+                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
             },
             {
-                id: `apellidos_persona_${i + 1}`, name: `apellidos_persona_${i + 1}`,
-                label: `Apellido(s):`, type: "text", required: true,
-                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "grupal" }
+                id: "empresa_razon_social", name: "empresa_razon_social", label: "Razón Social:",
+                type: "text", placeholder: "Nombre legal completo de la empresa", required: true,
+                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
             },
             {
-                id: `curp_persona_${i + 1}`, name: `curp_persona_${i + 1}`,
-                label: `CURP:`, type: "text", maxLength: 18, required: true,
-                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "grupal" }
+                id: "empresa_rfc", name: "empresa_rfc", label: "RFC:",
+                type: "text", placeholder: "RFC de la empresa con homoclave", maxLength: 13, required: true,
+                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
             },
             {
-                id: `fecha_nacimiento_persona_${i + 1}`, name: `fecha_nacimiento_persona_${i + 1}`,
-                label: `Fecha de nacimiento:`, type: "date", required: true,
-                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "grupal" }
+                id: "empresa_giro", name: "empresa_giro", label: "Giro o Actividad Económica:",
+                type: "text", placeholder: "Ej: Servicios de consultoría, Comercio al por menor", required: true,
+                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
+            },
+            {
+                id: "empresa_email", name: "empresa_email", label: "Correo electrónico de contacto:",
+                type: "email", placeholder: "correo.empresa@ejemplo.com", required: true,
+                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
+            },
+            {
+                id: "empresa_telefono", name: "empresa_telefono", label: "Teléfono de contacto:",
+                type: "tel", placeholder: "Teléfono a 10 dígitos", required: true,
+                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
+            },
+            {
+                id: "empresa_num_empleados", name: "empresa_num_empleados", label: "Número de empleados (si aplica):",
+                type: "number", placeholder: "Ej: 50", min: 1, required: false,
+                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
+            },
+            {
+                id: "empresa_tipo_sociedad", name: "empresa_tipo_sociedad", label: "Tipo de empresa:",
+                type: "select", required: true,
+                options: [
+                    { value: "", text: "Seleccione...", disabled: true, selected: true },
+                    { value: "S.A._de_C.V.", text: "S.A. de C.V." },
+                    { value: "S._de_R.L.", text: "S. de R.L." },
+                    { value: "S.A.S.", text: "S.A.S." },
+                    { value: "S.C.", text: "S.C." },
+                    { value: "Otro", text: "Otro" }
+                ],
+                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
+            },
+            {
+                id: "empresa_cargo_solicitante", name: "empresa_cargo_solicitante", label: "Puesto o cargo que ocupa en la empresa:",
+                type: "text", placeholder: "Ej: Director General, Gerente de RH", required: true,
+                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
+            },
+            {
+                id: "empresa_documento_legal", name: "empresa_documento_legal", label: "Documento que acredite su representación legal:",
+                type: "file", required: true,
+                conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
             }
-        ])).flat(),
-        // --------------------------------------------------------------------------
-        // ESCENARIO 3: SOLICITUD PARA EMPRESA (PERSONA MORAL)
-        // --------------------------------------------------------------------------
-        {
-            id: "info_empresa_separador",
-            type: "separator",
-            title: "Datos de la Empresa",
-            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
-        },
-        {
-            id: "empresa_razon_social",
-            name: "empresa_razon_social",
-            label: "Razón Social:",
-            type: "text",
-            required: true,
-            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
-        },
-        {
-            id: "empresa_rfc",
-            name: "empresa_rfc",
-            label: "RFC:",
-            type: "text",
-            maxLength: 13,
-            required: true,
-            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
-        },
-        {
-            id: "empresa_giro",
-            name: "empresa_giro",
-            label: "Giro o Actividad Económica:",
-            type: "text",
-            required: true,
-            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
-        },
-        {
-            id: "empresa_email",
-            name: "empresa_email",
-            label: "Correo electrónico de contacto:",
-            type: "email",
-            required: true,
-            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
-        },
-        {
-            id: "empresa_telefono",
-            name: "empresa_telefono",
-            label: "Teléfono de contacto:",
-            type: "tel",
-            required: true,
-            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
-        },
-        {
-            id: "empresa_num_empleados",
-            name: "empresa_num_empleados",
-            label: "Número de empleados (si aplica):",
-            type: "number",
-            min: 1,
-            required: false,
-            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
-        },
-        {
-            id: "empresa_tipo_sociedad",
-            name: "empresa_tipo_sociedad",
-            label: "Tipo de empresa:",
-            type: "select",
-            required: true,
-            options: [
-                { value: "", text: "Seleccione...", disabled: true, selected: true },
-                { value: "S.A._de_C.V.", text: "S.A. de C.V." },
-                { value: "S._de_R.L.", text: "S. de R.L." },
-                { value: "S.A.S.", text: "S.A.S." },
-                { value: "S.C.", text: "S.C." },
-                { value: "Otro", text: "Otro" }
-            ],
-            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
-        },
-        {
-            id: "empresa_cargo_solicitante",
-            name: "empresa_cargo_solicitante",
-            label: "Puesto o cargo que ocupa en la empresa:",
-            type: "text",
-            required: true,
-            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
-        },
-        {
-            id: "empresa_documento_legal",
-            name: "empresa_documento_legal",
-            label: "Documento que acredite su representación legal:",
-            type: "file", // Asumiendo que tu framework soporta type: "file"
-            required: true,
-            conditionalShow: { fieldId: "tipo_solicitud_selector", value: "empresa" }
-        }
-    ]
-},
+        ]
+    },
     // --- 3. SECCIÓN DOMICILIOS ---
     {
         id: "seccion-domicilios",
