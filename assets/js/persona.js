@@ -392,56 +392,83 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const cantidadContainer = document.getElementById('cantidadAseguradosContainer');
 
-    function setupConditionalFields() {
+/**
+ * Asigna todos los event listeners para los campos condicionales del formulario.
+ * (Versión final, limpia y con validación de caracteres).
+ */
+function setupConditionalFields() {
 
-        console.log("DEBUG: Configurando campos condicionales...");
+    // --- Funciones "Guardianas" de Validación de Caracteres ---
+    const forzarSoloNumeros = (event) => {
+        if (/[^0-9]/.test(event.key) && !event.ctrlKey && !event.metaKey && event.key.length === 1) {
+            event.preventDefault();
+        }
+    };
 
-        // --- Lógica para la sección SOLICITANTE ---
-        const radiosCargoGobierno = document.querySelectorAll('input[name="cargo_gobierno"]');
-        const grupoDependencia = document.getElementById('cargo_dependencia_group');
-        if (radiosCargoGobierno.length > 0 && grupoDependencia) {
-            radiosCargoGobierno.forEach(radio => {
-                radio.addEventListener('change', (event) => {
-                    grupoDependencia.style.display = (event.target.value === 'si') ? 'block' : 'none';
-                });
-            });
+    const forzarSoloAlfanumerico = (event) => {
+        if (/[^a-zA-Z0-9]/.test(event.key) && !event.ctrlKey && !event.metaKey && event.key.length === 1) {
+            event.preventDefault();
         }
+    };
 
-        // --- Lógica para la sección DOMICILIO ---
-        const checkDomicilioFiscal = document.getElementById('domicilioFiscalDiferente');
-        const domicilioFiscalContainer = document.getElementById('domicilioFiscalContainer');
-        if (checkDomicilioFiscal && domicilioFiscalContainer) {
-            checkDomicilioFiscal.addEventListener('change', (event) => {
-                domicilioFiscalContainer.style.display = event.target.checked ? 'grid' : 'none';
-            });
-        }
+    // --- Aplicar Guardianes a los campos que los necesitan ---
+    // (Añadimos '?' para evitar errores si un campo no existe en el HTML)
+    document.getElementById('contratante_telefono')?.addEventListener('keydown', forzarSoloNumeros);
+    document.getElementById('moral_telefono')?.addEventListener('keydown', forzarSoloNumeros);
+    document.getElementById('contratante_cp_fiscal')?.addEventListener('keydown', forzarSoloNumeros);
+    document.getElementById('moral_cp_fiscal')?.addEventListener('keydown', forzarSoloNumeros);
+    
+    document.getElementById('contratante_rfc')?.addEventListener('keydown', forzarSoloAlfanumerico);
+    document.getElementById('moral_rfc')?.addEventListener('keydown', forzarSoloAlfanumerico);
 
-        // --- Lógica para la sección DATOS DEL CONTRATANTE ---
-        const radiosContratanteEsTitular = document.querySelectorAll('input[name="contratanteEsTitular"]');
-        const datosContratanteContainer = document.getElementById('datosContratanteDiferenteContainer');
-        if (radiosContratanteEsTitular.length > 0 && datosContratanteContainer) {
-            radiosContratanteEsTitular.forEach(radio => {
-                radio.addEventListener('change', (event) => {
-                    datosContratanteContainer.style.display = (event.target.value === 'no') ? 'block' : 'none';
-                });
-            });
-        }
 
-        const checkDomicilioDiferenteContratante = document.getElementById('contratanteDomicilioDiferente');
-        const domicilioContratanteContainer = document.getElementById('domicilioContratanteContainer');
-        if (checkDomicilioDiferenteContratante && domicilioContratanteContainer) {
-            checkDomicilioDiferenteContratante.addEventListener('change', (event) => {
-                domicilioContratanteContainer.style.display = event.target.checked ? 'grid' : 'none';
+    // --- Lógica para mostrar/ocultar secciones ---
+
+    // Lógica para la sección SOLICITANTE
+    const radiosCargoGobierno = document.querySelectorAll('input[name="cargo_gobierno"]');
+    const grupoDependencia = document.getElementById('cargo_dependencia_group');
+    if (radiosCargoGobierno.length > 0 && grupoDependencia) {
+        radiosCargoGobierno.forEach(radio => {
+            radio.addEventListener('change', (event) => {
+                grupoDependencia.style.display = (event.target.value === 'si') ? 'block' : 'none';
             });
-        }
-        
-        const checkFiscalIgualContratante = document.getElementById('contratanteFiscalIgual');
-        const domicilioFiscalContainerContratante = document.getElementById('domicilioFiscalContainer_contratante'); // Suponiendo que el ID en el HTML es este para diferenciarlo
-        if (checkFiscalIgualContratante && domicilioFiscalContainerContratante) {
-            checkFiscalIgualContratante.addEventListener('change', (event) => {
-                domicilioFiscalContainerContratante.style.display = event.target.checked ? 'none' : 'grid';
+        });
+    }
+
+    // Lógica para la sección DOMICILIO DEL TITULAR
+    const checkDomicilioFiscalTitular = document.getElementById('domicilioFiscalDiferente');
+    const domicilioFiscalContainerTitular = document.getElementById('domicilioFiscalContainer');
+    if (checkDomicilioFiscalTitular && domicilioFiscalContainerTitular) {
+        checkDomicilioFiscalTitular.addEventListener('change', (event) => {
+            domicilioFiscalContainerTitular.style.display = event.target.checked ? 'grid' : 'none';
+        });
+    }
+
+    // Lógica para la sección DATOS DEL CONTRATANTE (anidada)
+    const radiosContratanteEsTitular = document.querySelectorAll('input[name="contratanteEsTitular"]');
+    const datosContratanteContainer = document.getElementById('datosContratanteDiferenteContainer');
+    const radiosTipoContratante = document.querySelectorAll('input[name="tipo_contratante"]');
+    const formPersonaFisica = document.getElementById('contratante_persona_fisica_container');
+    const formPersonaMoral = document.getElementById('contratante_persona_moral_container');
+
+    if (radiosContratanteEsTitular.length > 0 && datosContratanteContainer) {
+        radiosContratanteEsTitular.forEach(radio => {
+            radio.addEventListener('change', (event) => {
+                datosContratanteContainer.style.display = (event.target.value === 'no') ? 'block' : 'none';
             });
-        }
+        });
+    }
+
+    if (radiosTipoContratante.length > 0 && formPersonaFisica && formPersonaMoral) {
+        radiosTipoContratante.forEach(radio => {
+            radio.addEventListener('change', (event) => {
+                const esFisica = (event.target.value === 'fisica');
+                formPersonaFisica.style.display = esFisica ? 'block' : 'none';
+                formPersonaMoral.style.display = esFisica ? 'none' : 'block';
+            });
+        });
+    }
+
 
         // --- Lógica para la sección HÁBITOS ---
         const selectGenero = document.getElementById('sexo_nacer'); // Actualizado al ID correcto
