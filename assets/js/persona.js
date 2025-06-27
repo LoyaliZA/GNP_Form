@@ -515,18 +515,32 @@ function setupConditionalFields() {
         const mainForm = document.querySelector(config.domSelectors.form);
         if (!mainForm) return;
 
-        const isReviewMode = config.menuItems[index].id === 'revision';
+        // Obtenemos el ID de la sección actual para saber si es la de revisión.
+        const isReviewMode = config.menuItems[index]?.id === 'revision';
         mainForm.classList.toggle('modo-revision', isReviewMode);
 
+        // --- INICIA LA CORRECCIÓN ---
+        // Ahora, el querySelectorAll incluye 'button' para deshabilitar también los botones.
         state.formSections.forEach(section => {
-            section.querySelectorAll('input, select, textarea').forEach(el => {
-                el.disabled = isReviewMode;
+            section.querySelectorAll('input, select, textarea, button').forEach(el => {
+                // No deshabilitamos los botones de navegación principal
+                if (el.id !== 'prev-btn' && el.id !== 'next-btn' && el.id !== 'submit-btn' && el.id !== 'edit-btn') {
+                    el.disabled = isReviewMode;
+                }
             });
         });
+        // --- TERMINA LA CORRECCIÓN ---
 
         if (!isReviewMode) {
             state.formSections.forEach((section, i) => {
-                section.classList.toggle('seccion-activa', i === index);
+                section.style.display = i === index ? 'block' : 'none';
+            });
+            document.querySelectorAll(config.domSelectors.sections).forEach(sec => {
+                if (sec.style.display === 'block') {
+                    sec.classList.add('seccion-activa');
+                } else {
+                    sec.classList.remove('seccion-activa');
+                }
             });
         }
         
