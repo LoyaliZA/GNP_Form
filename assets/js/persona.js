@@ -96,65 +96,62 @@ document.addEventListener('DOMContentLoaded', () => {
     // Objeto con las plantillas para los campos de detalle de la sección Hábitos
     const detalleHabitosPlantillas = {
         fumar: (sufijo) => `
-            <div class="detalle-habito-solicitante" data-sufijo="${sufijo}">
+            <div class="detalle-habito-solicitante" data-habito-detalle="fumar">
                 <h5>Detalles para ${document.getElementById(`nombres${sufijo.replace('_solicitante', '')}`)?.value.split(' ')[0] || `Solicitante ${sufijo.split('_').pop()}`}</h5>
                 <div class="form-group">
                     <label>¿Es fumador(a) actualmente?</label>
                     <div class="radio-group">
-                        <label><input type="radio" name="fuma_actualmente${sufijo}" value="si"> Sí</label>
-                        <label><input type="radio" name="fuma_actualmente${sufijo}" value="no"> No (Ex-fumador)</label>
+                        <label><input type="radio" name="fumar_actualmente${sufijo}" value="si" checked> Sí</label>
+                        <label><input type="radio" name="fumar_actualmente${sufijo}" value="no"> No (Ex-fumador)</label>
                     </div>
                 </div>
-                <div class="form-group" id="fuma_details${sufijo}" style="display:none;">
-                    <label for="cigarrillos_dia${sufijo}">Cigarrillos al día</label>
-                    <input type="number" id="cigarrillos_dia${sufijo}" name="cigarrillos_dia${sufijo}" class="form-control" placeholder="Cantidad">
-                    <label for="fuma_desde${sufijo}" style="margin-top: 10px;">¿Desde cuándo?</label>
-                    <input type="text" id="fuma_desde${sufijo}" name="fuma_desde${sufijo}" class="form-control" placeholder="Ej: Hace 5 años, 2010">
+                <div class="fumar_details" style="display:block;">
+                    <div class="form-group"><label for="cigarrillos_dia${sufijo}">¿Cuántos cigarros o puros al día?</label><input type="number" id="cigarrillos_dia${sufijo}" name="cigarrillos_dia${sufijo}" class="form-control" placeholder="Cantidad"></div>
+                    <div class="form-group"><label for="fumar_desde${sufijo}">¿Desde cuándo?</label><input type="text" id="fumar_desde${sufijo}" name="fumar_desde${sufijo}" class="form-control" placeholder="Ej: Hace 5 años, 2010"></div>
                 </div>
-                <div class="form-group" id="no_fuma_details${sufijo}" style="display:none;">
-                    <label for="dejo_fumar_tiempo${sufijo}">Si dejó de fumar, ¿hace cuánto tiempo?</label>
-                    <input type="text" id="dejo_fumar_tiempo${sufijo}" name="dejo_fumar_tiempo${sufijo}" class="form-control" placeholder="Ej: 3 meses, 2 años">
+                <div class="no_fumar_details" style="display:none;">
+                    <div class="form-group"><label for="dejo_fumar_tiempo${sufijo}">¿Cuándo dejó de fumar?</label><input type="text" id="dejo_fumar_tiempo${sufijo}" name="dejo_fumar_tiempo${sufijo}" class="form-control" placeholder="Ej: Hace 3 meses, en 2020"></div>
                 </div>
-            </div>
-        `,
+            </div>`,
         alcohol: (sufijo) => `
-            <div class="detalle-habito-solicitante">
+            <div class="detalle-habito-solicitante" data-habito-detalle="alcohol">
                 <h5>Detalles para ${document.getElementById(`nombres${sufijo.replace('_solicitante', '')}`)?.value.split(' ')[0] || `Solicitante ${sufijo.split('_').pop()}`}</h5>
                 <div class="form-group">
-                    <label for="alcohol_frecuencia${sufijo}">Frecuencia</label>
-                    <input type="text" id="alcohol_frecuencia${sufijo}" name="alcohol_frecuencia${sufijo}" class="form-control" placeholder="Ej: Dos veces por semana">
+                    <label>¿Consume bebidas alcohólicas actualmente?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="alcohol_actualmente${sufijo}" value="si" checked> Sí</label>
+                        <label><input type="radio" name="alcohol_actualmente${sufijo}" value="no"> No</label>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="alcohol_cantidad${sufijo}">Cantidad por ocasión</label>
-                    <input type="text" id="alcohol_cantidad${sufijo}" name="alcohol_cantidad${sufijo}" class="form-control" placeholder="Ej: 3 copas, 1 cerveza">
+                <div class="alcohol_details" style="display:block;">
+                    <div class="form-group"><label for="alcohol_frecuencia${sufijo}">Frecuencia</label><input type="text" id="alcohol_frecuencia${sufijo}" name="alcohol_frecuencia${sufijo}" class="form-control" placeholder="Ej: Dos veces por semana"></div>
+                    <div class="form-group"><label for="alcohol_cantidad${sufijo}">Cantidad por ocasión</label><input type="text" id="alcohol_cantidad${sufijo}" name="alcohol_cantidad${sufijo}" class="form-control" placeholder="Ej: 3 copas, 1 cerveza"></div>
+                    <div class="form-group"><label for="alcohol_tipo${sufijo}">Tipo de bebida</label><input type="text" id="alcohol_tipo${sufijo}" name="alcohol_tipo${sufijo}" class="form-control" placeholder="Ej: Cerveza, vino, whisky"></div>
+                    <div class="form-group"><label for="alcohol_desde${sufijo}">¿Desde cuándo consume?</label><input type="text" id="alcohol_desde${sufijo}" name="alcohol_desde${sufijo}" class="form-control" placeholder="Ej: Ocasionalmente, desde 2015"></div>
                 </div>
-                <div class="form-group">
-                    <label for="alcohol_tipo${sufijo}">Tipo de bebida</label>
-                    <input type="text" id="alcohol_tipo${sufijo}" name="alcohol_tipo${sufijo}" class="form-control" placeholder="Ej: Cerveza, vino, whisky">
+                <div class="no_alcohol_details" style="display:none;">
+                    <div class="form-group"><label for="dejo_alcohol_tiempo${sufijo}">¿Cuándo dejó de consumir?</label><input type="text" id="dejo_alcohol_tiempo${sufijo}" name="dejo_alcohol_tiempo${sufijo}" class="form-control" placeholder="Ej: Hace 1 año"></div>
                 </div>
-                <div class="form-group">
-                    <label for="alcohol_desde${sufijo}">¿Desde cuándo consume?</label>
-                    <input type="text" id="alcohol_desde${sufijo}" name="alcohol_desde${sufijo}" class="form-control" placeholder="Ej: Ocasionalmente, desde 2015">
-                </div>
-            </div>
-        `,
+            </div>`,
         drogas: (sufijo) => `
-            <div class="detalle-habito-solicitante">
+            <div class="detalle-habito-solicitante" data-habito-detalle="drogas">
                 <h5>Detalles para ${document.getElementById(`nombres${sufijo.replace('_solicitante', '')}`)?.value.split(' ')[0] || `Solicitante ${sufijo.split('_').pop()}`}</h5>
                 <div class="form-group">
-                    <label for="drogas_tipo${sufijo}">Tipo de droga</label>
-                    <input type="text" id="drogas_tipo${sufijo}" name="drogas_tipo${sufijo}" class="form-control" placeholder="Especifique la sustancia">
+                    <label>¿Consume o ha consumido drogas (no prescritas)?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="drogas_actualmente${sufijo}" value="si" checked> Sí</label>
+                        <label><input type="radio" name="drogas_actualmente${sufijo}" value="no"> No</label>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="drogas_frecuencia${sufijo}">Frecuencia</label>
-                    <input type="text" id="drogas_frecuencia${sufijo}" name="drogas_frecuencia${sufijo}" class="form-control" placeholder="Ej: Semanal, ocasional">
+                <div class="drogas_details" style="display:block;">
+                    <div class="form-group"><label for="drogas_tipo${sufijo}">Tipo de droga</label><input type="text" id="drogas_tipo${sufijo}" name="drogas_tipo${sufijo}" class="form-control" placeholder="Especifique la sustancia"></div>
+                    <div class="form-group"><label for="drogas_frecuencia${sufijo}">Frecuencia</label><input type="text" id="drogas_frecuencia${sufijo}" name="drogas_frecuencia${sufijo}" class="form-control" placeholder="Ej: Semanal, ocasional"></div>
+                    <div class="form-group"><label for="drogas_desde${sufijo}">¿Desde cuándo consume?</label><input type="text" id="drogas_desde${sufijo}" name="drogas_desde${sufijo}" class="form-control" placeholder="Ej: Ocasionalmente, desde 2018"></div>
                 </div>
-                <div class="form-group">
-                    <label for="drogas_desde${sufijo}">¿Desde cuándo consume?</label>
-                    <input type="text" id="drogas_desde${sufijo}" name="drogas_desde${sufijo}" class="form-control" placeholder="Ej: Ocasionalmente, desde 2018">
+                <div class="no_drogas_details" style="display:none;">
+                    <div class="form-group"><label for="dejo_drogas_tiempo${sufijo}">¿Cuándo dejó de consumir?</label><input type="text" id="dejo_drogas_tiempo${sufijo}" name="dejo_drogas_tiempo${sufijo}" class="form-control" placeholder="Ej: Hace 5 años"></div>
                 </div>
-            </div>
-        `
+            </div>`
     };
 
     // Objeto con las plantillas para los campos de detalle de la sección Deportes
@@ -694,117 +691,86 @@ function actualizarCamposDeDetalle(checkboxWrapper, container, actividadValue) {
     }
 }
 
-/**
- * Configura la lógica interactiva para la sección de Hábitos.
- */
+// --- SECCIÓN DE HÁBITOS (VERSIÓN FINAL Y CORRECTA) ---
 function setupHabits() {
-    const habitosItems = document.querySelectorAll('.habito-item');
+    const seccionHabitos = document.getElementById('seccion-habitos');
+    if (!seccionHabitos) return;
 
-    habitosItems.forEach(item => {
-        const checkbox = item.querySelector('input[type="checkbox"]');
-        const asignacionContainer = item.querySelector('.asignacion-container');
+    // Usamos un solo listener para toda la sección de hábitos
+    seccionHabitos.addEventListener('change', (event) => {
+        const target = event.target;
 
-        checkbox.addEventListener('change', (event) => {
+        // 1. Si se marca el checkbox principal de un hábito
+        if (target.matches('input[name="habito_check"]')) {
+            const asignacionContainer = target.closest('.habito-item').querySelector('.asignacion-container');
             asignacionContainer.innerHTML = '';
-            if (event.target.checked) {
+            if (target.checked) {
                 asignacionContainer.style.display = 'block';
-                crearAsignadorDeHabitos(asignacionContainer, checkbox.value);
+                crearAsignadorDeHabitos(asignacionContainer, target.value);
             } else {
                 asignacionContainer.style.display = 'none';
             }
-        });
+        }
+
+        // 2. Si se marca el checkbox de un solicitante
+        if (target.matches('.solicitante-checkbox')) {
+            const asignacionContainer = target.closest('.asignacion-container');
+            actualizarDetallesDeHabito(asignacionContainer);
+        }
+
+        // 3. Si se cambia el radio button de "actualmente"
+        if (target.matches('input[type="radio"][name*="_actualmente"]')) {
+            const detalleContainer = target.closest('.detalle-habito-solicitante');
+            if (!detalleContainer) return;
+
+            const habito = detalleContainer.dataset.habitoDetalle;
+            const detallesSi = detalleContainer.querySelector(`.${habito}_details`);
+            const detallesNo = detalleContainer.querySelector(`.no_${habito}_details`);
+
+            if (detallesSi && detallesNo) {
+                detallesSi.style.display = (target.value === 'si') ? 'block' : 'none';
+                detallesNo.style.display = (target.value === 'no') ? 'block' : 'none';
+            }
+        }
     });
 }
 
-/**
- * Función genérica para crear un asignador de solicitantes con checkboxes.
- */
-function crearAsignadorGenerico(container, prefix, plantillaDetalleFn) {
-    const selectorContainer = document.createElement('div');
-    selectorContainer.className = 'form-group';
-    selectorContainer.innerHTML = '<label class="asignacion-label">¿Quién(es)?</label>';
+function crearAsignadorDeHabitos(container, habitoValue) {
+    container.innerHTML = `
+        <div class="form-group">
+            <label class="asignacion-label">¿Quién(es)?</label>
+            <div class="solicitante-checkbox-container"></div>
+        </div>
+        <div class="detalles-por-solicitante-container"></div>`;
     
-    const checkboxWrapper = document.createElement('div');
-    checkboxWrapper.className = 'solicitante-checkbox-container';
-    
-    const detallesContainer = document.createElement('div');
-    detallesContainer.className = 'detalles-por-solicitante-container';
-
+    const checkboxWrapper = container.querySelector('.solicitante-checkbox-container');
     for (let i = 1; i <= solicitanteCount; i++) {
         const nombre = document.getElementById(i === 1 ? 'nombres' : `nombres_solicitante_${i}`)?.value.split(' ')[0] || '';
         const textoLabel = nombre ? `${i}.- ${nombre}` : (i === 1 ? 'Solicitante 1 - Titular' : `Solicitante ${i}`);
-        
         const label = document.createElement('label');
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.value = i;
-        
-        checkbox.addEventListener('change', () => {
-            // Limpiamos y regeneramos los detalles cada vez
-            detallesContainer.innerHTML = '';
-            const checkboxesSeleccionados = checkboxWrapper.querySelectorAll('input:checked');
-            checkboxesSeleccionados.forEach(cb => {
-                const sufijo = `_solicitante_${cb.value}`;
-                detallesContainer.innerHTML += plantillaDetalleFn(sufijo);
-            });
-        });
-        
+        checkbox.className = 'solicitante-checkbox';
+        checkbox.dataset.habito = habitoValue;
         label.append(checkbox, ` ${textoLabel}`);
         checkboxWrapper.appendChild(label);
     }
-    
-    selectorContainer.appendChild(checkboxWrapper);
-    container.appendChild(selectorContainer);
-    container.appendChild(detallesContainer);
 }
 
-// Ahora, ajusta la función 'setupHabits' para que use la nueva función genérica.
-function setupHabits() {
-    document.querySelectorAll('.habito-item').forEach(item => {
-        const checkbox = item.querySelector('input[type="checkbox"]');
-        const asignacionContainer = item.querySelector('.asignacion-container');
-
-        checkbox.addEventListener('change', (event) => {
-            asignacionContainer.innerHTML = '';
-            if (event.target.checked) {
-                asignacionContainer.style.display = 'block';
-                const habitoValue = checkbox.value;
-                crearAsignadorGenerico(asignacionContainer, habitoValue, detalleHabitosPlantillas[habitoValue]);
-            } else {
-                asignacionContainer.style.display = 'none';
-            }
-        });
-    });
-}
-
-/**
- * Muestra los campos de detalle para un hábito según las personas seleccionadas.
- */
-function actualizarDetallesDeHabito(checkboxWrapper, container, habitoValue) {
-    container.innerHTML = '';
-    const checkboxesSeleccionados = checkboxWrapper.querySelectorAll('input[type="checkbox"]:checked');
-    
-    if (detalleHabitosPlantillas[habitoValue]) {
-        checkboxesSeleccionados.forEach(checkbox => {
+function actualizarDetallesDeHabito(container) {
+    const detallesContainer = container.querySelector('.detalles-por-solicitante-container');
+    const checkboxesSeleccionados = container.querySelectorAll('.solicitante-checkbox:checked');
+    detallesContainer.innerHTML = '';
+    checkboxesSeleccionados.forEach(checkbox => {
+        const habitoValue = checkbox.dataset.habito;
+        const plantillaFn = detalleHabitosPlantillas[habitoValue];
+        if (plantillaFn) {
             const index = checkbox.value;
             const sufijo = `_solicitante_${index}`;
-            const plantillaFn = detalleHabitosPlantillas[habitoValue];
-            const divTemporal = document.createElement('div');
-            divTemporal.innerHTML = plantillaFn(sufijo);
-            
-            // Activar lógica condicional para los campos de "fumar" si existen
-            if (habitoValue === 'fumar') {
-                const radiosFumaActual = divTemporal.querySelectorAll(`input[name="fuma_actualmente${sufijo}"]`);
-                radiosFumaActual.forEach(radio => {
-                    radio.addEventListener('change', e => {
-                        divTemporal.querySelector(`#fuma_details${sufijo}`).style.display = (e.target.value === 'si') ? 'block' : 'none';
-                        divTemporal.querySelector(`#no_fuma_details${sufijo}`).style.display = (e.target.value === 'no') ? 'block' : 'none';
-                    });
-                });
-            }
-            container.appendChild(divTemporal);
-        });
-    }
+            detallesContainer.innerHTML += plantillaFn(sufijo);
+        }
+    });
 }
 
 /**
