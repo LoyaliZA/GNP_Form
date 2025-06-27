@@ -394,7 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  * Asigna todos los event listeners para los campos condicionales del formulario.
- * (Versión final, limpia y con validación de caracteres).
+ * (Versión final completa con todas las condiciones y validaciones).
  */
 function setupConditionalFields() {
 
@@ -404,20 +404,22 @@ function setupConditionalFields() {
             event.preventDefault();
         }
     };
-
     const forzarSoloAlfanumerico = (event) => {
         if (/[^a-zA-Z0-9]/.test(event.key) && !event.ctrlKey && !event.metaKey && event.key.length === 1) {
             event.preventDefault();
         }
     };
 
-    // --- Aplicar Guardianes a los campos que los necesitan ---
-    // (Añadimos '?' para evitar errores si un campo no existe en el HTML)
+    // --- Aplicar Guardianes a todos los campos que los necesitan ---
+    // Sección Domicilio
+    document.getElementById('tel_fijo')?.addEventListener('keydown', forzarSoloNumeros);
+    document.getElementById('tel_celular')?.addEventListener('keydown', forzarSoloNumeros);
+
+    // Sección Contratante
     document.getElementById('contratante_telefono')?.addEventListener('keydown', forzarSoloNumeros);
     document.getElementById('moral_telefono')?.addEventListener('keydown', forzarSoloNumeros);
     document.getElementById('contratante_cp_fiscal')?.addEventListener('keydown', forzarSoloNumeros);
     document.getElementById('moral_cp_fiscal')?.addEventListener('keydown', forzarSoloNumeros);
-    
     document.getElementById('contratante_rfc')?.addEventListener('keydown', forzarSoloAlfanumerico);
     document.getElementById('moral_rfc')?.addEventListener('keydown', forzarSoloAlfanumerico);
 
@@ -435,6 +437,40 @@ function setupConditionalFields() {
         });
     }
 
+    const selectSexo = document.getElementById('sexo_nacer');
+    const fechaNacimientoInput = document.getElementById('fecha_nacimiento');
+    const embarazoGroup = document.getElementById('embarazo_group');
+    const embarazoDetails = document.getElementById('embarazo_details');
+    if (selectSexo && fechaNacimientoInput && embarazoGroup) {
+        const toggleEmbarazoQuestion = () => {
+            const esFemenino = selectSexo.value === 'femenino';
+            let edad = 0;
+            if (fechaNacimientoInput.value) {
+                const hoy = new Date();
+                const nacimiento = new Date(fechaNacimientoInput.value);
+                edad = hoy.getFullYear() - nacimiento.getFullYear();
+                const m = hoy.getMonth() - nacimiento.getMonth();
+                if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
+                    edad--;
+                }
+            }
+            embarazoGroup.style.display = (esFemenino && edad >= 15) ? 'block' : 'none';
+            if (!esFemenino || edad < 15) {
+                embarazoDetails.style.display = 'none';
+            }
+        };
+        selectSexo.addEventListener('change', toggleEmbarazoQuestion);
+        fechaNacimientoInput.addEventListener('change', toggleEmbarazoQuestion);
+    }
+    if (embarazoGroup && embarazoDetails) {
+        const radiosEmbarazo = embarazoGroup.querySelectorAll('input[name="embarazo"]');
+        radiosEmbarazo.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                embarazoDetails.style.display = e.target.value === 'si' ? 'block' : 'none';
+            });
+        });
+    }
+
     // Lógica para la sección DOMICILIO DEL TITULAR
     const checkDomicilioFiscalTitular = document.getElementById('domicilioFiscalDiferente');
     const domicilioFiscalContainerTitular = document.getElementById('domicilioFiscalContainer');
@@ -447,10 +483,6 @@ function setupConditionalFields() {
     // Lógica para la sección DATOS DEL CONTRATANTE (anidada)
     const radiosContratanteEsTitular = document.querySelectorAll('input[name="contratanteEsTitular"]');
     const datosContratanteContainer = document.getElementById('datosContratanteDiferenteContainer');
-    const radiosTipoContratante = document.querySelectorAll('input[name="tipo_contratante"]');
-    const formPersonaFisica = document.getElementById('contratante_persona_fisica_container');
-    const formPersonaMoral = document.getElementById('contratante_persona_moral_container');
-
     if (radiosContratanteEsTitular.length > 0 && datosContratanteContainer) {
         radiosContratanteEsTitular.forEach(radio => {
             radio.addEventListener('change', (event) => {
@@ -459,6 +491,9 @@ function setupConditionalFields() {
         });
     }
 
+    const radiosTipoContratante = document.querySelectorAll('input[name="tipo_contratante"]');
+    const formPersonaFisica = document.getElementById('contratante_persona_fisica_container');
+    const formPersonaMoral = document.getElementById('contratante_persona_moral_container');
     if (radiosTipoContratante.length > 0 && formPersonaFisica && formPersonaMoral) {
         radiosTipoContratante.forEach(radio => {
             radio.addEventListener('change', (event) => {
@@ -469,54 +504,15 @@ function setupConditionalFields() {
         });
     }
 
-
-        // --- Lógica para la sección HÁBITOS ---
-        const selectGenero = document.getElementById('sexo_nacer'); // Actualizado al ID correcto
-        const grupoEmbarazo = document.getElementById('embarazo_group');
-        if(selectGenero && grupoEmbarazo) {
-            selectGenero.addEventListener('change', (event) => {
-                grupoEmbarazo.style.display = (event.target.value === 'femenino') ? 'block' : 'none';
-            });
-        }
-        
-        const radiosFuma = document.querySelectorAll('input[name="fuma"]');
-        const detallesFuma = document.getElementById('fuma_details');
-        const detallesNoFuma = document.getElementById('no_fuma_details');
-        if(radiosFuma.length > 0 && detallesFuma && detallesNoFuma) {
-            radiosFuma.forEach(radio => radio.addEventListener('change', (e) => {
-                detallesFuma.style.display = (e.target.value === 'si') ? 'block' : 'none';
-                detallesNoFuma.style.display = (e.target.value === 'no') ? 'block' : 'none';
-            }));
-        }
-
-        // --- Lógica para OTRAS secciones (Actividades, Info Médica, etc.) ---
-        const checkMotocicleta = document.querySelector('input[value="motocicleta"]');
-        const detallesMoto = document.getElementById('moto_details');
-        if(checkMotocicleta && detallesMoto) {
-            checkMotocicleta.addEventListener('change', e => {
-                detallesMoto.style.display = e.target.checked ? 'block' : 'none';
-            });
-        }
-        
-        const padecimientosRadios = document.querySelectorAll('input[name="enf_cronica"], input[name="trat_medico"], input[name="hospitalizado"], input[name="discapacidad"], input[name="otro_padecimiento"]');
-        const detallePadecimientos = document.getElementById('detalle_padecimientos_group');
-        if(padecimientosRadios.length > 0 && detallePadecimientos){
-            padecimientosRadios.forEach(radio => radio.addEventListener('change', () => {
-                const algunoSi = Array.from(padecimientosRadios).some(r => r.checked && r.value === 'si');
-                detallePadecimientos.style.display = algunoSi ? 'block' : 'none';
-            }));
-        }
-
-        const selectMedioPago = document.getElementById('pago_medio');
-        const detallesTarjeta = document.getElementById('pago_tarjeta_details');
-        const detallesClabe = document.getElementById('pago_clabe_details');
-        if(selectMedioPago && detallesTarjeta && detallesClabe) {
-            selectMedioPago.addEventListener('change', e => {
-                detallesTarjeta.style.display = (e.target.value === 'tarjeta') ? 'block' : 'none';
-                detallesClabe.style.display = (e.target.value === 'clabe') ? 'block' : 'none';
-            });
-        }
+    // Lógica para la sección de ANTIGÜEDAD (en Detalles de Solicitud)
+    const radiosAntiguedad = document.querySelectorAll('input[name="antiguedad"]');
+    const detallesAntiguedad = document.getElementById('antiguedad_details');
+    if (radiosAntiguedad.length > 0 && detallesAntiguedad) {
+         radiosAntiguedad.forEach(radio => radio.addEventListener('change', (e) => {
+            detallesAntiguedad.style.display = e.target.value === 'si' ? 'block' : 'none';
+        }));
     }
+}
 
     function showSection(index) {
         const mainForm = document.querySelector(config.domSelectors.form);

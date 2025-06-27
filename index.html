@@ -27,22 +27,29 @@
                     <div class="form-group"><label for="primer_apellido">Primer apellido <span class="required-marker">*</span></label><input type="text" id="primer_apellido" name="primer_apellido" class="form-control" required placeholder="Primer apellido"></div>
                     <div class="form-group"><label for="segundo_apellido">Segundo apellido <span class="required-marker">*</span></label><input type="text" id="segundo_apellido" name="segundo_apellido" class="form-control" required placeholder="Segundo apellido"></div>
                     <div class="form-group"><label for="nombres">Nombre(s) <span class="required-marker">*</span></label><input type="text" id="nombres" name="nombres" class="form-control" required placeholder="Nombre(s)"></div>
-                    <div class="form-group"><label for="fecha_nacimiento">Fecha de nacimiento <span class="required-marker">*</span></label><input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" required placeholder="dd/mm/aaaa"></div>
+                    <div class="form-group"><label for="fecha_nacimiento">Fecha de nacimiento <span class="required-marker">*</span></label><input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" required></div>
                     <div class="form-group"><label for="rfc">RFC (con Homoclave) <span class="required-marker">*</span></label><input type="text" id="rfc" name="rfc" class="form-control" required maxlength="13" placeholder="RFC con homoclave"></div>
                     <div class="form-group"><label for="curp">CURP <span class="required-marker">*</span></label><input type="text" id="curp" name="curp" class="form-control" required maxlength="18" placeholder="CURP"></div>
                     <div class="form-group"><label for="pais_nacimiento">País de nacimiento <span class="required-marker">*</span></label><input type="text" id="pais_nacimiento" name="pais_nacimiento" class="form-control" required placeholder="País de nacimiento"></div>
-                    
                     <div class="form-group"><label for="nacionalidad">Nacionalidad <span class="required-marker">*</span></label><input type="text" id="nacionalidad" name="nacionalidad" class="form-control" required placeholder="Nacionalidad"></div>
-                    
                     <div class="form-group"><label for="ocupacion">Ocupación <span class="required-marker">*</span></label><input type="text" id="ocupacion" name="ocupacion" class="form-control" required placeholder="Ocupación"></div>
-                    
                     <div class="form-group"><label for="sexo_nacer">Sexo al nacer <span class="required-marker">*</span></label><select id="sexo_nacer" name="sexo_nacer" class="form-control" required><option value="">Selecciona...</option><option value="femenino">Femenino</option><option value="masculino">Masculino</option></select></div>
                     
-                    <div class="form-group"><label for="correo">Correo electrónico <span class="required-marker">*</span></label><input type="email" id="correo" name="correo" class="form-control" required placeholder="correo@ejemplo.com"></div>
+                    <div class="form-group" id="embarazo_group" style="display:none;">
+                        <label>¿Está actualmente embarazada? (Exclusivo para mujeres a partir de los 15 años) <span class="required-marker">*</span></label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="embarazo" value="si"> Sí</label>
+                            <label><input type="radio" name="embarazo" value="no" checked> No</label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="embarazo_details" style="display:none;">
+                        <label for="semanas_gestacion">Semanas de gestación</label>
+                        <input type="number" id="semanas_gestacion" name="semanas_gestacion" class="form-control" placeholder="Semanas">
+                    </div>
                     
+                    <div class="form-group"><label for="correo">Correo electrónico <span class="required-marker">*</span></label><input type="email" id="correo" name="correo" class="form-control" required placeholder="correo@ejemplo.com"></div>
                     <div class="form-group"><label for="estatura">Estatura (metros) <span class="required-marker">*</span></label><input type="number" step="0.01" id="estatura" name="estatura" class="form-control" required placeholder="Ej: 1.75"></div>
                     <div class="form-group"><label for="peso">Peso (kg) <span class="required-marker">*</span></label><input type="number" step="0.1" id="peso" name="peso" class="form-control" required placeholder="Ej: 70.5"></div>
-                    
                     <div class="form-group"><label for="tipo_identificacion">Tipo Identificación Oficial <span class="required-marker">*</span></label>
                         <select id="tipo_identificacion" name="tipo_identificacion" class="form-control" required>
                             <option value="">Selecciona...</option>
@@ -54,15 +61,14 @@
                     </div>
                     <div class="form-group"><label for="archivo_identificacion">Subir archivo de identificación <span class="required-marker">*</span></label><input type="file" id="archivo_identificacion" name="archivo_identificacion" class="form-control" required></div>
                     <div class="form-group"><label>¿Desempeñó cargo en gobierno? <span class="required-marker">*</span></label><div class="radio-group"><label><input type="radio" name="cargo_gobierno" value="si"> Sí</label><label><input type="radio" name="cargo_gobierno" value="no" checked> No</label></div></div>
-                    
                     <div class="form-group" id="cargo_dependencia_group" style="display: none;"><label for="cargo_dependencia">Cargo y dependencia</label><input type="text" id="cargo_dependencia" name="cargo_dependencia" class="form-control" placeholder="Cargo y dependencia"></div>
                 </div>
-                    <div class="accion-adicional-container">
-                        <button type="button" id="btn-agregar-asegurado" class="btn-secundario">
-                            <span class="material-symbols-outlined">person_add</span>
-                            Agregar Asegurado Adicional
-                        </button>
-                    </div>
+                <div class="accion-adicional-container">
+                    <button type="button" id="btn-agregar-asegurado" class="btn-secundario">
+                        <span class="material-symbols-outlined">person_add</span>
+                        Agregar Asegurado Adicional
+                    </button>
+                </div>
             </div>
             
             <div id="seccion-domicilio" class="seccion-formulario">
