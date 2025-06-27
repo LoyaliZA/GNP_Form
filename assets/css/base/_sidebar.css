@@ -278,3 +278,43 @@ body.body-sidebar-collapsed .sidebar-toggle {
     margin-top: 5px;
     color: var(--sidebar-text-color);
 }
+
+/* --- ESTILOS PARA EL SIDEBAR COLAPSADO --- */
+
+/* 1. Encoger el contenedor principal del sidebar */
+body.body-sidebar-collapsed #sidebar-navegacion {
+    width: var(--sidebar-width-collapsed); /* Usa la variable de ancho colapsado (ej. 70px) */
+}
+
+/* 2. Ocultar el logo de Veler */
+body.body-sidebar-collapsed #logo-veler-sidebar {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* 3. Ocultar el texto de los items, el indicador y la barra de progreso */
+body.body-sidebar-collapsed .menu-text,
+body.body-sidebar-collapsed .completion-indicator,
+body.body-sidebar-collapsed .progress-container {
+    opacity: 0;
+    visibility: hidden;
+    width: 0; /* Aseguramos que no ocupe espacio */
+    position: absolute; /* Lo sacamos del flujo normal */
+    pointer-events: none; /* Evitamos interacciones fantasma */
+}
+
+/* 4. Centrar los iconos que sí se ven */
+body.body-sidebar-collapsed .menu-item {
+    justify-content: center; /* Centra el ícono horizontalmente */
+    padding-left: 0;
+    padding-right: 0;
+}
+
+body.body-sidebar-collapsed .menu-icon {
+    margin: 0; /* Quitamos el margen derecho del ícono */
+}
+
+/* 5. Ajustar el borde del item activo */
+body.body-sidebar-collapsed .menu-item.active {
+    border-left-width: 3px; /* Mantenemos el borde para saber cuál está activo */
+}

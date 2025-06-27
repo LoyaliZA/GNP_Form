@@ -15,6 +15,11 @@
     border-bottom: 1px solid var(--border); /* Borde usa variable de tema */
 }
 
+/* Ajuste para estado colapsado */
+body.body-sidebar-collapsed #main-header {
+    left: var(--sidebar-width-collapsed);
+}
+
 #main-header .header-content-wrapper {
     display: flex;
     justify-content: flex-end; /* Controles a la derecha */

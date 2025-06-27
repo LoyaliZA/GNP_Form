@@ -6,9 +6,14 @@ main#formulario-completo {
     margin-left: var(--sidebar-width-expanded);
     width: calc(100% - var(--sidebar-width-expanded));
     min-height: 100vh;
-    /* Devolvemos un padding horizontal para que el contenido no se pegue a los bordes */
     padding: calc(var(--top-bar-height) + 30px) 40px 40px 40px; 
     transition: margin-left 0.3s ease, width 0.3s ease;
+}
+
+/* Ajuste para cuando el menú está colapsado */
+body.body-sidebar-collapsed main#formulario-completo {
+    margin-left: var(--sidebar-width-collapsed);
+    width: calc(100% - var(--sidebar-width-collapsed));
 }
 
 /* Ajuste para cuando el menú está colapsado */
