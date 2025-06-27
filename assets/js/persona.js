@@ -264,6 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <li class="menu-item" data-section-index="${index}">
                 <span class="menu-icon material-symbols-outlined">${item.icon}</span>
                 <span class="menu-text">${item.text}</span>
+                <span class="completion-indicator"></span>
             </li>`).join('');
         sidebarContainer.innerHTML = `
             <div class="sidebar-top-area">
@@ -515,21 +516,16 @@ function setupConditionalFields() {
         const mainForm = document.querySelector(config.domSelectors.form);
         if (!mainForm) return;
 
-        // Obtenemos el ID de la sección actual para saber si es la de revisión.
-        const isReviewMode = config.menuItems[index]?.id === 'revision';
+        const isReviewMode = config.menuItems[index].id === 'revision';
         mainForm.classList.toggle('modo-revision', isReviewMode);
 
-        // --- INICIA LA CORRECCIÓN ---
-        // Ahora, el querySelectorAll incluye 'button' para deshabilitar también los botones.
         state.formSections.forEach(section => {
             section.querySelectorAll('input, select, textarea, button').forEach(el => {
-                // No deshabilitamos los botones de navegación principal
                 if (el.id !== 'prev-btn' && el.id !== 'next-btn' && el.id !== 'submit-btn' && el.id !== 'edit-btn') {
                     el.disabled = isReviewMode;
                 }
             });
         });
-        // --- TERMINA LA CORRECCIÓN ---
 
         if (!isReviewMode) {
             state.formSections.forEach((section, i) => {
@@ -545,9 +541,19 @@ function setupConditionalFields() {
         }
         
         state.currentSectionIndex = index;
+        
+        // --- LÓGICA DEL INDICADOR DE COMPLETADO ---
         document.querySelectorAll(config.domSelectors.menuItems).forEach((item, i) => {
             item.classList.toggle('active', i === index);
+            // Si el índice del item es menor que el actual, se considera completado.
+            if (i < index) {
+                item.classList.add('completed');
+            } else {
+                item.classList.remove('completed');
+            }
         });
+        // --- FIN DE LA LÓGICA ---
+
         updateButtons();
     }
     

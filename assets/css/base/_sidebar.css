@@ -225,3 +225,29 @@ body.body-sidebar-collapsed .sidebar-toggle {
     /* Usa la variable específica para colapsado, con fallback a la normal */
     color: var(--sidebar-toggle-collapsed-color, var(--sidebar-toggle-color));
 }
+/* --- Estilo para el indicador de sección completada --- */
+
+/* Por defecto, el punto es visible y de color gris */
+.completion-indicator {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    /* CAMBIO: Se usa el color de borde del tema como gris por defecto */
+    background-color: var(--sidebar-border-color, #ccc); 
+    margin-left: auto;
+    transition: all 0.3s ease;
+    opacity: 0.5; /* Lo hacemos un poco tenue por defecto */
+}
+
+/* Cuando una sección está completada, se pone verde y brillante */
+.menu-item.completed:not(.active) .completion-indicator {
+    background-color: #28a745; /* Verde de éxito */
+    opacity: 1;
+}
+
+/* Cuando una sección está activa, el punto se oculta para no estorbar */
+.menu-item.active .completion-indicator {
+    background-color: transparent;
+    box-shadow: none;
+    opacity: 0;
+}
