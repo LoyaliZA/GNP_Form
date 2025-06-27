@@ -251,3 +251,30 @@ body.body-sidebar-collapsed .sidebar-toggle {
     box-shadow: none;
     opacity: 0;
 }
+
+/* --- Estilos para la Barra de Progreso --- */
+.progress-container {
+    padding: 15px 20px;
+    margin-top: auto; /* Empuja la barra hacia abajo */
+}
+.progress-bar-wrapper {
+    width: 100%;
+    background-color: var(--sidebar-bg-color-hover, #f0f0f0);
+    border-radius: 10px;
+    height: 8px;
+    overflow: hidden;
+}
+.progress-bar-fill {
+    width: 0%; /* Inicia en 0% */
+    height: 100%;
+    background-color: var(--accent-color, #ff6b6b);
+    border-radius: 10px;
+    transition: width 0.4s ease-in-out;
+}
+.progress-bar-text {
+    display: block;
+    text-align: center;
+    font-size: 0.75rem;
+    margin-top: 5px;
+    color: var(--sidebar-text-color);
+}

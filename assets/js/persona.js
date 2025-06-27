@@ -223,6 +223,8 @@ document.addEventListener('DOMContentLoaded', () => {
         setupSolicitudDetails();
         setupPaymentForm();
         showSection(0);
+
+        document.getElementById('miFormularioDinamico').addEventListener('input', updateProgressBar);
     }
 
     // El resto de tus funciones originales se mantienen, pero actualizadas
@@ -273,6 +275,12 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="sidebar-bottom-area">
                 <nav class="sidebar-menu"><ul class="menu-navegacion">${menuItemsHTML}</ul></nav>
+                <div class="progress-container">
+                    <div class="progress-bar-wrapper">
+                        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                    </div>
+                    <span id="progress-bar-text" class="progress-bar-text">0% completado</span>
+                </div>
             </div>`;
         sidebarContainer.querySelector('.sidebar-toggle').addEventListener('click', toggleSidebar);
         sidebarContainer.querySelectorAll('.menu-item').forEach(item => {
@@ -555,6 +563,7 @@ function setupConditionalFields() {
         // --- FIN DE LA LÓGICA ---
 
         updateButtons();
+        updateProgressBar();
     }
     
     function updateButtons() {
@@ -1094,6 +1103,60 @@ function setupPaymentForm() {
             clabeDetails.style.display = 'block';
         }
     });
+}
+
+/**
+ * Calcula y actualiza la barra de progreso del formulario.
+ */
+function updateProgressBar() {
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const progressBarText = document.getElementById('progress-bar-text');
+    if (!progressBarFill || !progressBarText) return;
+
+    // 1. Obtenemos TODOS los campos con el atributo 'required'.
+    const allPotentialFields = document.querySelectorAll('#miFormularioDinamico [required]');
+
+    // 2. Filtramos para obtener solo los campos que son "realmente" requeridos.
+    //    Un campo es "realmente" requerido si no está dentro de un contenedor condicional oculto.
+    const activeRequiredFields = Array.from(allPotentialFields).filter(field => {
+        let parent = field.parentElement;
+        // Subimos por el DOM desde el campo...
+        while (parent && !parent.classList.contains('seccion-formulario')) {
+            // Si encontramos un padre con display:none (como #moto_details, etc.), este campo no cuenta.
+            // Es importante que esto solo revise los contenedores *dentro* de una sección.
+            if (parent.style.display === 'none') {
+                return false;
+            }
+            parent = parent.parentElement;
+        }
+        // Si llegamos hasta la sección sin encontrar un padre oculto, el campo es válido.
+        return true;
+    });
+
+    if (activeRequiredFields.length === 0) {
+        progressBarFill.style.width = '0%';
+        progressBarText.textContent = '0% completado';
+        return;
+    }
+
+    // 3. Contamos cuántos de esos campos activos ya están llenos.
+    const completedFields = activeRequiredFields.filter(field => {
+        if (field.type === 'checkbox') {
+            return field.checked;
+        }
+        if (field.type === 'radio') {
+            // Buscamos si alguna opción en su grupo está marcada
+            return document.querySelector(`input[name="${field.name}"]:checked`);
+        }
+        // Para los demás campos, solo revisamos que no estén vacíos.
+        return field.value.trim() !== '';
+    }).length;
+
+    // 4. Calculamos y mostramos el porcentaje.
+    const percentage = Math.round((completedFields / activeRequiredFields.length) * 100);
+    
+    progressBarFill.style.width = `${percentage}%`;
+    progressBarText.textContent = `${percentage}% completado`;
 }
 
 });
