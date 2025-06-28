@@ -1,130 +1,35 @@
-/* --- Media Query Móvil --- */
-@media (max-width: 767px) {
-    /* Ajustes generales */
-    body { padding-top: 60px; }
+/* En _responsive.css, dentro de @media (max-width: 767px) */
 
-    /* Splash y Header móvil */
-    #splash-screen .logos-wrapper { width: 90%; justify-content: center; }
-    #splash-screen .logos-wrapper img { max-height: 100px; margin: 0 5px; max-width: 45%; }
-    #splash-screen .linea-divisora { display: none; }
-    #main-header { height: 60px; }
-    #main-header .header-content-wrapper { padding: 0 10px; gap: 5px; }
-    #main-header .logos-wrapper img { max-height: 35px; margin: 0 5px; }
-    #main-header .linea-divisora { height: 30px; margin: 0 5px; }
+/* === ESTILO FORZADO Y DEFINITIVO PARA EL BOTÓN MÓVIL === */
 
-    /* Sidebar Móvil */
-    #sidebar-navegacion {
-        position: fixed; width: 85%; max-width: 300px; height: calc(100vh - 60px);
-        top: 60px; left: 0; transform: translateX(-100%); transition: transform 0.3s ease;
-        z-index: 15; border-right: 1px solid var(--sidebar-border-color, var(--border)); padding: 20px 0; overflow-y: auto;
-        background-color: var(--sidebar-bg, var(--bg-container));
-    }
-    body.sidebar-visible #sidebar-navegacion { transform: translateX(0); }
-    #sidebar-navegacion .sidebar-header,
-    #sidebar-navegacion .menu-text,
-    #sidebar-navegacion .sidebar-progress,
-    #sidebar-navegacion .menu-status {
-         opacity: 1; visibility: visible; transition: none; position: static; transform: none;
-    }
-    #sidebar-navegacion .menu-item { justify-content: flex-start; padding: 12px 20px; }
-    #sidebar-navegacion .menu-item.active {
-         border-left: 3px solid var(--sidebar-item-active-border, var(--accent-color));
-         padding-left: 17px;
-         background-color: var(--sidebar-item-active-bg, rgba(var(--accent-color-rgb), 0.2));
-    }
-    #sidebar-navegacion .menu-icon { margin-right: 12px; }
-    #sidebar-navegacion .menu-status { margin-left: auto; width: 10px; height: 10px; }
+/* Usamos el ID para máxima especificidad */
+button#mobile-sidebar-toggle {
+    /* Reseteo Total */
+    all: unset !important; /* Anula CUALQUIER estilo heredado o anterior */
 
-    /* Formulario Móvil */
-    #formulario-completo {
-        width: 98%; /* MODIFICADO: de 95% a 98% para más ancho */
-        max-width: 98%; /* MODIFICADO: de 95% a 98% para más ancho */
-        padding: 0 10px 15px 10px; /* Ajustar padding lateral si es necesario con el nuevo width */
-        margin: 10px auto 20px auto !important; /* Forzar centrado */
-        transition: opacity 0.3s ease; opacity: 1; pointer-events: auto;
-    }
-    body.sidebar-visible #formulario-completo { opacity: 0.3; pointer-events: none; }
+    /* Posicionamiento y Layout */
+    order: -1 !important;
+    margin-right: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 
-    /* Ajustes campos formulario móvil */
-    .form-control {
-        padding: 14px 15px;
-        font-size: 0.95rem;
-    }
-     select.form-control {
-        background-position: right 10px center;
-        background-size: 0.9em;
-        padding-right: 35px;
-    }
+    /* Apariencia Minimalista */
+    padding: 8px !important;
+    cursor: pointer !important;
+    color: #0f3e68 !important; /* Un color gris estándar y neutro */
+    opacity: 0.8 !important;
 
-    /* --- Ajuste Columnas Formulario Móvil --- */
-    .form-columns-container {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
+    /* Transición */
+    transition: opacity 0.2s ease !important;
+}
 
-    .form-columns-container .form-group {
-        margin-bottom: 18px;
-    }
+button#mobile-sidebar-toggle:hover {
+    color: #343a40 !important; /* Un gris más oscuro al pasar el ratón */
+    opacity: 1 !important;
+}
 
-    .form-group.full-width-column,
-    .form-columns-container > hr.full-width-column,
-    .form-columns-container > p.full-width-column,
-    .form-columns-container > div.full-width-column
-     {
-        grid-column: auto;
-    }
-    /* --- Fin Ajuste Columnas --- */
-
-
-    /* Botones Formulario Móvil */
-    .botones-navegacion { gap: 8px; padding-top: 15px; }
-    .btn-siguiente, .btn-anterior, .btn-primary {
-        padding: 12px 15px;
-        font-size: 0.9rem; flex-grow: 1; text-align: center;
-        min-width: 0; letter-spacing: normal; text-transform: none;
-    }
-    .botones-navegacion button:only-child { flex-grow: 0; width: 100%; }
-    #seccion-revision .botones-navegacion { flex-direction: column; align-items: stretch; gap: 10px; }
-    #seccion-revision .botones-navegacion button { width: 100%; }
-
-    /* Resumen Final Móvil */
-     #seccion-revision #resumen-final { padding: 15px; }
-    #seccion-revision #resumen-final li { flex-direction: column; gap: 4px; align-items: flex-start; }
-    #seccion-revision #resumen-final li strong { min-width: auto; }
-
-    /* Modal Móvil */
-     #modal-container { padding: 25px 20px; max-width: 90%; }
-     #modal-title { font-size: 1.4em; }
-     #modal-message { font-size: 1em; }
-     #modal-buttons { flex-direction: column; gap: 10px; }
-     #modal-buttons button { width: 100%; }
-
-    /* Switch Tema Móvil */
-    .theme-switch { width: 45px; height: 22px; }
-    .theme-switch .slider { width: 18px; height: 18px; }
-    .theme-switch input:checked + .slider { transform: translateX(23px); }
-    .slider .icon.material-symbols-outlined { font-size: 14px; }
-
-    /* Botón Toggle Sidebar Móvil */
-    .sidebar-toggle {
-        position: fixed !important; left: 10px !important; top: 70px !important;
-        z-index: 16 !important; transition: none !important;
-        border-radius: 50%;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        color: var(--sidebar-toggle-color);
-        background: transparent;
-    }
-     body.body-sidebar-expanded .sidebar-toggle,
-     body.body-sidebar-collapsed .sidebar-toggle {
-         left: 10px !important; top: 70px !important;
-     }
-
-    .light-theme .sidebar-toggle {
-        background-color: var(--accent-color);
-        color: var(--sidebar-toggle-color);
-    }
-    .light-theme .sidebar-toggle:hover {
-         background-color: var(--accent-color);
-         opacity: 0.85;
-    }
+button#mobile-sidebar-toggle .material-symbols-outlined {
+    font-size: 28px !important;
+    display: block !important;
 }
