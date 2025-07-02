@@ -22,7 +22,7 @@ body {
     overflow-x: hidden; /* Evitar scroll horizontal general */
 }
 
-h2 {
+h2, h3 {
     margin: 0 0 20px 0;
     font-weight: 700;
     color: var(--text-color-primary);
@@ -45,4 +45,10 @@ h2 {
    font-size: 1.2em;
    display: inline-block;
    transition: color 0.3s ease; /* Añadir transición */
+}
+
+/* Añade esto al final de assets/css/base/_base-styles.css */
+
+strong, b {
+    color: var(--text-color-primary);
 }

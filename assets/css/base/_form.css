@@ -281,47 +281,20 @@ main#formulario-completo.modo-revision #seccion-revision {
     text-decoration: underline;
 }
 
-/* Nudge area en la sección de revisión */
-.final-nudge-area {
-    margin-top: 30px;
-    margin-bottom: 30px;
-    padding: 20px;
-    background-color: rgba(var(--accent-color-rgb), 0.05);
-    border-radius: 8px;
-    border: 1px solid rgba(var(--accent-color-rgb), 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-.testimonial, .data-point, .emotional-appeal {
+/* Añade este código al final de assets/css/base/_form.css */
+
+/* En assets/css/base/_form.css */
+
+.aclaracion-texto {
+    color: var(--text-color-secondary);
+    background-color: rgba(var(--accent-color-rgb), 0.1); /* Fondo sutil del color de acento */
+    padding: 10px 15px;
+    border-radius: 8px; /* Bordes redondeados consistentes */
+    margin: 10px 0 20px 0;
+    font-size: 0.9em;
     display: flex;
     align-items: center;
-    gap: 15px;
-    color: var(--text-color-secondary);
-}
-.testimonial .material-symbols-outlined,
-.data-point .material-symbols-outlined,
-.emotional-appeal .material-symbols-outlined {
-    font-size: 2.5em;
-    color: var(--accent-color);
-    flex-shrink: 0;
-}
-.testimonial div p, .data-point p, .emotional-appeal p {
-    margin: 0;
-    font-size: 0.95em;
-    line-height: 1.5;
-    color: var(--text-color-primary); /* Texto más oscuro para el contenido principal del nudge */
-}
-.testimonial span {
-    font-size: 0.85em;
-    font-style: italic;
-    color: var(--text-color-secondary);
-    display: block;
-    margin-top: 4px;
-}
-.data-point strong, .emotional-appeal strong {
-    font-weight: 600;
-    color: var(--accent-color);
+    gap: 10px;
 }
 
 /* Al final de assets/css/base/_form.css */
@@ -422,6 +395,8 @@ main#formulario-completo.modo-revision #seccion-revision {
     border-color: transparent var(--bg-color) transparent transparent; 
 }
 /* --- FIN Estilos para Tooltips de Ayuda (Anclaje al Wrapper del Ícono) --- */
+
+
 /* --- INICIA ESTILOS PARA MODO REVISIÓN --- */
 
 /* Cuando el main está en modo revisión, muestra todas las secciones de formulario */
@@ -446,7 +421,7 @@ main#formulario-completo.modo-revision .botones-navegacion #next-btn {
 main#formulario-completo.modo-revision input:disabled,
 main#formulario-completo.modo-revision select:disabled,
 main#formulario-completo.modo-revision textarea:disabled {
-    background-color: rgba(var(--bg-color-rgb), 0.5) !important; /* Fondo más opaco */
+    background-color: rgba(var(--input-bg), 0.5) !important; /* Fondo más opaco */
     cursor: not-allowed; /* Cursor de "no permitido" */
     border-color: var(--border);
     border-left-color: var(--border);
@@ -642,4 +617,28 @@ main#formulario-completo.modo-revision textarea:disabled {
 .link-documento {
     /* Añadimos 4 píxeles de espacio a la izquierda y a la derecha */
     margin: 0 4px;
+}
+
+/* Añade este código al final de assets/css/base/_form.css */
+
+#miFormularioDinamico h4,
+#miFormularioDinamico h5 {
+    color: var(--accent-color);
+}
+
+/* Estilo general para etiquetas de checkbox y radio para que siempre usen variables */
+#miFormularioDinamico label:has(input[type="checkbox"]),
+#miFormularioDinamico label:has(input[type="radio"]) {
+    color: var(--text-color-primary);
+    cursor: pointer;
+    font-weight: normal; /* Asegura que no sea negrita por herencia */
+}
+
+.item-registrado-card {
+    background-color: var(--button-secondary-bg); /* Fondo para contenedores internos */
+    border: 1px solid var(--border);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px; /* O el radio que uses en tus inputs */
+    color: var(--text-color-primary); /* Asegura que el texto sea legible */
 }
