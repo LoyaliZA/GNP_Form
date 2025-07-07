@@ -549,6 +549,11 @@ function setupConditionalFields() {
         }
         
         state.currentSectionIndex = index;
+
+            const modalType = config.menuItems[index].id;
+            if (typeof window.showPersuasiveModal === 'function') {
+                window.showPersuasiveModal(modalType);
+            }
         
         // --- LÓGICA DEL INDICADOR DE COMPLETADO ---
         document.querySelectorAll(config.domSelectors.menuItems).forEach((item, i) => {
