@@ -39,3 +39,56 @@
     font-size: 48px;
     color: var(--accent-color);
 }
+
+/* --- ESTILOS PARA ADAPTAR EL MODAL A MÓVIL --- */
+
+@media (max-width: 767px) {
+    .info-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    /* --- NUEVOS ESTILOS PARA EL MARGEN EN MÓVIL --- */
+    padding: 20px; /* Añade un espacio alrededor del modal */
+    box-sizing: border-box; /* Asegura que el padding no aumente el tamaño total */
+}
+
+.info-modal-content {
+    /* El ancho del contenido ahora se ajustará dentro del padding del overlay */
+    width: 100%; /* Ocupa el ancho disponible dentro del overlay */
+    max-width: 550px; /* Mantenemos un máximo para pantallas más grandes */
+    /* ... (tus otros estilos para .info-modal-content) ... */
+}
+    .info-modal-icon .material-symbols-outlined {
+        /* Hacemos el ícono de la bombilla un poco más pequeño */
+        font-size: 40px;
+    }
+
+    .info-modal-title {
+        /* Ajustamos el tamaño del título principal */
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+    }
+
+    .info-modal-text {
+        /* Hacemos el texto principal un poco más compacto */
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .info-modal-case-study {
+        /* Reducimos el espaciado y padding de la caja de ejemplo */
+        margin-top: 20px;
+        padding: 15px;
+        font-size: 0.9rem;
+    }
+}
