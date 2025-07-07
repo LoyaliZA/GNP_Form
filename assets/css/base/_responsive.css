@@ -33,3 +33,22 @@ button#mobile-sidebar-toggle .material-symbols-outlined {
     font-size: 28px !important;
     display: block !important;
 }
+
+/* Tu archivo _responsive.css */
+
+@media (max-width: 767px) {
+    
+    /* --- PEGA AQUÍ LAS NUEVAS REGLAS --- */
+    main#formulario-completo {
+        margin-left: 0; 
+        width: 100%; 
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .seccion-formulario {
+        padding: 20px 15px;
+    }
+    /* ------------------------------------ */
+
+}
