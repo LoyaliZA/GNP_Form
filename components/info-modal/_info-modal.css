@@ -39,6 +39,11 @@
     font-size: 48px;
     color: var(--accent-color);
 }
+/* REGLA FINAL PARA ANULAR EL CONFLICTO DE FLEXBOX EN EL TÍTULO DEL MODAL */
+div#info-modal-persuasive h3#info-modal-title {
+    display: block !important;     /* Le decimos que se comporte como un bloque normal, no como flex */
+    text-align: center !important; /* Ahora esta regla sí funcionará */
+}
 
 /* --- ESTILOS PARA ADAPTAR EL MODAL A MÓVIL --- */
 

@@ -65,14 +65,18 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Si hay datos para esta sección y el modal existe, lo mostramos
         if (data && modalElement) {
-            console.log(`Llamada para mostrar modal: ${modalType}`); // Línea de depuración
-
+            const titleElement = modalElement.querySelector('#info-modal-title');
+            
             // Rellenar el contenido
-            modalElement.querySelector('#info-modal-title').textContent = data.title;
+            titleElement.textContent = data.title;
             modalElement.querySelector('#info-modal-text').textContent = data.text;
             modalElement.querySelector('#info-modal-case-text').innerHTML = data.case;
             
-            // Mostrar con animación
+            // --- SOLUCIÓN DEFINITIVA PARA CENTRAR EL TÍTULO ---
+            // Aplicamos el estilo directamente con JavaScript para máxima prioridad.
+            titleElement.style.textAlign = 'center';
+            
+            // Mostrar el modal con animación
             modalElement.style.display = 'flex';
             setTimeout(() => {
                 modalElement.style.opacity = '1';

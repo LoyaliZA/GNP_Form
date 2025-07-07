@@ -94,7 +94,11 @@ body.body-sidebar-collapsed main#formulario-completo {
     background-color: var(--input-bg);
     border: 1px solid var(--border); /* Borde sutil en todos lados */
     border-left: 3px solid var(--accent-color); /* Borde izquierdo acentuado */
-    border-radius: 25px; /* Redondeado más estándar */
+        /* --- ESTILOS PARA ESQUINAS ASIMÉTRICAS --- */
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
     box-sizing: border-box;
     transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, color 0.3s ease;
 }
