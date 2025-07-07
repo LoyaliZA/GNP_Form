@@ -94,12 +94,12 @@ body.body-sidebar-collapsed main#formulario-completo {
     background-color: var(--input-bg);
     border: 1px solid var(--border); /* Borde sutil en todos lados */
     border-left: 3px solid var(--accent-color); /* Borde izquierdo acentuado */
-    border-radius: 8px; /* Redondeado más estándar */
+    border-radius: 25px; /* Redondeado más estándar */
     box-sizing: border-box;
     transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
-input[type="checkbox"],
+/* 1. Mantenemos los estilos para los radio buttons (que ya son redondos) */
 input[type="radio"] {
     width: 1.1em;
     height: 1.1em;
@@ -108,7 +108,39 @@ input[type="radio"] {
     accent-color: var(--accent-color);
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease;
-    flex-shrink: 0; /* Evitar que se encoja si el texto del label es largo */
+    flex-shrink: 0;
+}
+
+/* 2. Estilos para el checkbox SIN MARCAR */
+input[type="checkbox"] {
+    /* --- ¡CÓDIGO CLAVE PARA FORZAR EL CÍRCULO! --- */
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: transparent;
+    border: 1.5px solid var(--text-color-secondary); /* Un borde para que se vea el círculo */
+    border-radius: 50%; /* Esto crea el círculo */
+    
+    /* Mantenemos las dimensiones y espaciado */
+    width: .9em;
+    height: .9em;
+    margin-right: 0.6em;
+    cursor: pointer;
+    vertical-align: middle;
+    position: relative; /* Necesario para el punto interior */
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+/* 3. Estilos para el checkbox MARCADO */
+input[type="checkbox"]:checked {
+    background-color: var(--accent-color); /* Fondo del color del tema */
+    border-color: var(--accent-color);     /* Borde del color del tema */
+}
+
+/* REGLA FORZADA PARA LOS CÍRCULOS DE LAS SUB-OPCIONES */
+.solicitante-checkbox-container input[type="checkbox"] {
+    width: 0.85em !important;
+    height: 0.85em !important;
 }
 .radio-group {
     display: flex;
