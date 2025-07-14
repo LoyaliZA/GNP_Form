@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!--
+        * =================================================================
+        * CABECERA DEL DOCUMENTO (HEAD)
+        * =================================================================
+    -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Opciones de Seguro - GNP</title>
+    <!-- Estilos principales y de tema. -->
     <link rel="stylesheet" href="assets/css/main.css">
     <link id="dynamic-theme-style-link" rel="stylesheet" href="assets/css/theme-veler-blue_2.css">
     <link rel="icon" href="assets/img/V_icon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <link rel="stylesheet" href="components/chatbot_seguros.css">
     
+    <!--
+        * =================================================================
+        * ESTILOS CSS EMBEBIDOS (STYLE)
+        * =================================================================
+    -->
     <style>
         body {
             display: flex;
@@ -119,6 +129,7 @@
             color: var(--accent-color);
         }
 
+        /* El botón ahora es una etiqueta <a> pero mantiene los mismos estilos. */
         .btn-seleccionar-plan {
             background-color: var(--button-primary-bg);
             color: var(--button-primary-text);
@@ -143,6 +154,7 @@
              transform: scale(0.98);
         }
 
+        /* Estilos de los controles de tema */
         .theme-controls-opciones {
             position: fixed; top: 20px; right: 20px; z-index: 1050; 
             display: flex; align-items: center; gap: 15px;
@@ -178,82 +190,10 @@
         .theme-controls-opciones .theme-switch input:checked + .slider { transform: translateX(25px); }
         .theme-controls-opciones .theme-switch input:checked + .slider .sun { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
         .theme-controls-opciones .theme-switch input:checked + .slider .moon { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(90deg); }
-
-        /* --- ESTILOS PARA EL NUEVO MODAL --- */
-        .modal-wrapper {
-            position: fixed;
-            inset: 0;
-            z-index: 1100; /* Por encima del chatbot */
-            background-color: rgba(var(--bg-color-rgb, 0,0,0), 0.6);
-            backdrop-filter: blur(4px);
-            display: none; /* Cambiar a flex para mostrar */
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-content {
-            background-color: var(--bg-container);
-            padding: 30px 35px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
-            border: 1px solid var(--border);
-            position: relative;
-        }
-        .modal-content .close-button {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 28px;
-            font-weight: bold;
-            color: var(--text-color-secondary);
-            cursor: pointer;
-            line-height: 1;
-        }
-        .modal-content .close-button:hover {
-            color: var(--text-color-primary);
-        }
-        .modal-content h2 {
-            color: var(--accent-color);
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-        .form-modal p {
-            font-weight: 500;
-            color: var(--text-color-secondary);
-            margin-top: 25px;
-            margin-bottom: 15px;
-        }
-        .form-modal .radio-group {
-            display: block;
-            text-align: left;
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-        }
-        .form-modal .radio-group label {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-        .form-modal .radio-group input[type="radio"] {
-            margin-right: 10px;
-            width: 1.2em;
-            height: 1.2em;
-            accent-color: var(--accent-color);
-        }
-        .btn-full-width {
-            width: 100%;
-            margin-top: 25px;
-            padding-top: 12px;
-            padding-bottom: 12px;
-        }
-
     </style>
 </head>
 <body>
+    <!-- Controles de tema  -->
     <div class="theme-controls-opciones">
         <select id="theme-selector-opciones" title="Seleccionar Tema de Color"></select>
         <label class="theme-switch" for="theme-checkbox-opciones">
@@ -265,14 +205,16 @@
         </label>
     </div>
 
+    <!-- Contenedor principal de las opciones -->
     <div class="opciones-main-container">
         <div class="opciones-header">
             <img id="logo-main-opciones" src="assets/img/veler_light.png" alt="Logo Veler Technologies" style="max-height: 70px; margin-bottom: 20px;">
             <h1>Tus Opciones de Seguro</h1>
-            <p class="subtitulo-opciones">Hemos preparado estas alternativas basadas en tus datos. <br>Selecciona una para ver todos los detalles y completar tu solicitud.</p>
+            <p class="subtitulo-opciones">Hemos preparado estas alternativas basadas en tus datos. <br>Selecciona una para completar tu solicitud.</p>
         </div>
 
         <div class="tarjetas-opciones-grid">
+            <!-- Tarjeta de Plan Esencial -->
             <div class="tarjeta-opcion">
                 <h2>Plan Esencial GNP</h2>
                 <div class="precio-estimado">$1,250 <span>MXN/mes</span></div>
@@ -283,11 +225,13 @@
                     <li><span class="material-symbols-outlined">percent</span> Coaseguro: 10%</li>
                     <li><span class="material-symbols-outlined">verified_user</span> Lorem ipsum dolor sit amet.</li>
                 </ul>
-                <button type="button" class="btn-seleccionar-plan" data-plan-nombre="Plan Esencial GNP">
+                <!-- MODIFICACIÓN: Se cambió <button> por <a> para redirigir directamente -->
+                <a href="index.html" class="btn-seleccionar-plan" data-plan-nombre="Plan Esencial GNP">
                     Seleccionar Plan
-                </button>
+                </a>
             </div>
 
+            <!-- Tarjeta de Plan Confort -->
             <div class="tarjeta-opcion">
                 <h2>Plan Confort GNP</h2>
                 <div class="precio-estimado">$1,800 <span>MXN/mes</span></div>
@@ -299,11 +243,13 @@
                     <li><span class="material-symbols-outlined">emergency_home</span> Emergencia en el extranjero.</li>
                     <li><span class="material-symbols-outlined">verified_user</span> Consectetur adipiscing elit.</li>
                 </ul>
-                <button type="button" class="btn-seleccionar-plan" data-plan-nombre="Plan Confort GNP">
+                <!-- MODIFICACIÓN: Se cambió <button> por <a> para redirigir directamente -->
+                <a href="index.html" class="btn-seleccionar-plan" data-plan-nombre="Plan Confort GNP">
                     Seleccionar Plan
-                </button>
+                </a>
             </div>
 
+            <!-- Tarjeta de Plan Premium -->
             <div class="tarjeta-opcion">
                 <h2>Plan Premium Global</h2>
                 <div class="precio-estimado">$3,500 <span>MXN/mes</span></div>
@@ -315,63 +261,16 @@
                     <li><span class="material-symbols-outlined">health_and_safety</span> Todos los beneficios premium.</li>
                     <li><span class="material-symbols-outlined">verified_user</span> Sed do eiusmod tempor incididunt.</li>
                 </ul>
-                <button type="button" class="btn-seleccionar-plan" data-plan-nombre="Plan Premium Global">
+                <a href="index.html" class="btn-seleccionar-plan" data-plan-nombre="Plan Premium Global">
                     Seleccionar Plan
-                </button>
+                </a>
             </div>
         </div>
     </div>
 
-    <button id="chatbot-gnp-toggle-button" class="chatbot-gnp-toggle-button">
-        <span class="material-symbols-outlined icon-open">support_agent</span>
-        <span class="material-symbols-outlined icon-close" style="display:none;">close</span>
-    </button>
-    
-    <div id="chatbotGNPContainer" class="chatbot-gnp-container" style="display: none;">
-        </div>
-
-
-    <div id="transicionModal" class="modal-wrapper" style="display: none;">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            
-            <h2>Estás a un paso de iniciar</h2>
-            
-            <p>Has seleccionado el plan: <strong id="modalPlanNombre"></strong>.</p>
-            
-            <form id="formTipoSolicitante" class="form-modal">
-                <p><strong>Esta solicitud es para:</strong></p>
-                
-                <div class="radio-group">
-                    <label for="tipoPersona">
-                        <input type="radio" id="tipoPersona" name="tipo_solicitud" value="persona" checked>
-                        Una Persona
-                    </label>
-                </div>
-                
-                <div class="radio-group">
-                    <label for="tipoEmpresa">
-                        <input type="radio" id="tipoEmpresa" name="tipo_solicitud" value="empresa">
-                        Una Empresa
-                    </label>
-                </div>
-    
-                <div class="radio-group">
-                    <label for="tipoGrupo">
-                        <input type="radio" id="tipoGrupo" name="tipo_solicitud" value="grupo">
-                        Un Grupo
-                    </label>
-                </div>
-                
-                <button type="submit" class="btn-seleccionar-plan btn-full-width" id="btnIniciarSolicitud">
-                    Iniciar Solicitud
-                </button>
-            </form>
-        </div>
-    </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- LÓGICA DE TEMAS (SIN CAMBIOS) ---
+            // --- LÓGICA DE TEMAS ---
             const themeSwitchOps = document.getElementById('theme-checkbox-opciones');
             const themeSelectorOps = document.getElementById('theme-selector-opciones');
             const htmlEl = document.documentElement;
@@ -380,21 +279,21 @@
             const CONFIG_OPS = {
                 THEME_STORAGE_KEY: 'theme_mode',
                 AVAILABLE_THEMES: [
-            { name: "Veler Blue v2", file: "assets/css/theme-veler-blue_2.css" },
-            { name: "Veler Blue", file: "assets/css/theme-veler-blue.css" },
-            { name: "Teal Green v2", file: "assets/css/theme-teal-green_v2.css" },
-            { name: "Teal Green", file: "assets/css/theme-teal-green.css" },
-            { name: "Slate Mauve v2", file: "assets/css/theme-slate-mauve_2.css" },
-            { name: "Slate Mauve", file: "assets/css/theme-slate-mauve.css" },
-            { name: "Pink v2", file: "assets/css/theme-pink_2.css"},
-            { name: "Pink", file: "assets/css/theme-pink.css" },
-            { name: "Gold Teal v2", file: "assets/css/theme-gold-teal_2.css" },
-            { name: "Gold Teal", file: "assets/css/theme-gold-teal.css" },
-            { name: "Gold v2", file: "assets/css/theme-gold_2.css"},
-            { name: "Gold", file: "assets/css/theme-gold.css"},
-            { name: "Red Dark v2", file: "assets/css/theme-red-dark_2.css"},
-            { name: "Red Dark", file: "assets/css/theme-red-dark.css"},
-            { name: "GNP Default", file: "assets/css/theme-default.css" }
+                    { name: "Veler Blue v2", file: "assets/css/theme-veler-blue_2.css" },
+                    { name: "Veler Blue", file: "assets/css/theme-veler-blue.css" },
+                    { name: "Teal Green v2", file: "assets/css/theme-teal-green_v2.css" },
+                    { name: "Teal Green", file: "assets/css/theme-teal-green.css" },
+                    { name: "Slate Mauve v2", file: "assets/css/theme-slate-mauve_2.css" },
+                    { name: "Slate Mauve", file: "assets/css/theme-slate-mauve.css" },
+                    { name: "Pink v2", file: "assets/css/theme-pink_2.css"},
+                    { name: "Pink", file: "assets/css/theme-pink.css" },
+                    { name: "Gold Teal v2", file: "assets/css/theme-gold-teal_2.css" },
+                    { name: "Gold Teal", file: "assets/css/theme-gold-teal.css" },
+                    { name: "Gold v2", file: "assets/css/theme-gold_2.css"},
+                    { name: "Gold", file: "assets/css/theme-gold.css"},
+                    { name: "Red Dark v2", file: "assets/css/theme-red-dark_2.css"},
+                    { name: "Red Dark", file: "assets/css/theme-red-dark.css"},
+                    { name: "GNP Default", file: "assets/css/theme-default.css" }
                 ],
                 DEFAULT_THEME_FILE: "assets/css/theme-default.css",
                 SELECTED_THEME_FILE_KEY: 'selected_theme_file'
@@ -446,82 +345,26 @@
                     localStorage.setItem(CONFIG_OPS.THEME_STORAGE_KEY, mode);
                 });
             }
-
             // --- FIN DE LÓGICA DE TEMAS ---
 
-
-            // --- LÓGICA DEL MODAL DE TRANSICIÓN (ACTUALIZADA) ---
-
-            const transicionModal = document.getElementById('transicionModal');
-            const cerrarModalBtn = transicionModal.querySelector('.close-button');
-            const modalPlanNombre = document.getElementById('modalPlanNombre');
-            const formTipoSolicitante = document.getElementById('formTipoSolicitante');
+            // Se obtienen todos los botones/enlaces de selección de plan.
             const botonesSeleccionarPlan = document.querySelectorAll('.btn-seleccionar-plan');
 
-            const abrirModal = (nombrePlan) => {
-                modalPlanNombre.textContent = nombrePlan;
-                transicionModal.style.display = 'flex';
-            };
-
-            const cerrarModal = () => {
-                transicionModal.style.display = 'none';
-            };
-
+            // Se añade un evento a cada botón.
             botonesSeleccionarPlan.forEach(boton => {
-                boton.addEventListener('click', () => {
-                    const nombrePlan = boton.dataset.planNombre;
-                    abrirModal(nombrePlan);
+                boton.addEventListener('click', function() {
+                    // Se obtiene el nombre del plan desde el atributo 'data-plan-nombre'.
+                    const nombrePlan = this.dataset.planNombre;
+                    
+                    // Línea de depuración para la consola.
+                    console.log(`DEBUG: Plan seleccionado: ${nombrePlan}. Guardando en localStorage.`);
+
+                    // Se guarda el plan seleccionado en localStorage para usarlo en la siguiente página.
+                    localStorage.setItem('planSeleccionado', nombrePlan);
+
+                    // La redirección a 'index.html' ocurre automáticamente por el atributo href del enlace <a>.
                 });
             });
-
-            cerrarModalBtn.addEventListener('click', cerrarModal);
-
-            transicionModal.addEventListener('click', (event) => {
-                if (event.target === transicionModal) {
-                    cerrarModal();
-                }
-            });
-
-            // --- INICIO DE LA MODIFICACIÓN ---
-            // Manejar el envío del formulario dentro del modal
-            formTipoSolicitante.addEventListener('submit', (event) => {
-                event.preventDefault(); // Evita que la página se recargue
-
-                const tipoSeleccionado = formTipoSolicitante.querySelector('input[name="tipo_solicitud"]:checked').value;
-                
-                // Línea de depuración que puedes usar en la consola
-                console.log(`DEBUG: Tipo de solicitud seleccionado: ${tipoSeleccionado}`);
-
-                localStorage.setItem('tipoDeSolicitud', tipoSeleccionado);
-                localStorage.setItem('planSeleccionado', modalPlanNombre.textContent);
-
-                // Variable para definir a dónde redirigir
-                let urlDestino = '';
-
-                // Lógica para asignar la URL correcta
-                switch (tipoSeleccionado) {
-                    case 'persona':
-                        urlDestino = 'persona.html';
-                        break;
-                    case 'empresa':
-                        urlDestino = 'empresa.html';
-                        break;
-                    case 'grupo':
-                        urlDestino = 'grupo.html';
-                        break;
-                    default:
-                        // Como fallback, podemos redirigir a una página principal o no hacer nada
-                        console.error('Tipo de solicitud no reconocido:', tipoSeleccionado);
-                        urlDestino = 'index.html'; // Opcional: redirigir a una página por defecto
-                        break;
-                }
-
-                // Redirigir al usuario si se definió una URL de destino
-                if (urlDestino) {
-                    window.location.href = urlDestino;
-                }
-            });
-            // --- FIN DE LA MODIFICACIÓN ---
         });
     </script>
 </body>
