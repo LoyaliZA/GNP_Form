@@ -1,49 +1,109 @@
-/* --- Switch de Tema --- */
-.theme-switch { /* Label */
-    position: relative;
+/*
+ * =================================================================
+ * ARCHIVO DE ESTILOS PARA EL SWITCH DE TEMA (_switch.css)
+ * =================================================================
+ * Este módulo contiene los estilos para el componente de interruptor
+ * (switch) que permite al usuario alternar entre el modo claro y
+ * el modo oscuro de la aplicación.
+ * =================================================================
+ */
+
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 1: CONTENEDOR PRINCIPAL DEL SWITCH
+ * -----------------------------------------------------------------
+ * La clase .theme-switch se aplica a una etiqueta <label> que actúa
+ * como el cuerpo visible del interruptor.
+ * -----------------------------------------------------------------
+ */
+.theme-switch {
+    position: relative;                 /* Establece un contexto de posicionamiento para los elementos hijos. */
     display: block;
-    width: 50px;
-    height: 25px;
+    width: 50px;                        /* Ancho del interruptor. */
+    height: 25px;                       /* Alto del interruptor. */
     cursor: pointer;
-    background-color: var(--input-bg);
-    border: 1px solid var(--accent-color);
-    border-radius: 25px;
-    text-indent: -9999px;
-    transition: background-color 0.3s ease;
+    background-color: var(--input-bg);  /* Color de fondo desde las variables del tema. */
+    border: 1px solid var(--accent-color); /* Borde con el color de acento del tema. */
+    border-radius: 25px;                /* Bordes completamente redondeados para forma de píldora. */
+    text-indent: -9999px;               /* Oculta cualquier texto dentro de la etiqueta <label>. */
+    transition: background-color 0.3s ease; /* Anima el cambio de color de fondo. */
 }
-.theme-switch input[type="checkbox"] { /* Checkbox oculto */
-    opacity: 0;
-    width: 0;
-    height: 0;
-    position: absolute;
+
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 2: CHECKBOX OCULTO
+ * -----------------------------------------------------------------
+ * El estado del switch (encendido/apagado) es manejado por un
+ * checkbox real, que está completamente oculto. La interacción
+ * se hace a través de la etiqueta <label>.
+ * -----------------------------------------------------------------
+ */
+.theme-switch input[type="checkbox"] {
+    opacity: 0;                         /* Lo hace completamente transparente. */
+    width: 0;                           /* No ocupa ancho. */
+    height: 0;                          /* No ocupa alto. */
+    position: absolute;                 /* Lo saca del flujo normal del documento. */
 }
-.theme-switch .slider { /* Círculo deslizante */
-    position: absolute;
+
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 3: EL "SLIDER" (CÍRCULO DESLIZANTE)
+ * -----------------------------------------------------------------
+ * Este es el círculo que se mueve de un lado a otro para indicar
+ * el estado del switch.
+ * -----------------------------------------------------------------
+ */
+.theme-switch .slider {
+    position: absolute;                 /* Se posiciona con respecto al contenedor .theme-switch. */
     top: 1px;
     left: 1px;
-    width: 21px;
-    height: 21px;
-    background-color: var(--accent-color);
-    border-radius: 50%;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    width: 21px;                        /* Ancho del círculo. */
+    height: 21px;                       /* Alto del círculo. */
+    background-color: var(--accent-color); /* Color del círculo. */
+    border-radius: 50%;                 /* Lo hace perfectamente redondo. */
+    transition: transform 0.3s ease, background-color 0.3s ease; /* Anima el movimiento y el cambio de color. */
+    overflow: hidden;                   /* Oculta los iconos que se salen del círculo durante la animación. */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2); /* Sombra sutil para darle profundidad. */
 }
-.slider .icon { /* Iconos dentro del slider */
-    line-height: 1;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    color: var(--button-primary-text);
+
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 4: ICONOS DENTRO DEL SLIDER (SOL Y LUNA)
+ * -----------------------------------------------------------------
+ * Estilos para los iconos que aparecen dentro del círculo deslizante.
+ * -----------------------------------------------------------------
+ */
+.slider .icon {
+    line-height: 1;                     /* Evita que el icono afecte la altura de la línea. */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Anima la aparición/desaparición y la rotación. */
+    color: var(--button-primary-text);  /* Color del icono, asegurando contraste con el fondo del slider. */
 }
-.slider .icon.material-symbols-outlined { /* Posicionamiento iconos */
+
+/* Posicionamiento específico para los iconos de Material Symbols. */
+.slider .icon.material-symbols-outlined {
      font-size: 16px;
      position: absolute;
      top: 50%;
      left: 50%;
-     transform: translate(-50%, -50%);
+     transform: translate(-50%, -50%); /* Técnica para centrar perfectamente el icono dentro del slider. */
 }
-/* Estados de iconos y slider */
-.slider .sun { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(-90deg); }
-.slider .moon { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
-.theme-switch input:checked + .slider { transform: translateX(25px); }
-.theme-switch input:checked + .slider .sun { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
-.theme-switch input:checked + .slider .moon { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(90deg); }
+
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 5: ANIMACIÓN Y ESTADOS DEL SWITCH
+ * -----------------------------------------------------------------
+ * Estas reglas controlan la animación del slider y la visibilidad
+ * de los iconos basándose en si el checkbox oculto está marcado
+ * o no (usando el selector :checked).
+ * -----------------------------------------------------------------
+ */
+
+/* --- Estado por defecto (Modo Oscuro, checkbox no marcado) --- */
+.slider .sun { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(-90deg); } /* El sol está oculto, escalado a 0 y rotado. */
+.slider .moon { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }  /* La luna está visible, escalada a 1 y sin rotación. */
+
+/* --- Estado activado (Modo Claro, checkbox marcado) --- */
+/* Mueve el slider hacia la derecha. */
+.theme-switch input:checked + .slider { 
+    transform: translateX(25px); 
+}
