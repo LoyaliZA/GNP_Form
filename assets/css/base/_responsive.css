@@ -1,54 +1,77 @@
-/* En _responsive.css, dentro de @media (max-width: 767px) */
+/*
+ * =================================================================
+ * ARCHIVO DE ESTILOS RESPONSIVOS (_responsive.css)
+ * =================================================================
+ * Este archivo contiene todas las reglas CSS necesarias para adaptar
+ * el diseño de la aplicación a dispositivos móviles, principalmente
+ * a través de media queries.
+ * =================================================================
+ */
 
-/* === ESTILO FORZADO Y DEFINITIVO PARA EL BOTÓN MÓVIL === */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 1: ESTILO FORZADO PARA EL BOTÓN DE MENÚ MÓVIL
+ * -----------------------------------------------------------------
+ * Estas reglas son deliberadamente muy específicas (usan un ID y
+ * la declaración !important) para garantizar que el botón de menú
+ * en móviles se vea y funcione correctamente, anulando cualquier
+ * otro estilo que pudiera interferir.
+ * -----------------------------------------------------------------
+ */
 
-/* Usamos el ID para máxima especificidad */
+/* Se usa el ID para máxima especificidad. */
 button#mobile-sidebar-toggle {
-    /* Reseteo Total */
-    all: unset !important; /* Anula CUALQUIER estilo heredado o anterior */
+    /* --- Reseteo Total --- */
+    /* Anula CUALQUIER estilo heredado o anterior para empezar desde cero con este componente. */
+    all: unset !important;
 
-    /* Posicionamiento y Layout */
-    order: -1 !important;
-    margin-right: auto !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    /* --- Posicionamiento y Layout --- */
+    order: -1 !important;           /* En un contenedor flex, esto lo coloca al principio. */
+    margin-right: auto !important;  /* Lo empuja hacia la izquierda. */
+    display: inline-flex !important;/* Asegura que se comporte como un bloque flexible. */
+    align-items: center !important;   /* Centra el icono del botón verticalmente. */
+    justify-content: center !important;/* Centra el icono del botón horizontalmente. */
 
-    /* Apariencia Minimalista */
+    /* --- Apariencia Minimalista --- */
     padding: 8px !important;
     cursor: pointer !important;
-    color: #0f3e68 !important; /* Un color gris estándar y neutro */
+    color: #0f3e68 !important;      /* Un color de texto neutro para no depender de variables de tema que puedan fallar. */
     opacity: 0.8 !important;
 
-    /* Transición */
+    /* --- Transición --- */
     transition: opacity 0.2s ease !important;
 }
 
 button#mobile-sidebar-toggle:hover {
-    color: #343a40 !important; /* Un gris más oscuro al pasar el ratón */
+    color: #343a40 !important;      /* Un gris más oscuro al pasar el ratón. */
     opacity: 1 !important;
 }
 
 button#mobile-sidebar-toggle .material-symbols-outlined {
-    font-size: 28px !important;
+    font-size: 28px !important;     /* Tamaño del icono. */
     display: block !important;
 }
 
-/* Tu archivo _responsive.css */
-
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 2: MEDIA QUERY PARA DISPOSITIVOS MÓVILES
+ * -----------------------------------------------------------------
+ * Las siguientes reglas se aplican únicamente en pantallas con un
+ * ancho máximo de 767px (típicamente, teléfonos móviles).
+ * -----------------------------------------------------------------
+ */
 @media (max-width: 767px) {
     
-    /* --- PEGA AQUÍ LAS NUEVAS REGLAS --- */
+    /* Ajustes para el contenedor principal del formulario en móviles. */
     main#formulario-completo {
-        margin-left: 0; 
-        width: 100%; 
-        padding-left: 15px;
+        margin-left: 0; /* Elimina el margen izquierdo que dejaba espacio para el sidebar en escritorio. */
+        width: 100%;    /* Hace que el contenido principal ocupe todo el ancho de la pantalla. */
+        padding-left: 15px;  /* Reduce el padding lateral para aprovechar más el espacio. */
         padding-right: 15px;
     }
 
+    /* Ajuste para las secciones individuales del formulario en móviles. */
     .seccion-formulario {
-        padding: 20px 15px;
+        padding: 20px 15px; /* Reduce el padding interno de las secciones. */
     }
-    /* ------------------------------------ */
-
 }

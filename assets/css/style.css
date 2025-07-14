@@ -1,7 +1,26 @@
+/*
+ * =================================================================
+ * ARCHIVO DE ESTILOS GENERAL (style.css)
+ * =================================================================
+ * Este archivo contiene una versión optimizada y combinada de los
+ * estilos de la aplicación. Está estructurado en secciones lógicas
+ * para facilitar su mantenimiento.
+ * =================================================================
+ */
+
 /* === INICIO: assets/css/style.css (Optimizado) === */
 
-/* --- Fuentes Personalizadas --- */
-/* Define la fuente 'SF Pro Display' con diferentes pesos y estilos */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 1: FUENTES PERSONALIZADAS (@font-face)
+ * -----------------------------------------------------------------
+ * Aquí se declaran las fuentes tipográficas personalizadas que se
+ * utilizarán en todo el sitio. Se especifican diferentes archivos
+ * para cada peso (grosor) y estilo (normal, itálica) de la fuente.
+ * `font-display: swap;` mejora el rendimiento al mostrar una fuente
+ * de sistema mientras se carga la personalizada.
+ * -----------------------------------------------------------------
+ */
 @font-face {
     font-family: 'SF Pro Display';
     src: url('../fonts/SFPRODISPLAYREGULAR.OTF') format('opentype');
@@ -23,7 +42,7 @@
     font-style: normal;
     font-display: swap;
 }
-/* ... (Otras @font-face omitidas por brevedad, deben incluirse todas) ... */
+/* ... (Otras declaraciones @font-face para diferentes pesos y estilos) ... */
 @font-face {
     font-family: 'SF Pro Display';
     src: url('../fonts/SFPRODISPLAYULTRALIGHTITALIC.OTF') format('opentype');
@@ -32,48 +51,57 @@
     font-display: swap;
 }
 
-/* --- Variables de Colores --- */
-/* Define la paleta de colores principal y para el tema claro */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 2: VARIABLES DE COLORES (CSS Custom Properties)
+ * -----------------------------------------------------------------
+ * Se definen variables CSS para la paleta de colores. Esto permite
+ * gestionar los colores de forma centralizada y crear temas.
+ * El bloque `:root` define las variables para el tema oscuro (por defecto).
+ * El bloque `:root.light-theme` sobrescribe estas variables cuando
+ * la etiqueta <html> tiene la clase 'light-theme'.
+ * -----------------------------------------------------------------
+ */
 :root {
-    /* Tema Oscuro (Predeterminado) */
-    --bg-color: #1E1E1E;
-    --bg-container: #1E1E1E;
-    --text-color-primary: #F0E6D2; /* Texto principal claro */
-    --text-color-secondary: #CCCCCC; /* Texto secundario grisáceo */
-    --accent-color: #F7D7A5; /* Acento: Dorado pálido */
-    --input-bg: #3D3D3C;
+    /* --- Tema Oscuro (Predeterminado) --- */
+    --bg-color: #1E1E1E; /* Color de fondo general */
+    --bg-container: #1E1E1E; /* Color de fondo para contenedores como formularios y tarjetas */
+    --text-color-primary: #F0E6D2; /* Color de texto principal */
+    --text-color-secondary: #CCCCCC; /* Color para texto secundario y etiquetas */
+    --accent-color: #F7D7A5; /* Color de acento para elementos destacados */
+    --input-bg: #3D3D3C; /* Fondo para campos de entrada */
     --input-text-color: var(--text-color-primary);
-    --input-placeholder-color: #C8B575;
-    --button-primary-bg: var(--accent-color);
-    --button-primary-text: #1E1E1E; /* Texto oscuro para contraste en botón primario */
-    --button-secondary-bg: #161616;
+    --input-placeholder-color: #C8B575; /* Color del texto de marcador de posición */
+    --button-primary-bg: var(--accent-color); /* Fondo para botones primarios */
+    --button-primary-text: #1E1E1E; /* Texto para botones primarios */
+    --button-secondary-bg: #161616; /* Fondo para botones secundarios */
     --button-secondary-text: var(--accent-color);
-    --border: #444; /* Bordes sutiles */
-    --error-alert: #E57373; /* Color para errores */
-    --logo-line-color: var(--accent-color); /* Línea divisora logos */
+    --border: #444; /* Color para bordes y separadores */
+    --error-alert: #E57373; /* Color para mensajes de error */
+    --logo-line-color: var(--accent-color);
     --modal-bg: var(--bg-container);
     --modal-text: var(--text-color-primary);
     --header-bg: var(--bg-container);
-    /* Versiones RGB para usar con opacidad (ej. box-shadow) */
+    /* Versiones RGB para usar con opacidad (ej. en box-shadow) */
     --accent-color-rgb: 247, 215, 165;
     --bg-color-rgb: 30, 30, 30;
     --text-color-primary-rgb: 240, 230, 210;
 }
 
-/* Tema Claro */
+/* --- Tema Claro --- */
 :root.light-theme {
     --bg-color: #FFFFFF;
     --bg-container: #ffffff;
     --text-color-primary: #0d3a7c; /* Azul oscuro GNP */
-    --text-color-secondary: #495057; /* Gris oscuro texto */
+    --text-color-secondary: #495057;
     --accent-color: #fc6c11; /* Naranja GNP */
     --input-bg: #f6f6f6;
     --input-text-color: var(--text-color-primary);
-    --input-placeholder-color: #7495bc; /* Azul grisáceo placeholder */
+    --input-placeholder-color: #7495bc;
     --button-primary-bg: var(--accent-color);
-    --button-primary-text: #FFFFFF; /* Texto blanco para contraste */
+    --button-primary-text: #FFFFFF;
     --button-secondary-bg: #ffffff;
-    --button-secondary-text: #212529; /* Texto oscuro botón secundario */
+    --button-secondary-text: #212529;
     --border: #DEE2E6;
     --error-alert: #dc3545; /* Rojo Bootstrap */
     --logo-line-color: #DEE2E6;
@@ -85,47 +113,60 @@
     --text-color-primary-rgb: 13, 58, 124;
 }
 
-/* --- Estilos Base --- */
-/* Estilos generales para el body y elementos comunes */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 3: ESTILOS BASE
+ * -----------------------------------------------------------------
+ * Reglas generales que se aplican a todo el documento, como
+ * la tipografía por defecto, el color de fondo del body,
+ * y estilos para encabezados comunes (h2).
+ * -----------------------------------------------------------------
+ */
 body {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra contenido principal horizontalmente */
+    align-items: center; /* Centra el contenido principal horizontalmente */
     min-height: 100vh;
     margin: 0;
-    padding-top: 80px; /* Espacio para cabecera fija */
+    padding-top: 80px; /* Deja espacio para la cabecera fija */
     box-sizing: border-box;
     font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--bg-color);
-    transition: background-color 0.3s ease; /* Suaviza cambio de tema */
+    transition: background-color 0.3s ease; /* Suaviza la transición al cambiar de tema */
 }
 
 h2 {
-    margin: 0 0 20px 0; /* Shorthand margin */
+    margin: 0 0 20px 0;
     font-weight: 700;
     color: var(--text-color-primary);
     font-style: normal;
 }
 
 .subtitulo-ligero {
-    margin: -15px 0 20px 0; /* Shorthand margin */
-    font: italic 300 0.9em 'SF Pro Display'; /* Shorthand font */
+    margin: -15px 0 20px 0;
+    font: italic 300 0.9em 'SF Pro Display'; /* Sintaxis corta para font-style, font-weight, font-size, font-family */
     color: var(--text-color-secondary);
 }
 
-/* --- Splash Screen --- */
-/* Pantalla de carga inicial */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 4: SPLASH SCREEN (PANTALLA DE CARGA)
+ * -----------------------------------------------------------------
+ * Estilos para la pantalla de carga inicial que se muestra mientras
+ * la aplicación se inicializa.
+ * -----------------------------------------------------------------
+ */
 #splash-screen {
     position: fixed;
-    inset: 0; /* Shorthand para top, right, bottom, left = 0 */
-    z-index: 20; /* Encima de otros elementos */
+    inset: 0; /* Abreviatura para top, right, bottom, left = 0 */
+    z-index: 20; /* Se asegura que esté por encima de otros elementos */
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: var(--bg-container);
-    opacity: 0; /* Inicia invisible */
+    opacity: 0; /* Comienza invisible para un efecto de aparición (fade-in) */
     transition: opacity 0.5s ease-in-out;
-    pointer-events: none; /* No interactuable cuando invisible */
+    pointer-events: none; /* No se puede interactuar con ella cuando es invisible */
 }
 #splash-screen .logos-wrapper {
     display: flex;
@@ -136,7 +177,7 @@ h2 {
 }
 #splash-screen .logos-wrapper img {
     max-height: 150px;
-    margin: 0 4px; /* Espaciado entre logos/línea */
+    margin: 0 4px;
     width: auto;
     flex-shrink: 1;
     transition: transform 0.3s ease;
@@ -146,46 +187,50 @@ h2 {
     height: 100px;
     margin: 0 20px;
     background-color: var(--accent-color);
-    flex-shrink: 0; /* Evita que se encoja */
+    flex-shrink: 0; /* Evita que la línea se encoja si no hay espacio */
 }
 
-/* --- Cabecera Principal --- */
-/* Cabecera fija superior */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 5: CABECERA PRINCIPAL (HEADER)
+ * -----------------------------------------------------------------
+ * Estilos para la barra de navegación superior fija.
+ * -----------------------------------------------------------------
+ */
 #main-header {
-    display: none; /* Se muestra con JS */
+    display: flex; /* Se muestra con JS, pero flex es su estado natural */
     height: 80px;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 10; /* Debajo del splash, encima del form */
-    display: flex; /* Se corrigió de none a flex para centrar contenido */
+    z-index: 10; /* Por debajo del splash, por encima del formulario */
     justify-content: center;
     align-items: center;
     padding: 0;
     background-color: var(--header-bg);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra sutil */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: background-color 0.3s ease;
 }
 #main-header .header-content-wrapper {
     display: flex;
-    justify-content: space-between; /* Logos izquierda, switch derecha */
+    justify-content: space-between; /* Coloca los logos a la izquierda y el switch a la derecha */
     align-items: center;
     width: 100%;
-    max-width: 960px; /* Ancho máximo del contenido interno */
-    padding: 0 15px; /* Padding horizontal interno */
+    max-width: 960px; /* Limita el ancho del contenido de la cabecera */
+    padding: 0 15px;
     box-sizing: border-box;
 }
 #main-header .logos-wrapper {
      display: flex;
      align-items: center;
-     flex-grow: 1; /* Ocupa espacio disponible */
-     overflow: hidden; /* Evita desbordamiento de logos */
+     flex-grow: 1; /* Permite que ocupe el espacio disponible */
+     overflow: hidden;
 }
 #main-header .logos-wrapper img {
-    max-height: 50px; /* Tamaño final logos cabecera */
+    max-height: 50px;
     margin: 0 15px;
-    flex-shrink: 0; /* Evita que se encojan */
+    flex-shrink: 0;
     transition: transform 0.3s ease;
 }
 #main-header .linea-divisora {
@@ -198,11 +243,17 @@ h2 {
 #main-header .theme-switch-wrapper {
     display: flex;
     align-items: center;
-    flex-shrink: 0; /* Evita que se encoja */
+    flex-shrink: 0;
 }
 
-/* --- Ajuste Logos --- */
-/* Ajusta tamaño relativo de los logos */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 6: AJUSTES DE LOGOS
+ * -----------------------------------------------------------------
+ * Ajustes de escala para los logos para darles un tamaño relativo
+ * diferente entre sí.
+ * -----------------------------------------------------------------
+ */
 #splash-screen #logo1-splash,
 #main-header #logo1-header {
     transform: scale(1.1); /* Logo Veler un poco más grande */
@@ -214,31 +265,35 @@ h2 {
     transform-origin: center center;
 }
 
-/* --- Formulario Principal --- */
-/* Contenedor del formulario multi-paso */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 7: FORMULARIO PRINCIPAL
+ * -----------------------------------------------------------------
+ * Estilos para el contenedor del formulario multi-paso.
+ * -----------------------------------------------------------------
+ */
 #formulario-completo {
     width: 80%;
     max-width: 600px;
-    margin: 10px auto 40px auto; /* Centrado horizontal con auto */
-    padding: 0 30px 30px 30px; /* Padding interno (sin padding superior) */
+    margin: 10px auto 40px auto; /* Centrado horizontalmente */
+    padding: 0 30px 30px 30px;
     background-color: var(--bg-container);
     border-radius: 20px;
     text-align: left;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    position: relative; /* Para z-index si es necesario */
+    position: relative;
     z-index: 1;
     transition: margin-left 0.3s ease, width 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
-    /* display: none; <- Controlado por JS */
+    /* Su visibilidad es controlada por JavaScript */
 }
 
-/* --- Secciones del Formulario --- */
-/* Estilos para cada paso/sección del formulario */
+/* Estilos para cada sección/paso del formulario. */
 .seccion-formulario {
     margin-bottom: 20px;
-    padding: 0; /* Padding ya está en #formulario-completo */
-    border-radius: 20px; /* Hereda borde redondeado */
-    display: none; /* Se muestra con JS */
-    opacity: 0; /* Para efecto fade in/out */
+    padding: 0;
+    border-radius: 20px;
+    display: none; /* Por defecto están ocultas, JS muestra la activa */
+    opacity: 0; /* Para efecto de transición (fade) */
     transition: opacity 0.4s ease-in-out;
     width: 100%;
     box-sizing: border-box;
@@ -248,11 +303,11 @@ h2 {
     opacity: 1;
 }
 
-/* --- Grupos de Campos (Preguntas) --- */
+/* Estilos para los grupos de campos (label + input). */
 .form-group {
     margin-bottom: 15px;
     display: flex;
-    flex-direction: column; /* Label encima del input */
+    flex-direction: column; /* Coloca la etiqueta encima del campo */
 }
 .form-group label {
     display: block;
@@ -261,43 +316,43 @@ h2 {
     font-size: 0.9em;
     color: var(--text-color-secondary);
 }
-/* Estilo especial para labels de checkboxes/radios */
+/* Estilo especial para etiquetas de checkboxes y radios para hacerlas clickables. */
 .form-group label:has(input[type="checkbox"]),
 .form-group label:has(input[type="radio"]) {
     display: flex;
     align-items: center;
     cursor: pointer;
-    font-weight: normal; /* Texto normal, no bold */
+    font-weight: normal;
 }
 
-/* --- Campos de Formulario (Inputs, Selects, etc.) --- */
+/* Estilos base para los campos de entrada (inputs, selects). */
 .form-control {
     width: 100%;
     padding: 10px 15px;
     font-size: 1rem;
     color: var(--input-text-color);
     background-color: var(--input-bg);
-    border: none; /* Sin borde general */
-    border-left: 3px solid var(--accent-color); /* Borde izquierdo acentuado */
-    border-radius: 0 20px 20px 0; /* Redondeado a la derecha */
+    border: none;
+    border-left: 3px solid var(--accent-color); /* Borde de acento a la izquierda */
+    border-radius: 0 20px 20px 0;
     box-sizing: border-box;
     transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
-/* --- Checkbox y Radio Buttons --- */
+/* Estilos para checkboxes y radio buttons. */
 input[type="checkbox"],
 input[type="radio"] {
-    width: 1em; /* Tamaño relativo a fuente */
+    width: 1em;
     height: 1em;
     margin-right: 0.5em;
-    vertical-align: middle; /* Mejor alineación vertical */
-    accent-color: var(--accent-color); /* Color del check/dot */
+    vertical-align: middle;
+    accent-color: var(--accent-color); /* Colorea el check o el punto */
     cursor: pointer;
 }
-/* Si se aplica .form-control (no recomendado), resetea estilos */
+/* Reseteo por si se aplica la clase .form-control a un checkbox/radio. */
 input[type="checkbox"].form-control,
 input[type="radio"].form-control {
-    appearance: auto; /* Usa apariencia nativa */
+    appearance: auto;
     width: auto;
     height: auto;
     background-color: transparent;
@@ -308,99 +363,109 @@ input[type="radio"].form-control {
     border-left: none;
 }
 
-/* --- Botones de Navegación del Formulario --- */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 8: BOTONES
+ * -----------------------------------------------------------------
+ * Estilos para los botones de navegación del formulario y otros
+ * botones principales.
+ * -----------------------------------------------------------------
+ */
 .botones-navegacion {
     margin-top: 25px;
-    padding-top: 20px; /* Espacio sobre botones */
+    padding-top: 20px;
     display: flex;
-    justify-content: flex-end; /* Alinea a la derecha por defecto */
+    justify-content: flex-end; /* Alinea los botones a la derecha */
     gap: 10px; /* Espacio entre botones */
     border-top: 1px solid var(--border);
 }
-/* Si solo hay un botón (ej. primer paso), ocupa todo el espacio a la derecha */
 .botones-navegacion button:only-child {
     margin-left: auto;
 }
-/* Centra botones en la sección de revisión */
 #seccion-revision .botones-navegacion {
-    justify-content: center;
+    justify-content: center; /* Centra los botones en la sección de revisión */
     gap: 15px;
 }
 
-/* --- Estilos Comunes Botones (Siguiente, Anterior, Primario) --- */
+/* Estilos comunes para todos los botones. */
 .btn-siguiente,
 .btn-anterior,
 .btn-primary {
-    padding: 10px 25px; /* Más padding horizontal */
+    padding: 10px 25px;
     border: none;
-    border-radius: 25px; /* Más redondeado */
+    border-radius: 25px;
     cursor: pointer;
     font-weight: 600;
     font-size: 0.95rem;
-    text-transform: uppercase; /* Opcional: mayúsculas */
-    letter-spacing: 0.5px; /* Opcional: espaciado letras */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.1s ease, color 0.3s ease, border-color 0.3s ease;
 }
-/* Botón primario y siguiente (mismo estilo base) */
+/* Botón primario (y 'siguiente'). */
 .btn-siguiente,
 .btn-primary {
     background-color: var(--button-primary-bg);
     color: var(--button-primary-text);
 }
-/* Botón anterior (secundario) */
+/* Botón secundario ('anterior'). */
 .btn-anterior {
     background-color: var(--button-secondary-bg);
     color: var(--button-secondary-text);
-    border: 1px solid var(--accent-color); /* Borde con color de acento */
+    border: 1px solid var(--accent-color);
 }
-/* Efecto al presionar */
+/* Efectos de interacción. */
 .btn-siguiente:active,
 .btn-anterior:active,
 .btn-primary:active {
-    transform: scale(0.98);
+    transform: scale(0.98); /* Efecto de "presionado" */
 }
-/* Efecto hover */
 .btn-siguiente:hover,
 .btn-anterior:hover,
 .btn-primary:hover {
-    opacity: 0.85;
+    opacity: 0.85; /* Se atenúa ligeramente al pasar el cursor */
 }
 
-/* --- Placeholder y Focus --- */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 9: ESTADOS DE FORMULARIO (PLACEHOLDER, FOCUS)
+ * -----------------------------------------------------------------
+ */
 .form-control::placeholder {
     color: var(--input-placeholder-color);
-    opacity: 0.7; /* Un poco más sutil */
+    opacity: 0.7;
 }
 .form-control:focus {
-    border-color: var(--accent-color); /* Mantiene color acento */
-    outline: none; /* Quita outline por defecto */
-    box-shadow: 0 0 0 3px rgba(var(--accent-color-rgb), 0.3); /* Sombra de foco sutil */
+    border-color: var(--accent-color);
+    outline: none; /* Quita el borde por defecto del navegador */
+    box-shadow: 0 0 0 3px rgba(var(--accent-color-rgb), 0.3); /* Añade un "resplandor" de foco */
 }
 
-/* --- Estilos Específicos Inputs --- */
-/* Select (combobox) */
+/* Estilos específicos para <select> y <textarea>. */
 select.form-control {
-    appearance: none; /* Quita apariencia nativa */
-    /* Flecha SVG como fondo (color usa variable --text-color-secondary) */
+    appearance: none; /* Oculta la flecha por defecto del navegador */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 15px center; /* Posición flecha */
-    background-size: 1em 1em; /* Tamaño relativo flecha */
-    padding-right: 40px; /* Espacio para la flecha */
-    color: var(--input-text-color); /* Color texto (y flecha por defecto) */
+    background-position: right 15px center;
+    background-size: 1em 1em;
+    padding-right: 40px; /* Deja espacio para la flecha personalizada */
+    color: var(--input-text-color);
 }
-/* Ajuste color flecha tema claro (sobrescribe fill='currentColor' del SVG) */
 :root.light-theme select.form-control {
-     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23495057' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E"); /* Color #495057 = --text-color-secondary */
+     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23495057' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
 }
-/* Textarea */
 textarea.form-control {
     min-height: 80px;
-    resize: vertical; /* Permitir redimensionar solo verticalmente */
+    resize: vertical; /* Permite al usuario redimensionar el textarea solo verticalmente */
 }
 
-/* --- Modo Revisión --- */
-/* Estilos cuando se muestra el resumen final */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 10: MODO REVISIÓN
+ * -----------------------------------------------------------------
+ * Estilos que se aplican cuando el formulario entra en modo de
+ * revisión final, mostrando todas las respuestas del usuario.
+ * -----------------------------------------------------------------
+ */
 #formulario-completo.modo-revision .seccion-formulario {
     display: block !important; /* Muestra todas las secciones */
     opacity: 1 !important;
@@ -409,25 +474,22 @@ textarea.form-control {
     padding: 25px;
     border: 1px solid var(--border);
     border-radius: 15px;
-    background-color: rgba(var(--text-color-primary-rgb, 0, 0, 0), 0.05); /* Fondo sutil basado en color texto */
+    background-color: rgba(var(--text-color-primary-rgb, 0, 0, 0), 0.05);
 }
 #formulario-completo.modo-revision .question-group {
     margin-bottom: 15px;
 }
-/* Oculta botones de navegación internos en modo revisión */
 #formulario-completo.modo-revision .seccion-formulario .botones-navegacion {
-    display: none;
+    display: none; /* Oculta los botones de navegación internos de cada sección */
 }
-/* Estilos específicos para la sección de revisión */
 #formulario-completo.modo-revision #seccion-revision {
     display: block !important;
     opacity: 1 !important;
-    border: none; /* Sin borde extra */
+    border: none;
     padding: 15px 0;
-    background-color: transparent; /* Sin fondo especial */
+    background-color: transparent;
 }
-/* Oculta sección revisión por defecto (fuera de modo revisión) */
-#seccion-revision { display: none; }
+#seccion-revision { display: none; } /* La sección de revisión está oculta por defecto */
 
 #seccion-revision h2 {
     color: var(--accent-color);
@@ -439,15 +501,14 @@ textarea.form-control {
     text-align: center;
     margin-bottom: 30px;
 }
-/* Contenedor del resumen final */
 #seccion-revision #resumen-final {
     margin-bottom: 30px;
     padding: 25px;
     border-radius: 8px;
     border: 1px solid var(--border);
     color: var(--text-color-secondary);
-    background-color: rgba(var(--text-color-primary-rgb, 0, 0, 0), 0.03); /* Fondo más sutil */
-    text-align: left; /* Alinea texto del resumen a la izquierda */
+    background-color: rgba(var(--text-color-primary-rgb, 0, 0, 0), 0.03);
+    text-align: left;
 }
 #seccion-revision #resumen-final ul {
     list-style: none;
@@ -459,9 +520,9 @@ textarea.form-control {
     padding-bottom: 12px;
     border-bottom: 1px dotted var(--border);
     line-height: 1.6;
-    display: flex; /* Permite alinear label y valor */
-    flex-wrap: wrap; /* Permite que el valor pase abajo si no cabe */
-    gap: 8px; /* Espacio entre label y valor */
+    display: flex;
+    flex-wrap: wrap; /* Permite que el valor se vaya a la línea de abajo si no cabe */
+    gap: 8px;
 }
 #seccion-revision #resumen-final li:last-child {
     border-bottom: none;
@@ -470,44 +531,49 @@ textarea.form-control {
 }
 #seccion-revision #resumen-final li strong {
     color: var(--text-color-primary);
-    display: inline-block; /* O block si se prefiere en línea separada */
-    min-width: 150px; /* Ancho mínimo para la etiqueta (ajustar) */
+    display: inline-block;
+    min-width: 150px; /* Ancho mínimo para la etiqueta para alinear las respuestas */
     font-weight: 600;
-    flex-shrink: 0; /* Evita que la etiqueta se encoja */
+    flex-shrink: 0;
 }
 
-/* --- Modal (Ventana Emergente) --- */
-/* Fondo oscuro detrás del modal */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 11: MODAL (VENTANA EMERGENTE)
+ * -----------------------------------------------------------------
+ * Estilos para la ventana modal que se usa para mostrar mensajes
+ * de éxito o error.
+ * -----------------------------------------------------------------
+ */
 #modal-overlay {
     display: none; /* Controlado por JS */
     position: fixed;
     inset: 0;
     z-index: 1000;
-    background-color: rgba(var(--bg-color-rgb), 0.7); /* Fondo semi-transparente */
-    backdrop-filter: blur(5px); /* Efecto blur opcional */
+    background-color: rgba(var(--bg-color-rgb), 0.7);
+    backdrop-filter: blur(5px); /* Efecto de desenfoque en el fondo */
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
 }
-/* Contenedor del modal */
 #modal-container {
     display: none; /* Controlado por JS */
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.95); /* Posición y escala inicial */
+    transform: translate(-50%, -50%) scale(0.95); /* Centrado y escalado inicial para animación */
     width: 90%;
     max-width: 480px;
     padding: 35px 40px;
     background-color: var(--modal-bg);
     border-radius: 10px;
     border: 1px solid var(--border);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); /* Sombra pronunciada */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
     z-index: 1001;
     text-align: center;
     opacity: 0;
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
-/* Estilos cuando el modal está visible (clase añadida al body) */
+/* Clase que se añade al body para mostrar el modal */
 body.modal-visible #modal-overlay {
     display: block;
     opacity: 1;
@@ -515,21 +581,20 @@ body.modal-visible #modal-overlay {
 body.modal-visible #modal-container {
     display: block;
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1); /* Escala final */
+    transform: translate(-50%, -50%) scale(1); /* Escala final al mostrar */
 }
-/* Área para el icono/logo del modal */
 #modal-icon-area {
     margin-bottom: 25px;
 }
 #modal-error-icon {
-    font-size: 64px; /* Tamaño icono error */
+    font-size: 64px;
     color: var(--error-alert);
-    display: none; /* Mostrar según tipo de modal */
+    display: none; /* Se muestra según el tipo de modal */
     vertical-align: middle;
 }
 #modal-success-logo {
-    max-height: 70px; /* Tamaño logo éxito */
-    display: none; /* Mostrar según tipo de modal */
+    max-height: 70px;
+    display: none; /* Se muestra según el tipo de modal */
 }
 #modal-title {
     margin: 0 0 15px 0;
@@ -551,31 +616,33 @@ body.modal-visible #modal-container {
 #modal-buttons button {
     margin: 0;
     min-width: 100px;
-    /* Hereda estilos de .btn-primary, .btn-anterior */
 }
 
-/* --- Iconos Material Symbols --- */
-/* Estilos base para los iconos de Google Fonts */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 12: ICONOS Y SWITCH DE TEMA
+ * -----------------------------------------------------------------
+ * Estilos para los iconos de Material Symbols y el interruptor
+ * para cambiar entre tema claro y oscuro.
+ * -----------------------------------------------------------------
+ */
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-   vertical-align: middle; /* Mejor alineación */
-   line-height: 1; /* Evita espacio extra */
-   font-size: 1.2em; /* Tamaño por defecto */
-   display: inline-block; /* Asegura que se comporte como bloque */
+   vertical-align: middle;
+   line-height: 1;
+   font-size: 1.2em;
+   display: inline-block;
 }
-/* Iconos específicos */
 #modal-error-icon.material-symbols-outlined { font-size: 64px; }
 .slider .icon.material-symbols-outlined {
-     font-size: 16px; /* Tamaño icono switch */
-     position: absolute; /* Posicionamiento dentro del slider */
+     font-size: 16px;
+     position: absolute;
      top: 50%;
      left: 50%;
-     transform: translate(-50%, -50%); /* Centrado exacto */
+     transform: translate(-50%, -50%); /* Centrado perfecto del icono */
 }
 
-/* --- Switch de Tema --- */
-/* Interruptor para cambiar entre tema claro y oscuro */
-.theme-switch { /* Label que actúa como switch */
+.theme-switch {
     position: relative;
     display: block;
     width: 50px;
@@ -584,16 +651,16 @@ body.modal-visible #modal-container {
     background-color: var(--input-bg);
     border: 1px solid var(--accent-color);
     border-radius: 25px;
-    text-indent: -9999px; /* Oculta texto del label */
+    text-indent: -9999px; /* Oculta el texto de la etiqueta */
     transition: background-color 0.3s ease;
 }
-.theme-switch input[type="checkbox"] { /* Checkbox real oculto */
+.theme-switch input[type="checkbox"] {
     opacity: 0;
     width: 0;
     height: 0;
     position: absolute;
 }
-.theme-switch .slider { /* Círculo deslizante */
+.theme-switch .slider { /* El círculo que se desliza */
     position: absolute;
     top: 1px;
     left: 1px;
@@ -602,48 +669,50 @@ body.modal-visible #modal-container {
     background-color: var(--accent-color);
     border-radius: 50%;
     transition: transform 0.3s ease, background-color 0.3s ease;
-    overflow: hidden; /* Oculta iconos que se salen */
+    overflow: hidden;
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
-.slider .icon { /* Iconos sol/luna dentro del slider */
+.slider .icon {
     line-height: 1;
     transition: opacity 0.3s ease, transform 0.3s ease;
-    color: var(--button-primary-text); /* Color del icono */
-    /* Posición absoluta ya definida en .material-symbols-outlined */
+    color: var(--button-primary-text);
 }
-/* Estado inicial (tema oscuro) */
+/* Animación de los iconos de sol y luna */
 .slider .sun { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(-90deg); }
 .slider .moon { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
-/* Estado cuando está activo (tema claro) */
-.theme-switch input:checked + .slider { transform: translateX(25px); /* Mueve el slider */ }
+.theme-switch input:checked + .slider { transform: translateX(25px); }
 .theme-switch input:checked + .slider .sun { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
 .theme-switch input:checked + .slider .moon { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(90deg); }
 
-
-/* --- Sidebar de Navegación --- */
-/* Barra lateral izquierda */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 13: SIDEBAR (BARRA LATERAL DE NAVEGACIÓN)
+ * -----------------------------------------------------------------
+ * Estilos para la barra lateral que muestra el progreso y los
+ * pasos del formulario.
+ * -----------------------------------------------------------------
+ */
 #sidebar-navegacion {
     position: fixed;
     left: 0;
     top: 80px; /* Debajo de la cabecera */
-    height: calc(100vh - 80px); /* Altura restante */
-    width: 280px; /* Ancho expandido por defecto */
-    z-index: 5; /* Encima del contenido, debajo header/modal */
-    padding: 20px 0; /* Padding vertical interno */
+    height: calc(100vh - 80px);
+    width: 280px; /* Ancho por defecto (expandido) */
+    z-index: 5;
+    padding: 20px 0;
     box-sizing: border-box;
     background-color: var(--bg-container);
     border-right: 1px solid var(--border);
-    overflow-x: hidden; /* Oculta contenido al colapsar */
-    overflow-y: auto; /* Permite scroll vertical si es necesario */
+    overflow-x: hidden;
+    overflow-y: auto;
     transition: width 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
-/* Elementos internos del sidebar */
 .sidebar-header,
 .sidebar-menu .menu-text,
 .sidebar-progress,
-.menu-status { /* Elementos que se ocultan/desvanecen */
+.menu-status {
     transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
-    white-space: nowrap; /* Evita salto de línea durante animación */
+    white-space: nowrap; /* Evita que el texto se rompa durante la animación */
 }
 .sidebar-header {
     padding: 0 20px 15px;
@@ -655,7 +724,6 @@ body.modal-visible #modal-container {
     font-size: 1.1rem;
     color: var(--text-color-primary);
 }
-/* Menú */
 .sidebar-menu ul {
     list-style: none;
     padding: 0;
@@ -666,23 +734,22 @@ body.modal-visible #modal-container {
     align-items: center;
     padding: 12px 20px;
     cursor: pointer;
-    position: relative; /* Para posicionar .menu-status si es absolute */
+    position: relative;
     overflow: hidden;
     white-space: nowrap;
-    transition: background-color 0.2s ease, padding 0.3s ease; /* Transición padding para colapsar */
+    transition: background-color 0.2s ease, padding 0.3s ease;
 }
 .menu-item:hover {
-    background-color: rgba(var(--accent-color-rgb), 0.1); /* Fondo hover sutil */
+    background-color: rgba(var(--accent-color-rgb), 0.1);
 }
 .menu-item.active {
     background-color: rgba(var(--accent-color-rgb), 0.2);
-    border-left: 3px solid var(--accent-color); /* Indicador activo */
+    border-left: 3px solid var(--accent-color); /* Indicador visual de la sección activa */
 }
-/* Ajusta padding izquierdo cuando está activo para compensar borde */
 .menu-item.active { padding-left: 17px; }
 .menu-item.active .menu-text,
 .menu-item.active .menu-icon {
-    color: var(--accent-color); /* Color acentuado para activo */
+    color: var(--accent-color);
 }
 .menu-item.active .menu-text { font-weight: 500; }
 
@@ -690,28 +757,27 @@ body.modal-visible #modal-container {
     margin-right: 12px;
     font-size: 1.2rem;
     color: var(--text-color-secondary);
-    flex-shrink: 0; /* Evita que icono se encoja */
-    transition: margin 0.3s ease; /* Animar margen al colapsar */
+    flex-shrink: 0;
+    transition: margin 0.3s ease;
 }
 .menu-text {
-    flex-grow: 1; /* Ocupa espacio restante */
+    flex-grow: 1;
     font-size: 0.95rem;
     color: var(--text-color-primary);
 }
-.menu-status { /* Indicador de completado */
+.menu-status { /* Círculo que indica el estado de la sección */
     width: 10px;
     height: 10px;
-    margin-left: auto; /* Empuja a la derecha */
-    background-color: var(--border); /* Gris por defecto */
+    margin-left: auto;
+    background-color: var(--border);
     border-radius: 50%;
     flex-shrink: 0;
-    /* Transición ya definida arriba */
 }
 .menu-item.completed .menu-status {
-    background-color: #4CAF50; /* Verde para completado */
+    background-color: #4CAF50; /* Verde para secciones completadas */
 }
 
-/* Progreso */
+/* Barra de progreso */
 .sidebar-progress {
     padding: 20px;
     margin-top: 20px;
@@ -723,23 +789,22 @@ body.modal-visible #modal-container {
     margin-bottom: 8px;
     background-color: var(--border);
     border-radius: 3px;
-    overflow: hidden; /* Contiene el relleno */
+    overflow: hidden;
 }
 .progress-fill {
     height: 100%;
-    width: 0%; /* Controlado por JS */
+    width: 0%; /* El ancho es controlado por JavaScript */
     background-color: var(--accent-color);
     transition: width 0.3s ease;
 }
 .progress-text {
-    display: block; /* Asegura que ocupe línea propia */
+    display: block;
     text-align: center;
     font-size: 0.85rem;
     color: var(--text-color-secondary);
 }
 
-/* --- Estados Sidebar (Desktop) --- */
-/* Estado Expandido (Default o con clase) */
+/* Estados del Sidebar (controlados por clases en el <body>) */
 body.body-sidebar-expanded #sidebar-navegacion { width: 280px; }
 body.body-sidebar-expanded .sidebar-header,
 body.body-sidebar-expanded .menu-text,
@@ -751,36 +816,32 @@ body.body-sidebar-expanded .menu-status {
 body.body-sidebar-expanded .menu-icon { margin-right: 12px; }
 body.body-sidebar-expanded .menu-item { justify-content: flex-start; padding: 12px 20px; }
 body.body-sidebar-expanded .menu-item.active { padding-left: 17px; border-left-width: 3px; }
-/* Ajuste contenido principal */
-body.body-sidebar-expanded #formulario-completo { margin-left: 280px; /* width: calc(100% - 300px); <-- Evitar si no es necesario */ }
+body.body-sidebar-expanded #formulario-completo { margin-left: 280px; }
 
-/* Estado Colapsado */
-body.body-sidebar-collapsed #sidebar-navegacion { width: 70px; } /* Ancho colapsado */
+body.body-sidebar-collapsed #sidebar-navegacion { width: 70px; }
 body.body-sidebar-collapsed .sidebar-header,
 body.body-sidebar-collapsed .menu-text,
 body.body-sidebar-collapsed .sidebar-progress,
-body.body-sidebar-collapsed .menu-status { /* Oculta estos elementos */
+body.body-sidebar-collapsed .menu-status {
     opacity: 0;
     visibility: hidden;
-    pointer-events: none; /* Evita interacción fantasma */
+    pointer-events: none;
 }
 body.body-sidebar-collapsed .menu-item {
-    justify-content: center; /* Centra icono */
-    padding: 12px 10px; /* Padding ajustado */
+    justify-content: center;
+    padding: 12px 10px;
 }
 body.body-sidebar-collapsed .menu-item.active {
-     border-left-width: 0; /* Oculta borde activo */
-     padding-left: 10px; /* Restaura padding */
+     border-left-width: 0;
+     padding-left: 10px;
 }
-body.body-sidebar-collapsed .menu-icon { margin: 0; /* Sin margen para centrar */ }
-/* Ajuste contenido principal */
-body.body-sidebar-collapsed #formulario-completo { margin-left: 70px; /* width: calc(100% - 90px); <-- Evitar si no es necesario */ }
+body.body-sidebar-collapsed .menu-icon { margin: 0; }
+body.body-sidebar-collapsed #formulario-completo { margin-left: 70px; }
 
-/* --- Botón Toggle Sidebar --- */
-/* Botón flotante para controlar sidebar */
+/* Botón para colapsar/expandir el sidebar */
 .sidebar-toggle {
-    position: fixed; /* Siempre visible */
-    z-index: 10; /* Encima del sidebar */
+    position: fixed;
+    z-index: 10;
     background: var(--accent-color);
     color: var(--button-primary-text);
     border: none;
@@ -792,135 +853,130 @@ body.body-sidebar-collapsed #formulario-completo { margin-left: 70px; /* width: 
     justify-content: center;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    transition: left 0.3s ease, background-color 0.3s ease, color 0.3s ease; /* Anima posición y colores */
+    transition: left 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
-/* Posición del botón (Desktop) */
 body.body-sidebar-expanded .sidebar-toggle { left: 260px; top: 90px; }
 body.body-sidebar-collapsed .sidebar-toggle { left: 50px; top: 90px; }
 
-
-/* --- Media Query Móvil --- */
-/* Ajustes para pantallas pequeñas (< 768px) */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 14: DISEÑO RESPONSIVO (MEDIA QUERIES)
+ * -----------------------------------------------------------------
+ * Ajustes para que la aplicación se vea bien en dispositivos móviles
+ * (pantallas con un ancho máximo de 767px).
+ * -----------------------------------------------------------------
+ */
 @media (max-width: 767px) {
 
-    /* Ajustes generales */
-    body { padding-top: 60px; } /* Cabecera más pequeña */
+    body { padding-top: 60px; } /* Cabecera más pequeña en móvil */
 
-    /* Splash y Header móvil */
     #splash-screen .logos-wrapper img { max-height: 100px; margin: 0 5px; max-width: 45%; }
-    #splash-screen .linea-divisora { display: none; } /* Oculta línea en splash móvil */
+    #splash-screen .linea-divisora { display: none; }
     #main-header { height: 60px; }
     #main-header .header-content-wrapper { padding: 0 10px; gap: 5px; }
     #main-header .logos-wrapper img { max-height: 35px; margin: 0 5px; }
     #main-header .linea-divisora { height: 30px; margin: 0 5px; }
 
-    /* Sidebar Móvil (Deslizante) */
+    /* El sidebar en móvil se oculta fuera de la pantalla y se desliza para aparecer */
     #sidebar-navegacion {
-        position: fixed; /* Posición fija */
-        width: 85%; /* Ancho del sidebar desplegado */
-        max-width: 300px; /* Ancho máximo */
-        height: calc(100vh - 60px); /* Altura ajustada a cabecera */
+        position: fixed;
+        width: 85%;
+        max-width: 300px;
+        height: calc(100vh - 60px);
         top: 60px;
         left: 0;
-        transform: translateX(-100%); /* Oculto fuera de pantalla por defecto */
-        transition: transform 0.3s ease; /* Anima deslizamiento */
-        z-index: 15; /* Encima del contenido, debajo del toggle */
-        border-right: 1px solid var(--border); /* Mantiene borde */
-        padding: 20px 0; /* Restaura padding vertical */
-        /* Resetea cualquier estado de desktop */
+        transform: translateX(-100%); /* Oculto a la izquierda */
+        transition: transform 0.3s ease;
+        z-index: 15;
+        border-right: 1px solid var(--border);
+        padding: 20px 0;
         overflow-y: auto;
     }
-    /* Muestra sidebar cuando body tiene clase 'sidebar-visible' */
+    /* Se muestra el sidebar cuando el body tiene esta clase (controlado por JS) */
     body.sidebar-visible #sidebar-navegacion {
         transform: translateX(0);
     }
-    /* En móvil, los elementos internos del sidebar siempre son visibles si el sidebar lo es */
+    /* En móvil, los elementos internos del sidebar siempre son visibles cuando el sidebar lo es */
     #sidebar-navegacion .sidebar-header,
     #sidebar-navegacion .menu-text,
     #sidebar-navegacion .sidebar-progress,
     #sidebar-navegacion .menu-status {
          opacity: 1;
          visibility: visible;
-         transition: none; /* Sin fade en móvil */
-         position: static; /* Resetea posición absoluta si la tenía */
-         transform: none;  /* Resetea transform si lo tenía */
+         transition: none;
+         position: static;
+         transform: none;
     }
-    #sidebar-navegacion .menu-item { justify-content: flex-start; padding: 12px 20px; } /* Alineación y padding normales */
-    #sidebar-navegacion .menu-item.active { border-left-width: 3px; padding-left: 17px; } /* Muestra borde activo */
-    #sidebar-navegacion .menu-icon { margin-right: 12px; } /* Margen normal icono */
-    #sidebar-navegacion .menu-status { margin-left: auto; width: 10px; height: 10px; } /* Estado normal */
+    #sidebar-navegacion .menu-item { justify-content: flex-start; padding: 12px 20px; }
+    #sidebar-navegacion .menu-item.active { border-left-width: 3px; padding-left: 17px; }
+    #sidebar-navegacion .menu-icon { margin-right: 12px; }
+    #sidebar-navegacion .menu-status { margin-left: auto; width: 10px; height: 10px; }
 
-    /* Formulario Móvil */
+    /* El formulario ocupa más ancho y se oscurece cuando el sidebar está visible */
     #formulario-completo {
-        width: 95%; /* Más ancho en móvil */
+        width: 95%;
         max-width: 95%;
-        padding: 0 15px 15px 15px; /* Menos padding */
-        margin: 10px auto 20px auto; /* Margen ajustado, centrado */
-        margin-left: auto !important; /* Sobrescribe margen de sidebar desktop */
-        transition: opacity 0.3s ease; /* Solo anima opacidad */
-        opacity: 1; /* Visible por defecto */
-        pointer-events: auto; /* Interactivo por defecto */
+        padding: 0 15px 15px 15px;
+        margin: 10px auto 20px auto;
+        margin-left: auto !important; /* Sobrescribe el margen del modo escritorio */
+        transition: opacity 0.3s ease;
+        opacity: 1;
+        pointer-events: auto;
     }
-    /* Oscurece formulario cuando sidebar está visible en móvil */
     body.sidebar-visible #formulario-completo {
         opacity: 0.3;
-        pointer-events: none; /* No interactivo */
+        pointer-events: none;
     }
-    /* Ajustes campos formulario móvil */
     .form-control { padding: 12px 15px; font-size: 0.95rem; }
     select.form-control { background-position: right 10px center; background-size: 0.9em; padding-right: 35px; }
 
-    /* Botones Formulario Móvil */
+    /* Los botones en móvil ocupan más espacio y tienen texto más pequeño */
     .botones-navegacion { gap: 8px; padding-top: 15px; }
     .btn-siguiente,
     .btn-anterior,
     .btn-primary {
-        padding: 10px 15px; /* Menos padding */
-        font-size: 0.9rem; /* Fuente más pequeña */
-        flex-grow: 1; /* Ocupan espacio disponible */
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        flex-grow: 1; /* Hacen que los botones se expandan para llenar el espacio */
         text-align: center;
-        min-width: 0; /* Permite que se encojan */
-        letter-spacing: normal; /* Sin espaciado extra */
-        text-transform: none; /* Sin mayúsculas */
+        min-width: 0;
+        letter-spacing: normal;
+        text-transform: none;
     }
-    /* Botón único ocupa todo el ancho */
     .botones-navegacion button:only-child { flex-grow: 0; width: 100%; }
-    /* Botones en revisión final en columna */
     #seccion-revision .botones-navegacion { flex-direction: column; align-items: stretch; gap: 10px; }
     #seccion-revision .botones-navegacion button { width: 100%; }
 
-    /* Resumen Final Móvil */
+    /* El resumen final se apila en columna en móvil */
     #seccion-revision #resumen-final { padding: 15px; }
-    #seccion-revision #resumen-final li { flex-direction: column; gap: 4px; align-items: flex-start; } /* Label encima de valor */
-    #seccion-revision #resumen-final li strong { min-width: auto; } /* Ancho automático para label */
+    #seccion-revision #resumen-final li { flex-direction: column; gap: 4px; align-items: flex-start; }
+    #seccion-revision #resumen-final li strong { min-width: auto; }
 
-    /* Modal Móvil */
+    /* El modal es más simple y los botones se apilan */
     #modal-container { padding: 25px 20px; max-width: 90%; }
     #modal-title { font-size: 1.4em; }
     #modal-message { font-size: 1em; }
-    #modal-buttons { flex-direction: column; gap: 10px; } /* Botones en columna */
+    #modal-buttons { flex-direction: column; gap: 10px; }
     #modal-buttons button { width: 100%; }
 
-    /* Switch Tema Móvil */
+    /* Switch de tema más pequeño */
     .theme-switch { width: 45px; height: 22px; }
     .theme-switch .slider { width: 18px; height: 18px; }
     .theme-switch input:checked + .slider { transform: translateX(23px); }
     .slider .icon.material-symbols-outlined { font-size: 14px; }
 
-    /* Botón Toggle Sidebar Móvil (Posición fija) */
+    /* El botón para mostrar/ocultar el sidebar tiene una posición fija en móvil */
     .sidebar-toggle {
-        /* Importante anular estilos desktop */
         position: fixed !important;
-        left: 10px !important; /* Fijo a la izquierda */
-        top: 70px !important;  /* Debajo de cabecera móvil */
-        z-index: 16 !important; /* Encima del sidebar móvil */
-        transition: none !important; /* Sin transición de posición */
+        left: 10px !important;
+        top: 70px !important;
+        z-index: 16 !important;
+        transition: none !important;
     }
-    /* Asegura posición fija sin importar clases de estado desktop */
      body.body-sidebar-expanded .sidebar-toggle,
      body.body-sidebar-collapsed .sidebar-toggle {
          left: 10px !important;
          top: 70px !important;
      }
 
-} /* Fin Media Query Móvil */
+} /* --- Fin de la Media Query para Móvil --- */

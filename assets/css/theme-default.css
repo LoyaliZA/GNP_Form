@@ -1,57 +1,89 @@
-/* assets/css/theme-default.css */
+/*
+ * =================================================================
+ * ARCHIVO DE TEMA POR DEFECTO (theme-default.css)
+ * =================================================================
+ * Este archivo establece las paletas de colores base para la
+ * aplicación utilizando variables CSS (custom properties).
+ *
+ * Define dos modos principales:
+ * 1. Tema Oscuro: Es el tema por defecto, definido en el bloque `:root`.
+ * 2. Tema Claro: Se activa cuando la etiqueta <html> tiene la clase
+ * '.light-theme', sobrescribiendo las variables del tema oscuro.
+ *
+ * También se incluyen versiones RGB de algunos colores para poder
+ * usarlos con transparencia (ej. en sombras o fondos semi-transparentes).
+ * =================================================================
+ */
+
 /* Define la paleta de colores principal y para el tema claro */
 :root {
-    /* Tema Oscuro (Predeterminado) */
-    --bg-color: #1E1E1E;
-    --bg-container: #1E1E1E;
-    --text-color-primary: #F0E6D2; /* Texto principal claro */
-    --text-color-secondary: #CCCCCC; /* Texto secundario grisáceo */
-    --accent-color: #F7D7A5; /* Acento: Dorado pálido */
-    --input-bg: #3D3D3C;
-    --input-text-color: var(--text-color-primary);
-    --input-placeholder-color: #C8B575;
-    --button-primary-bg: var(--accent-color);
-    --button-primary-text: #1E1E1E; /* Texto oscuro para contraste en botón primario */
-    --button-secondary-bg: #161616;
-    --button-secondary-text: var(--accent-color);
-    --border: #444; /* Bordes sutiles */
-    --error-alert: #E57373; /* Color para errores (Rojo claro) */
-    --logo-line-color: var(--accent-color); /* Línea divisora logos */
-    --modal-bg: var(--bg-container);
-    --modal-text: var(--text-color-primary);
-    --header-bg: var(--bg-container);
+    /*
+     * -----------------------------------------------------------------
+     * TEMA OSCURO (PREDETERMINADO)
+     * -----------------------------------------------------------------
+     * Estos colores se aplican por defecto en toda la aplicación.
+     * -----------------------------------------------------------------
+     */
+    --bg-color: #1E1E1E;                  /* Color de fondo general de la página */
+    --bg-container: #1E1E1E;              /* Color de fondo para contenedores (formularios, modales, etc.) */
+    --text-color-primary: #F0E6D2;        /* Color de texto principal (títulos, párrafos importantes) */
+    --text-color-secondary: #CCCCCC;      /* Color para texto secundario (subtítulos, etiquetas) */
+    --accent-color: #F7D7A5;              /* Color de acento para elementos destacados (botones, bordes, iconos) */
+    --input-bg: #3D3D3C;                  /* Color de fondo para campos de texto y selectores */
+    --input-text-color: var(--text-color-primary); /* Color del texto dentro de los inputs */
+    --input-placeholder-color: #C8B575;   /* Color del texto de marcador de posición (placeholder) */
+    --button-primary-bg: var(--accent-color); /* Fondo para botones primarios */
+    --button-primary-text: #1E1E1E;        /* Texto para botones primarios, buscando alto contraste */
+    --button-secondary-bg: #161616;      /* Fondo para botones secundarios */
+    --button-secondary-text: var(--accent-color); /* Texto para botones secundarios */
+    --border: #444;                       /* Color para bordes y líneas separadoras */
+    --error-alert: #E57373;               /* Color para notificaciones de error */
+    --logo-line-color: var(--accent-color); /* Color para la línea que divide los logos */
+    --modal-bg: var(--bg-container);      /* Fondo del modal */
+    --modal-text: var(--text-color-primary); /* Texto del modal */
+    --header-bg: var(--bg-container);     /* Fondo de la cabecera */
 
-    /* Versiones RGB para usar con opacidad (ej. box-shadow) */
+    /* --- Versiones RGB --- */
+    /* Estas variables permiten usar los colores con un canal alfa (transparencia) */
+    /* Ejemplo de uso: background-color: rgba(var(--accent-color-rgb), 0.1); */
     --accent-color-rgb: 247, 215, 165;
     --bg-color-rgb: 30, 30, 30;
     --text-color-primary-rgb: 240, 230, 210;
-    --error-alert-rgb: 229, 115, 115; /* RGB para #E57373 */
+    --error-alert-rgb: 229, 115, 115;
 }
 
-/* Tema Claro */
+/*
+ * -----------------------------------------------------------------
+ * TEMA CLARO
+ * -----------------------------------------------------------------
+ * Estas reglas se aplican únicamente cuando la etiqueta <html>
+ * tiene la clase "light-theme". Sobrescriben las variables
+ * definidas en el bloque :root anterior.
+ * -----------------------------------------------------------------
+ */
 :root.light-theme {
     --bg-color: #FFFFFF;
     --bg-container: #ffffff;
-    --text-color-primary: #0d3a7c; /* Azul oscuro GNP */
-    --text-color-secondary: #495057; /* Gris oscuro texto */
-    --accent-color: #fc6c11; /* Naranja GNP */
+    --text-color-primary: #0d3a7c;        /* Azul oscuro corporativo (GNP) */
+    --text-color-secondary: #495057;      /* Gris oscuro para texto secundario */
+    --accent-color: #fc6c11;              /* Naranja corporativo (GNP) */
     --input-bg: #f6f6f6;
     --input-text-color: var(--text-color-primary);
-    --input-placeholder-color: #7495bc; /* Azul grisáceo placeholder */
+    --input-placeholder-color: #7495bc;
     --button-primary-bg: var(--accent-color);
-    --button-primary-text: #FFFFFF; /* Texto blanco para contraste */
+    --button-primary-text: #FFFFFF;
     --button-secondary-bg: #ffffff;
-    --button-secondary-text: #212529; /* Texto oscuro botón secundario */
+    --button-secondary-text: #212529;
     --border: #DEE2E6;
-    --error-alert: #dc3545; /* Rojo Bootstrap */
+    --error-alert: #dc3545;               /* Rojo estándar para errores */
     --logo-line-color: #DEE2E6;
     --modal-bg: var(--bg-color);
     --modal-text: var(--text-color-primary);
     --header-bg: var(--bg-container);
 
-    /* Versiones RGB */
+    /* --- Versiones RGB para el Tema Claro --- */
     --accent-color-rgb: 252, 108, 17;
     --bg-color-rgb: 255, 255, 255;
     --text-color-primary-rgb: 13, 58, 124;
-    --error-alert-rgb: 220, 53, 69; /* RGB para #dc3545 */
+    --error-alert-rgb: 220, 53, 69;
 }

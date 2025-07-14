@@ -1,75 +1,97 @@
-/* --- Cabecera Principal (Layout Nuevo - Colores de Tema) --- */
+/*
+ * =================================================================
+ * ARCHIVO DE ESTILOS PARA LA CABECERA (_header.css)
+ * =================================================================
+ * Este módulo contiene los estilos específicos para la barra de
+ * navegación superior (cabecera) de la aplicación.
+ * =================================================================
+ */
+
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 1: CABECERA PRINCIPAL
+ * -----------------------------------------------------------------
+ * Estilos para el contenedor principal de la cabecera. Se posiciona
+ * de forma fija en la parte superior y se ajusta dinámicamente
+ * según el estado de la barra lateral (sidebar).
+ * -----------------------------------------------------------------
+ */
 #main-header {
-    display: flex;
-    height: var(--top-bar-height);
-    position: fixed;
+    display: flex;                      /* Usa Flexbox para alinear su contenido. */
+    height: var(--top-bar-height);      /* Altura definida en las variables de layout. */
+    position: fixed;                    /* La cabecera permanece fija en la parte superior de la pantalla. */
     top: 0;
-    left: var(--sidebar-width-expanded); /* Inicia después del sidebar */
-    right: 0;
-    width: auto; /* Ancho automático */
-    z-index: 10; /* Mismo nivel que sidebar */
+    left: var(--sidebar-width-expanded); /* Comienza justo donde termina la barra lateral expandida. */
+    right: 0;                           /* Se extiende hasta el borde derecho de la pantalla. */
+    width: auto;                        /* El ancho se calcula automáticamente. */
+    z-index: 10;                        /* Se asegura de que esté por encima del contenido principal pero puede estar debajo de modales. */
     padding: 0;
-    background-color: var(--header-bg, var(--bg-container)); /* Variable de tema */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: left 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
-    border-bottom: 1px solid var(--border); /* Borde usa variable de tema */
+    background-color: var(--header-bg, var(--bg-container)); /* Color de fondo del tema. */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil para darle profundidad. */
+    transition: left 0.3s ease, background-color 0.3s ease, border-color 0.3s ease; /* Anima el cambio de posición y color. */
+    border-bottom: 1px solid var(--border); /* Línea inferior que la separa del contenido. */
 }
 
-/* Ajuste para estado colapsado */
+/* Ajuste para cuando la barra lateral está colapsada. */
 body.body-sidebar-collapsed #main-header {
-    left: var(--sidebar-width-collapsed);
+    left: var(--sidebar-width-collapsed); /* Mueve la cabecera para que comience donde termina la barra lateral colapsada. */
 }
 
+/* Contenedor del contenido interno de la cabecera. */
 #main-header .header-content-wrapper {
     display: flex;
-    justify-content: flex-end; /* Controles a la derecha */
-    align-items: center;
+    justify-content: flex-end;          /* Alinea todo el contenido a la derecha. */
+    align-items: center;                /* Centra verticalmente el contenido. */
     width: 100%;
     height: 100%;
-    padding: 0 20px; /* Padding lateral */
+    padding: 0 20px;                    /* Relleno lateral para que el contenido no toque los bordes. */
     box-sizing: border-box;
 }
 
-/* --- Contenedor para controles de tema --- */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 2: CONTROLES DE TEMA
+ * -----------------------------------------------------------------
+ * Estilos para los elementos que permiten al usuario cambiar la
+ * apariencia de la aplicación (selector de tema y switch claro/oscuro).
+ * -----------------------------------------------------------------
+ */
 .theme-controls {
-    display: flex;          /* Alinea los controles horizontalmente */
-    align-items: center;    /* Centra verticalmente */
-    gap: 15px;              /* Espacio entre el select y el switch */
+    display: flex;                      /* Alinea los controles (selector y switch) en una fila. */
+    align-items: center;                /* Los centra verticalmente. */
+    gap: 15px;                          /* Espacio entre los controles. */
 }
 
-/* --- Estilos para el selector de tema --- */
+/* Estilos para el menú desplegable (select) que permite elegir un tema de color. */
 #theme-selector {
     padding: 5px 10px;
     border-radius: 4px;
-    border: 1px solid var(--border); /* Usa variables de tema */
-    background-color: var(--input-bg); /* Usa variables de tema */
-    color: var(--input-text-color); /* Usa variables de tema */
+    border: 1px solid var(--border);
+    background-color: var(--input-bg);
+    color: var(--input-text-color);
     cursor: pointer;
-    font-size: 0.85em; /* Tamaño de fuente ajustado */
-    min-width: 120px; /* Ancho mínimo */
-    height: 28px; /* Altura similar al switch */
+    font-size: 0.85em;                  /* Tamaño de fuente pequeño y discreto. */
+    min-width: 120px;                   /* Ancho mínimo para que el nombre del tema sea legible. */
+    height: 28px;                       /* Altura fija para alinear con el switch. */
     box-sizing: border-box;
     transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-    /* Apariencia para quitar flecha nativa si se desea personalizar */
-    /* appearance: none; */
-    /* background-image: url(...); opcional flecha personalizada */
+    /* Se puede descomentar 'appearance: none' para ocultar la flecha nativa y personalizarla. */
 }
 
+/* Estilo para el selector cuando está enfocado (seleccionado). */
 #theme-selector:focus {
-    outline: none;
+    outline: none;                      /* Elimina el contorno por defecto del navegador. */
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.2); /* Sombra de foco */
+    box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.2); /* Añade un resplandor de foco. */
 }
 
-/* Wrapper del switch de tema claro/oscuro (puede que no necesite cambios) */
+/* Contenedor para el interruptor de modo claro/oscuro. */
 #main-header .theme-switch-wrapper {
     display: flex;
     align-items: center;
 }
 
-/* Ajuste para estado colapsado */
+/* Repetición de la regla de ajuste para el estado colapsado (se puede eliminar si ya está arriba). */
 body.body-sidebar-collapsed #main-header {
     left: var(--sidebar-width-collapsed);
 }
-
-/* --- Estilos adicionales si son necesarios para layout --- */

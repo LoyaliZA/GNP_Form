@@ -1,57 +1,93 @@
-/* --- Variables de Layout --- */
+/*
+ * =================================================================
+ * ARCHIVO DE ESTILOS BASE (_base-styles.css)
+ * =================================================================
+ * Este archivo establece las reglas CSS fundamentales para la
+ * aplicación. Incluye variables de layout y estilos por defecto
+ * para elementos HTML comunes como <body>, <h2>, y <h3>.
+ * =================================================================
+ */
+
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 1: VARIABLES DE LAYOUT
+ * -----------------------------------------------------------------
+ * Se definen variables para las dimensiones principales del diseño,
+ * como la altura de la barra superior y los anchos de la barra
+ * lateral en sus estados expandido y colapsado.
+ *
+ * NOTA: Los colores ya no se definen aquí, se toman de los
+ * archivos de tema (ej. theme-default.css) para permitir el
+ * cambio de apariencia.
+ * -----------------------------------------------------------------
+ */
 :root {
-    --top-bar-height: 70px; /* Altura para header y top del sidebar */
-    --sidebar-width-expanded: 280px;
-    --sidebar-width-collapsed: 70px;
-    /* Ya no se definen colores específicos aquí, se toman del tema */
-    --main-content-padding-top: calc(var(--top-bar-height) + 30px); /* Espacio sobre el form */
-    --main-content-padding-sides: 40px; /* Padding lateral del form */
+    --top-bar-height: 70px;             /* Altura para la cabecera y el punto de inicio del sidebar. */
+    --sidebar-width-expanded: 280px;    /* Ancho del sidebar cuando está expandido. */
+    --sidebar-width-collapsed: 70px;    /* Ancho del sidebar cuando está colapsado. */
+    
+    /* Variables calculadas para el espaciado del contenido principal. */
+    --main-content-padding-top: calc(var(--top-bar-height) + 30px); /* Padding superior del formulario, dejando espacio para la cabecera. */
+    --main-content-padding-sides: 40px; /* Padding lateral del formulario. */
 }
 
-/* --- Estilos Base --- */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 2: ESTILOS BASE GENERALES
+ * -----------------------------------------------------------------
+ * Se aplican estilos por defecto a la etiqueta <body> y otros
+ * elementos comunes para asegurar una apariencia consistente en
+ * toda la aplicación.
+ * -----------------------------------------------------------------
+ */
 body {
-    display: flex;
-    flex-direction: row;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-color); /* Fondo general de la página */
-    transition: background-color 0.3s ease;
-    overflow-x: hidden; /* Evitar scroll horizontal general */
+    display: flex;                      /* Usa Flexbox para el layout principal. */
+    flex-direction: row;                /* Organiza los hijos directos (sidebar, main) en una fila. */
+    min-height: 100vh;                  /* Asegura que el cuerpo ocupe al menos toda la altura de la pantalla. */
+    margin: 0;                          /* Elimina el margen por defecto del navegador. */
+    padding: 0;                         /* Elimina el padding por defecto. */
+    box-sizing: border-box;             /* Asegura que el padding y el borde se incluyan en el ancho/alto total. */
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* Pila de fuentes por defecto. */
+    background-color: var(--bg-color);  /* Aplica el color de fondo desde las variables de tema. */
+    transition: background-color 0.3s ease; /* Suaviza la transición al cambiar de tema. */
+    overflow-x: hidden;                 /* Evita la aparición de una barra de scroll horizontal. */
 }
 
 h2, h3 {
-    margin: 0 0 20px 0;
-    font-weight: 700;
-    color: var(--text-color-primary);
+    margin: 0 0 20px 0;                 /* Margen inferior para separar de los elementos siguientes. */
+    font-weight: 700;                   /* Grosor de la fuente (negrita). */
+    color: var(--text-color-primary);   /* Aplica el color de texto principal del tema. */
     font-style: normal;
-    transition: color 0.3s ease;
-     display: flex;
-    align-items: center; 
-    gap: 0.5rem;     
+    transition: color 0.3s ease;        /* Suaviza la transición de color al cambiar de tema. */
+    display: flex;                      /* Permite alinear el texto con un icono. */
+    align-items: center;                /* Centra verticalmente el texto y el icono. */
+    gap: 0.5rem;                        /* Añade un pequeño espacio entre el icono y el texto. */
 }
 
 .subtitulo-ligero {
-    margin: -15px 0 20px 0;
-    font: italic 300 0.9em 'SF Pro Display';
-    color: var(--text-color-secondary);
-    transition: color 0.3s ease; /* Añadir transición */
+    margin: -15px 0 20px 0;             /* Margen negativo superior para acercarlo al título. */
+    font: italic 300 0.9em 'SF Pro Display'; /* Sintaxis corta para font-style, weight, size y family. */
+    color: var(--text-color-secondary); /* Aplica el color de texto secundario del tema. */
+    transition: color 0.3s ease;
 }
 
-/* Estilos Iconos Material Symbols */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 3: ESTILOS PARA ICONOS Y OTROS ELEMENTOS
+ * -----------------------------------------------------------------
+ */
+
+/* Estilos base para los iconos de Google Material Symbols. */
 .material-symbols-outlined {
-  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-   vertical-align: middle;
-   line-height: 1;
-   font-size: 1.2em;
-   display: inline-block;
-   transition: color 0.3s ease; /* Añadir transición */
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; /* Configuración por defecto del icono. */
+   vertical-align: middle;            /* Mejora la alineación vertical con el texto adyacente. */
+   line-height: 1;                      /* Evita que el icono afecte la altura de la línea. */
+   font-size: 1.2em;                    /* Tamaño por defecto, relativo al texto circundante. */
+   display: inline-block;               /* Asegura que se comporte como un bloque para aplicar dimensiones. */
+   transition: color 0.3s ease;
 }
 
-/* Añade esto al final de assets/css/base/_base-styles.css */
-
+/* Estilos para texto en negrita, asegurando que use el color primario del tema. */
 strong, b {
     color: var(--text-color-primary);
 }

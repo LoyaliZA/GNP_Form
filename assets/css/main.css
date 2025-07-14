@@ -1,12 +1,30 @@
-/* Importa los módulos base en orden lógico */
-@import url('base/_fonts.css');          /* 1. Fuentes */
-@import url('base/_base-styles.css');    /* 2. Estilos base generales */
-@import url('base/_splash.css');         /* 3. Splash screen */
-@import url('base/_header.css');         /* 4. Cabecera */
-@import url('base/_switch.css');         /* 5. Switch de tema */
-@import url('base/_sidebar.css');        /* 6. Sidebar */
-@import url("base/_form.css");
-@import url('base/_buttons.css');        /* 8. Botones específicos */
-@import url('base/_modal.css');          /* 9. Modal */
-@import url('base/_responsive.css');     /* 10. Estilos responsivos (móvil) */
-@import url("base/admin.css");
+/*
+ * =================================================================
+ * ARCHIVO DE ESTILOS PRINCIPAL (main.css)
+ * =================================================================
+ * Este es el archivo CSS central que organiza y carga todos los
+ * demás módulos de estilos de la aplicación.
+ *
+ * La directiva `@import` se utiliza para incluir otros archivos CSS.
+ * El orden de importación es crucial, ya que determina la
+ * "cascada" de estilos: las reglas en los archivos importados
+ * más tarde pueden sobrescribir las de los archivos anteriores.
+ *
+ * La estructura sigue un enfoque modular, donde cada archivo
+ * se encarga de un componente o sección específica de la UI.
+ * =================================================================
+ */
+
+/* --- MÓDULOS BASE --- */
+/* Estos archivos definen los fundamentos visuales de la aplicación. */
+
+@import url('base/_fonts.css');          /* 1. Fuentes: Define las tipografías personalizadas (@font-face) que se usarán en el sitio. */
+@import url('base/_base-styles.css');    /* 2. Estilos Base: Contiene estilos globales como reseteos (box-sizing), estilos para <html> y <body>, y variables de color CSS. */
+@import url('base/_splash.css');         /* 3. Splash Screen: Estilos para la pantalla de carga inicial que se muestra mientras la aplicación se prepara. */
+@import url('base/_header.css');         /* 4. Cabecera: Estilos para la barra de navegación superior, incluyendo el logo y los controles. */
+@import url('base/_switch.css');         /* 5. Switch de Tema: Estilos específicos para el componente de interruptor (switch) que alterna entre modo claro y oscuro. */
+@import url('base/_sidebar.css');        /* 6. Sidebar: Estilos para la barra lateral de navegación, incluyendo su estado expandido y colapsado. */
+@import url("base/_form.css");           /* 7. Formularios: Estilos generales para todos los elementos de formulario (inputs, labels, selects, etc.). */
+@import url('base/_buttons.css');        /* 8. Botones: Estilos para los diferentes tipos de botones utilizados en la aplicación (primarios, secundarios, etc.). */
+@import url('base/_modal.css');          /* 9. Modal: Estilos para las ventanas modales que aparecen sobre el contenido principal. */
+@import url('base/_responsive.css');     /* 10. Estilos Responsivos: Contiene media queries para adaptar el diseño a diferentes tamaños de pantalla (móviles, tabletas). */

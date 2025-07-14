@@ -1,35 +1,98 @@
-/* --- Botones de Navegación Formulario --- */
-.botones-navegacion {
-    margin-top: 25px;
-    padding-top: 20px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    border-top: 1px solid var(--border);
-}
-.botones-navegacion button:only-child { margin-left: auto; }
-#seccion-revision .botones-navegacion { justify-content: center; gap: 15px; }
+/*
+ * =================================================================
+ * ARCHIVO DE ESTILOS PARA BOTONES (_buttons.css)
+ * =================================================================
+ * Este módulo contiene los estilos específicos para los botones
+ * utilizados en la aplicación, principalmente los de navegación
+ * dentro del formulario.
+ * =================================================================
+ */
 
-/* Estilos Comunes Botones */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 1: CONTENEDOR DE BOTONES DE NAVEGACIÓN
+ * -----------------------------------------------------------------
+ * Estilos para el contenedor que agrupa los botones de "Siguiente"
+ * y "Anterior" al final de cada sección del formulario.
+ * -----------------------------------------------------------------
+ */
+.botones-navegacion {
+    margin-top: 25px;                   /* Espacio superior para separar del contenido del formulario. */
+    padding-top: 20px;                  /* Espacio interno superior, encima de los botones. */
+    display: flex;                      /* Usa Flexbox para alinear los botones. */
+    justify-content: flex-end;          /* Alinea los botones a la derecha por defecto. */
+    gap: 10px;                          /* Espacio entre los botones. */
+    border-top: 1px solid var(--border);/* Línea separadora superior. */
+}
+
+/* Si solo hay un botón en el contenedor (ej. en el primer paso), lo empuja completamente a la derecha. */
+.botones-navegacion button:only-child { 
+    margin-left: auto; 
+}
+
+/* Caso especial: en la sección de revisión, los botones se centran. */
+#seccion-revision .botones-navegacion { 
+    justify-content: center; 
+    gap: 15px; 
+}
+
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 2: ESTILOS COMUNES PARA BOTONES
+ * -----------------------------------------------------------------
+ * Estas son las reglas base que se aplican a todos los botones
+ * principales para darles una apariencia consistente.
+ * -----------------------------------------------------------------
+ */
 .btn-siguiente, .btn-anterior, .btn-primary {
-    padding: 10px 25px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.95rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.1s ease, color 0.3s ease, border-color 0.3s ease;
+    padding: 10px 25px;                 /* Relleno interno para dar tamaño al botón. */
+    border: none;                       /* Elimina el borde por defecto. */
+    border-radius: 25px;                /* Bordes redondeados para una apariencia de "píldora". */
+    cursor: pointer;                    /* Cambia el cursor a una mano para indicar que es clickeable. */
+    font-weight: 600;                   /* Grosor de la fuente (semi-negrita). */
+    font-size: 0.95rem;                 /* Tamaño de la fuente. */
+    text-transform: uppercase;          /* Convierte el texto a mayúsculas. */
+    letter-spacing: 0.5px;              /* Añade un ligero espaciado entre letras. */
+    transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.1s ease, color 0.3s ease, border-color 0.3s ease; /* Suaviza las transiciones de estado. */
 }
+
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 3: ESTILOS ESPECÍFICOS POR TIPO DE BOTÓN
+ * -----------------------------------------------------------------
+ * Define los colores y estilos para los botones primarios y
+ * secundarios, utilizando las variables de color del tema.
+ * -----------------------------------------------------------------
+ */
+
+/* Botones primarios (como "Siguiente" y "Enviar"). */
 .btn-siguiente, .btn-primary {
-    background-color: var(--button-primary-bg);
-    color: var(--button-primary-text);
+    background-color: var(--button-primary-bg); /* Color de fondo desde las variables de tema. */
+    color: var(--button-primary-text);          /* Color de texto desde las variables de tema. */
 }
+
+/* Botón secundario (como "Anterior"). */
 .btn-anterior {
-    background-color: var(--button-secondary-bg);
-    color: var(--button-secondary-text);
-    border: 1px solid var(--accent-color);
+    background-color: var(--button-secondary-bg); /* Color de fondo secundario. */
+    color: var(--button-secondary-text);          /* Color de texto secundario. */
+    border: 1px solid var(--accent-color);      /* Añade un borde con el color de acento del tema. */
 }
-.btn-siguiente:active, .btn-anterior:active, .btn-primary:active { transform: scale(0.98); }
-.btn-siguiente:hover, .btn-anterior:hover, .btn-primary:hover { opacity: 0.85; }
+
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 4: ESTADOS DE INTERACCIÓN (HOVER, ACTIVE)
+ * -----------------------------------------------------------------
+ * Define cómo se ven los botones cuando el usuario interactúa
+ * con ellos.
+ * -----------------------------------------------------------------
+ */
+
+/* Estado "activo" (mientras se está haciendo clic). */
+.btn-siguiente:active, .btn-anterior:active, .btn-primary:active { 
+    transform: scale(0.98); /* Hace el botón ligeramente más pequeño para dar feedback de clic. */
+}
+
+/* Estado "hover" (cuando el cursor está sobre el botón). */
+.btn-siguiente:hover, .btn-anterior:hover, .btn-primary:hover { 
+    opacity: 0.85; /* Reduce ligeramente la opacidad para indicar que es interactivo. */
+}

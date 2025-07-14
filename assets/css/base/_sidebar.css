@@ -1,56 +1,61 @@
-/* --- Variables de Layout (Referencia) --- */
-/* :root {
-    --top-bar-height: 70px;
-    --sidebar-width-expanded: 280px;
-    --sidebar-width-collapsed: 70px;
-} */
+/*
+ * =================================================================
+ * ARCHIVO DE ESTILOS PARA LA BARRA LATERAL (_sidebar.css)
+ * =================================================================
+ * Este módulo contiene todos los estilos para la barra de navegación
+ * lateral (sidebar), incluyendo su estructura, los elementos del menú,
+ * la barra de progreso y sus estados (expandido y colapsado).
+ * =================================================================
+ */
 
-/* --- Sidebar de Navegación (Usando Variables de Tema Específicas) --- */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 1: CONTENEDOR PRINCIPAL DEL SIDEBAR
+ * -----------------------------------------------------------------
+ */
 #sidebar-navegacion {
-    position: fixed;
+    position: fixed;                    /* Se mantiene fijo en la pantalla, incluso al hacer scroll. */
     top: 0;
     left: 0;
-    height: 100vh;
-    width: var(--sidebar-width-expanded);
-    z-index: 15;
-    /* --- VARIABLE: Usa variable de fondo del sidebar --- */
-    background-color: var(--sidebar-bg, var(--bg-container)); /* Fallback al fondo general */
+    height: 100vh;                      /* Ocupa toda la altura de la ventana. */
+    width: var(--sidebar-width-expanded); /* Ancho inicial (expandido) definido por una variable. */
+    z-index: 15;                        /* Se asegura de que esté por encima de la mayoría del contenido. */
+    background-color: var(--sidebar-bg, var(--bg-container)); /* Usa un color de fondo específico para el sidebar o el del contenedor general. */
     display: flex;
-    flex-direction: column;
-    transition: width 0.3s ease, background-color 0.3s ease;
-    /* --- VARIABLE: Usa variable de borde del sidebar --- */
-    border-right: 1px solid var(--sidebar-border-color, var(--border)); /* Fallback al borde general */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    flex-direction: column;             /* Organiza sus hijos (área superior e inferior) en una columna. */
+    transition: width 0.3s ease, background-color 0.3s ease; /* Anima el cambio de ancho y color. */
+    border-right: 1px solid var(--sidebar-border-color, var(--border)); /* Borde derecho, usa color específico o el general. */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra sutil para darle profundidad. */
 }
 
-/* --- Área Superior (Logo y Toggle) --- */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 2: ÁREA SUPERIOR DEL SIDEBAR (LOGO Y BOTÓN TOGGLE)
+ * -----------------------------------------------------------------
+ */
 .sidebar-top-area {
-    height: var(--top-bar-height);
-    /* --- VARIABLE: Usa variable de fondo (puede ser la misma que sidebar-bg o específica) --- */
-    background-color: var(--sidebar-top-bg, var(--sidebar-bg, var(--header-bg))); /* Fallback a sidebar-bg o header-bg */
+    height: var(--top-bar-height);      /* Altura igual a la de la cabecera principal. */
+    background-color: var(--sidebar-top-bg, var(--sidebar-bg, var(--header-bg))); /* Fondo específico, con fallbacks. */
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: center;                /* Centra verticalmente el logo y el botón. */
+    justify-content: space-between;     /* Coloca el logo a la izquierda y el botón a la derecha. */
     padding: 0 15px;
-    flex-shrink: 0;
+    flex-shrink: 0;                     /* Evita que esta área se encoja. */
     box-sizing: border-box;
-    /* --- VARIABLE: Usa variable de borde --- */
-    border-bottom: 1px solid var(--sidebar-border-color, var(--border)); /* Fallback al borde general */
+    border-bottom: 1px solid var(--sidebar-border-color, var(--border));
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 #logo-veler-sidebar {
     max-height: 55%;
     width: auto;
-    transition: opacity 0.2s ease-in-out 0.1s, visibility 0.2s ease-in-out 0.1s;
-    /* Contraste depende del --sidebar-top-bg */
+    transition: opacity 0.2s ease-in-out 0.1s, visibility 0.2s ease-in-out 0.1s; /* Anima la aparición/desaparición del logo. */
 }
 
 .sidebar-toggle {
     position: relative;
     background: transparent;
-    /* --- VARIABLE: Color del icono del toggle --- */
-    color: var(--sidebar-toggle-color); /* Eliminado fallback, depende 100% de la variable */
+    color: var(--sidebar-toggle-color); /* El color del icono depende 100% de la variable del tema. */
     border: none;
     border-radius: 50%;
     width: 40px;
@@ -64,53 +69,51 @@
     margin-left: 10px;
 }
 .sidebar-toggle:hover {
-     /* --- VARIABLE: Fondo hover del toggle --- */
-     background-color: var(--sidebar-toggle-hover-bg, rgba(var(--accent-color-rgb, 252, 108, 17), 0.15));
+     background-color: var(--sidebar-toggle-hover-bg, rgba(var(--accent-color-rgb, 252, 108, 17), 0.15)); /* Fondo al pasar el cursor. */
 }
 
-/* --- Área Inferior (Menú y Progreso) --- */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 3: ÁREA INFERIOR DEL SIDEBAR (MENÚ Y PROGRESO)
+ * -----------------------------------------------------------------
+ */
 .sidebar-bottom-area {
-    flex-grow: 1;
+    flex-grow: 1;                       /* Ocupa todo el espacio vertical restante. */
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    /* --- VARIABLE: Fondo área inferior (usualmente igual a --sidebar-bg) --- */
+    overflow: hidden;                   /* Oculta el contenido que se desborde. */
     background-color: var(--sidebar-bottom-bg, var(--sidebar-bg, var(--bg-container)));
     transition: background-color 0.3s ease;
 }
 
 .sidebar-menu {
-    flex-grow: 1;
-    overflow-y: auto;
+    flex-grow: 1;                       /* Ocupa el espacio disponible antes de la barra de progreso. */
+    overflow-y: auto;                   /* Permite hacer scroll si los elementos del menú no caben. */
     padding: 10px 0;
 }
 
 .sidebar-menu ul { list-style: none; padding: 0; margin: 0; }
 
-/* Estilos .menu-item, :hover, .active */
+/* Estilos para cada elemento del menú. */
 .menu-item { display: flex; align-items: center; padding: 10px 20px; cursor: pointer; position: relative; overflow: hidden; white-space: nowrap; transition: background-color 0.2s ease, padding 0.3s ease, border-color 0.3s ease; }
 .menu-item:hover {
-    /* --- VARIABLE: Fondo hover ítem --- */
     background-color: var(--sidebar-item-hover-bg, rgba(var(--accent-color-rgb, 252, 108, 17), 0.1));
 }
+/* Estilo para el elemento del menú que está activo. */
 .menu-item.active {
-    /* --- VARIABLE: Fondo activo ítem --- */
     background-color: var(--sidebar-item-active-bg, rgba(var(--accent-color-rgb, 252, 108, 17), 0.2));
-    /* --- VARIABLE: Borde activo ítem --- */
-    border-left: 3px solid var(--sidebar-item-active-border, var(--accent-color));
-    padding-left: 17px !important;
+    border-left: 3px solid var(--sidebar-item-active-border, var(--accent-color)); /* Borde izquierdo para indicar la sección activa. */
+    padding-left: 17px !important; /* Ajuste de padding para compensar el borde. */
 }
-/* --- VARIABLE: Color texto/icono activo --- */
 .menu-item.active .menu-text, .menu-item.active .menu-icon {
-    color: var(--sidebar-item-active-color, var(--accent-color));
+    color: var(--sidebar-item-active-color, var(--accent-color)); /* Color de texto e icono para el elemento activo. */
 }
 .menu-item.active .menu-text { font-weight: 500; }
 
-/* Estilos .menu-icon, .menu-text, .menu-status */
+/* Estilos para el icono, texto y punto de estado de cada elemento del menú. */
 .menu-icon {
     margin-right: 12px;
     font-size: 1.2rem;
-    /* --- VARIABLE: Color icono --- */
     color: var(--sidebar-icon-color, var(--text-color-secondary));
     flex-shrink: 0;
     transition: margin 0.3s ease, color 0.3s ease;
@@ -118,7 +121,6 @@
 .menu-text {
     flex-grow: 1;
     font-size: 0.95rem;
-    /* --- VARIABLE: Color texto --- */
     color: var(--sidebar-text-color, var(--text-color-primary));
     transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, color 0.3s ease;
 }
@@ -126,31 +128,27 @@
     width: 10px;
     height: 10px;
     margin-left: auto;
-    /* --- VARIABLE: Color status --- */
-    background-color: var(--sidebar-status-default-bg, var(--border));
+    background-color: var(--sidebar-status-default-bg, var(--border)); /* Punto de estado por defecto. */
     border-radius: 50%;
     flex-shrink: 0;
     transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, background-color 0.3s ease;
 }
 .menu-item.completed .menu-status {
-    /* --- VARIABLE: Color status completado --- */
-    background-color: var(--sidebar-status-completed-bg, #4CAF50); /* Verde por defecto */
+    background-color: var(--sidebar-status-completed-bg, #4CAF50); /* Color verde cuando la sección está completada. */
 }
 
-/* Estilos .sidebar-progress, .progress-bar, .progress-fill, .progress-text */
+/* Estilos para la sección de la barra de progreso. */
 .sidebar-progress {
     padding: 15px 20px;
-     /* --- VARIABLE: Borde superior progreso --- */
     border-top: 1px solid var(--sidebar-border-color, var(--border));
-    flex-shrink: 0;
-    background-color: inherit; /* Hereda fondo del contenedor padre */
+    flex-shrink: 0; /* Evita que se encoja. */
+    background-color: inherit;
     transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, border-color 0.3s ease;
 }
 .progress-bar {
     width: 100%;
     height: 6px;
     margin-bottom: 8px;
-    /* --- VARIABLE: Fondo barra progreso --- */
     background-color: var(--sidebar-progress-bar-bg, var(--border));
     border-radius: 3px;
     overflow: hidden;
@@ -158,8 +156,7 @@
 }
 .progress-fill {
     height: 100%;
-    width: 0%;
-    /* --- VARIABLE: Relleno barra progreso --- */
+    width: 0%; /* El ancho es controlado por JavaScript para mostrar el progreso. */
     background-color: var(--sidebar-progress-fill-bg, var(--accent-color));
     transition: width 0.3s ease, background-color 0.3s ease;
 }
@@ -167,13 +164,19 @@
     display: block;
     text-align: center;
     font-size: 0.85rem;
-    /* --- VARIABLE: Color texto progreso --- */
-    color: var(--sidebar-text-color, var(--text-color-secondary)); /* Fallback a texto secundario general */
+    color: var(--sidebar-text-color, var(--text-color-secondary));
     transition: color 0.3s ease;
 }
 
-/* --- Estados Sidebar (Sin cambios estructurales, dependen de las variables) --- */
-/* Expandido (Default) */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 4: ESTADOS DEL SIDEBAR (EXPANDIDO Y COLAPSADO)
+ * -----------------------------------------------------------------
+ * Se usan clases en el <body> para controlar la apariencia del
+ * sidebar y ajustar el layout del resto de la página.
+ * -----------------------------------------------------------------
+ */
+/* --- Estado Expandido (por defecto) --- */
 body.body-sidebar-expanded #sidebar-navegacion { width: var(--sidebar-width-expanded); }
 body.body-sidebar-expanded #logo-veler-sidebar { opacity: 1; visibility: visible; transition-delay: 0.1s; }
 body.body-sidebar-expanded .menu-text,
@@ -181,27 +184,26 @@ body.body-sidebar-expanded .sidebar-progress,
 body.body-sidebar-expanded .menu-status { opacity: 1; visibility: visible; }
 body.body-sidebar-expanded .menu-icon { margin-right: 12px; }
 body.body-sidebar-expanded .menu-item { justify-content: flex-start; padding: 10px 20px; }
-/* body.body-sidebar-expanded .menu-item.active { padding-left: 17px; border-left-width: 3px; } */
 
-/* Colapsado (Estilos para mostrar solo iconos) */
+/* --- Estado Colapsado --- */
 body.body-sidebar-collapsed #sidebar-navegacion { width: var(--sidebar-width-collapsed); }
 body.body-sidebar-collapsed #logo-veler-sidebar { opacity: 0; visibility: hidden; transition-delay: 0s; }
 
-/* Ocultar texto, progreso y status en modo colapsado */
+/* Oculta el texto, progreso y status en modo colapsado. */
 body.body-sidebar-collapsed .menu-text,
 body.body-sidebar-collapsed .sidebar-progress,
 body.body-sidebar-collapsed .menu-status {
     opacity: 0 !important;
     visibility: hidden !important;
-    position: absolute !important;
+    position: absolute !important; /* Lo saca del flujo para que no ocupe espacio. */
     width: 0 !important;
     overflow: hidden !important;
     margin: 0 !important;
     padding: 0 !important;
-    pointer-events: none;
+    pointer-events: none; /* Evita interacciones fantasma. */
 }
 
-/* Centrar icono y ajustar padding en modo colapsado */
+/* Centra el icono y ajusta el padding en modo colapsado. */
 body.body-sidebar-collapsed .menu-item {
     justify-content: center !important;
     padding: 12px 0 !important;
@@ -210,52 +212,53 @@ body.body-sidebar-collapsed .menu-icon {
     margin: 0 !important;
 }
 
-/* Quitar borde izquierdo activo en modo colapsado */
+/* Ajustes para el ítem activo en modo colapsado. */
 body.body-sidebar-collapsed .menu-item.active {
-    border-left-width: 0;
+    border-left-width: 0; /* Oculta el borde para un look más limpio. */
     padding-left: 0 !important;
-    background-color: var(--sidebar-item-active-bg, rgba(var(--accent-color-rgb, 252, 108, 17), 0.2)); /* Usa variable */
+    background-color: var(--sidebar-item-active-bg, rgba(var(--accent-color-rgb, 252, 108, 17), 0.2));
 }
 body.body-sidebar-collapsed .menu-item.active .menu-icon {
-    color: var(--sidebar-item-active-color, var(--accent-color)); /* Usa variable */
+    color: var(--sidebar-item-active-color, var(--accent-color));
 }
 
-/* Aplicar color específico del toggle en estado colapsado */
+/* Aplica un color específico al botón de toggle en estado colapsado si es necesario. */
 body.body-sidebar-collapsed .sidebar-toggle {
-    /* Usa la variable específica para colapsado, con fallback a la normal */
     color: var(--sidebar-toggle-collapsed-color, var(--sidebar-toggle-color));
 }
-/* --- Estilo para el indicador de sección completada --- */
 
-/* Por defecto, el punto es visible y de color gris */
+/*
+ * -----------------------------------------------------------------
+ * SECCIÓN 5: ESTILOS ADICIONALES (INDICADOR Y PROGRESO)
+ * -----------------------------------------------------------------
+ * Estos estilos parecen ser una versión alternativa o anterior de los
+ * indicadores y la barra de progreso. Se comentan para mayor claridad.
+ * -----------------------------------------------------------------
+ */
+/* Indicador de sección completada. */
 .completion-indicator {
     width: 9px;
     height: 9px;
     border-radius: 50%;
-    /* CAMBIO: Se usa el color de borde del tema como gris por defecto */
     background-color: var(--sidebar-border-color, #ccc); 
     margin-left: auto;
     transition: all 0.3s ease;
-    opacity: 0.5; /* Lo hacemos un poco tenue por defecto */
+    opacity: 0.5;
 }
-
-/* Cuando una sección está completada, se pone verde y brillante */
 .menu-item.completed:not(.active) .completion-indicator {
-    background-color: #28a745; /* Verde de éxito */
+    background-color: #28a745;
     opacity: 1;
 }
-
-/* Cuando una sección está activa, el punto se oculta para no estorbar */
 .menu-item.active .completion-indicator {
     background-color: transparent;
     box-shadow: none;
     opacity: 0;
 }
 
-/* --- Estilos para la Barra de Progreso --- */
+/* Contenedor de la barra de progreso. */
 .progress-container {
     padding: 15px 20px;
-    margin-top: auto; /* Empuja la barra hacia abajo */
+    margin-top: auto; /* Empuja la barra hacia abajo. */
 }
 .progress-bar-wrapper {
     width: 100%;
@@ -265,7 +268,7 @@ body.body-sidebar-collapsed .sidebar-toggle {
     overflow: hidden;
 }
 .progress-bar-fill {
-    width: 0%; /* Inicia en 0% */
+    width: 0%;
     height: 100%;
     background-color: var(--accent-color, #ff6b6b);
     border-radius: 10px;
@@ -277,44 +280,4 @@ body.body-sidebar-collapsed .sidebar-toggle {
     font-size: 0.75rem;
     margin-top: 5px;
     color: var(--sidebar-text-color);
-}
-
-/* --- ESTILOS PARA EL SIDEBAR COLAPSADO --- */
-
-/* 1. Encoger el contenedor principal del sidebar */
-body.body-sidebar-collapsed #sidebar-navegacion {
-    width: var(--sidebar-width-collapsed); /* Usa la variable de ancho colapsado (ej. 70px) */
-}
-
-/* 2. Ocultar el logo de Veler */
-body.body-sidebar-collapsed #logo-veler-sidebar {
-    opacity: 0;
-    visibility: hidden;
-}
-
-/* 3. Ocultar el texto de los items, el indicador y la barra de progreso */
-body.body-sidebar-collapsed .menu-text,
-body.body-sidebar-collapsed .completion-indicator,
-body.body-sidebar-collapsed .progress-container {
-    opacity: 0;
-    visibility: hidden;
-    width: 0; /* Aseguramos que no ocupe espacio */
-    position: absolute; /* Lo sacamos del flujo normal */
-    pointer-events: none; /* Evitamos interacciones fantasma */
-}
-
-/* 4. Centrar los iconos que sí se ven */
-body.body-sidebar-collapsed .menu-item {
-    justify-content: center; /* Centra el ícono horizontalmente */
-    padding-left: 0;
-    padding-right: 0;
-}
-
-body.body-sidebar-collapsed .menu-icon {
-    margin: 0; /* Quitamos el margen derecho del ícono */
-}
-
-/* 5. Ajustar el borde del item activo */
-body.body-sidebar-collapsed .menu-item.active {
-    border-left-width: 3px; /* Mantenemos el borde para saber cuál está activo */
 }
