@@ -1,25 +1,74 @@
+<!--
+    * =================================================================
+    * ARCHIVO HTML PRINCIPAL (index.html)
+    * =================================================================
+    * Propósito: Este documento es la estructura de una página web para
+    * una solicitud de seguro. Contiene un formulario complejo dividido
+    * en múltiples secciones que se muestran de forma progresiva.
+    * =================================================================
+-->
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!--
+        * =================================================================
+        * CABECERA DEL DOCUMENTO (HEAD)
+        * =================================================================
+        * Aquí se definen los metadatos, el título de la página, y se
+        * enlazan las hojas de estilo (CSS) y los iconos necesarios
+        * para la apariencia visual de la página.
+        * =================================================================
+    -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitud de Seguro</title>
     
+    <!-- Enlace a la hoja de estilos principal -->
     <link rel="stylesheet" href="assets/css/main.css">
     
+    <!-- Enlace a la hoja de estilos del tema (puede ser cambiada dinámicamente) -->
     <link id="dynamic-theme-style-link" rel="stylesheet" href="assets/css/theme-veler-blue_2.css">
     
+    <!-- Icono de la pestaña del navegador (favicon) y fuente de iconos de Google -->
     <link rel="icon" href="assets/img/V_icon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 <body class="body-sidebar-expanded">
     
+    <!--
+        * =================================================================
+        * COMPONENTES DE DISEÑO PRINCIPAL (LAYOUT)
+        * =================================================================
+        * Estos contenedores (aside, header) probablemente se llenan con
+        * contenido reutilizable (como la barra de navegación y el
+        * encabezado de la página) mediante JavaScript.
+        * =================================================================
+    -->
     <aside id="sidebar-navegacion"></aside>
     <header id="main-header"></header>
     
+    <!--
+        * =================================================================
+        * CONTENIDO PRINCIPAL (MAIN)
+        * =================================================================
+        * Contiene el formulario completo y los botones de navegación
+        * para moverse entre las diferentes secciones.
+        * =================================================================
+    -->
     <main id="formulario-completo">
+        <!-- El formulario agrupa todas las secciones de entrada de datos -->
         <form id="miFormularioDinamico">
             
+            <!--
+                * =================================================================
+                * SECCIÓN 1: DATOS DEL SOLICITANTE TITULAR
+                * =================================================================
+                * Recopila la información personal básica del asegurado principal,
+                * como nombre, fecha de nacimiento, RFC, CURP, datos de
+                * contacto e identificación oficial. Incluye campos condicionales
+                * que aparecen según las respuestas del usuario (ej. embarazo).
+                * =================================================================
+            -->
             <div id="seccion-solicitante" class="seccion-formulario">
                 <h2><span class="material-symbols-outlined">person</span>Solicitante 1 - Titular</h2>
                 <p class="subtitulo-ligero">Comencemos con tus datos personales.</p>
@@ -34,52 +83,32 @@
                     <div class="form-group"><label for="nacionalidad">Nacionalidad <span class="required-marker">*</span></label><input type="text" id="nacionalidad" name="nacionalidad" class="form-control" required placeholder="Nacionalidad"></div>
                     <div class="form-group"><label for="ocupacion">Ocupación <span class="required-marker">*</span></label><input type="text" id="ocupacion" name="ocupacion" class="form-control" required placeholder="Ocupación"></div>
                     <div class="form-group"><label for="sexo_nacer">Sexo al nacer <span class="required-marker">*</span></label><select id="sexo_nacer" name="sexo_nacer" class="form-control" required><option value="">Selecciona...</option><option value="femenino">Femenino</option><option value="masculino">Masculino</option></select></div>
-                    
-                    <div class="form-group" id="embarazo_group" style="display:none;">
-                        <label>¿Está actualmente embarazada? (Exclusivo para mujeres a partir de los 15 años) <span class="required-marker">*</span></label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="embarazo" value="si"> Sí</label>
-                            <label><input type="radio" name="embarazo" value="no" checked> No</label>
-                        </div>
-                    </div>
-                    <div class="form-group" id="embarazo_details" style="display:none;">
-                        <label for="semanas_gestacion">Semanas de gestación</label>
-                        <input type="number" id="semanas_gestacion" name="semanas_gestacion" class="form-control" placeholder="Semanas">
-                    </div>
-                    
+                    <div class="form-group" id="embarazo_group" style="display:none;"><label>¿Está actualmente embarazada? (Exclusivo para mujeres a partir de los 15 años) <span class="required-marker">*</span></label><div class="radio-group"><label><input type="radio" name="embarazo" value="si"> Sí</label><label><input type="radio" name="embarazo" value="no" checked> No</label></div></div>
+                    <div class="form-group" id="embarazo_details" style="display:none;"><label for="semanas_gestacion">Semanas de gestación</label><input type="number" id="semanas_gestacion" name="semanas_gestacion" class="form-control" placeholder="Semanas"></div>
                     <div class="form-group"><label for="correo">Correo electrónico <span class="required-marker">*</span></label><input type="email" id="correo" name="correo" class="form-control" required placeholder="correo@ejemplo.com"></div>
                     <div class="form-group"><label for="estatura">Estatura (metros) <span class="required-marker">*</span></label><input type="number" step="0.01" id="estatura" name="estatura" class="form-control" required placeholder="Ej: 1.75"></div>
                     <div class="form-group"><label for="peso">Peso (kg) <span class="required-marker">*</span></label><input type="number" step="0.1" id="peso" name="peso" class="form-control" required placeholder="Ej: 70.5"></div>
-                    <div class="form-group"><label for="tipo_identificacion">Tipo Identificación Oficial <span class="required-marker">*</span></label>
-                        <select id="tipo_identificacion" name="tipo_identificacion" class="form-control" required>
-                            <option value="">Selecciona...</option>
-                            <option value="ine">Credencial para Votar (INE)</option>
-                            <option value="pasaporte">Pasaporte</option>
-                            <option value="cedula">Cédula Profesional</option>
-                            <option value="documento_migratorio">Documento Migratorio (Extranjeros)</option>
-                        </select>
-                    </div>
+                    <div class="form-group"><label for="tipo_identificacion">Tipo Identificación Oficial <span class="required-marker">*</span></label><select id="tipo_identificacion" name="tipo_identificacion" class="form-control" required><option value="">Selecciona...</option><option value="ine">Credencial para Votar (INE)</option><option value="pasaporte">Pasaporte</option><option value="cedula">Cédula Profesional</option><option value="documento_migratorio">Documento Migratorio (Extranjeros)</option></select></div>
                     <div class="form-group"><label for="archivo_identificacion">Subir archivo de identificación <span class="required-marker">*</span></label><input type="file" id="archivo_identificacion" name="archivo_identificacion" class="form-control" required></div>
                     <div class="form-group"><label>¿Desempeñó cargo en gobierno? <span class="required-marker">*</span></label><div class="radio-group"><label><input type="radio" name="cargo_gobierno" value="si"> Sí</label><label><input type="radio" name="cargo_gobierno" value="no" checked> No</label></div></div>
                     <div class="form-group" id="cargo_dependencia_group" style="display: none;"><label for="cargo_dependencia">Cargo y dependencia</label><input type="text" id="cargo_dependencia" name="cargo_dependencia" class="form-control" placeholder="Cargo y dependencia"></div>
                 </div>
-                <div class="accion-adicional-container">
-                    <button type="button" id="btn-agregar-asegurado" class="btn-secundario">
-                        <span class="material-symbols-outlined">person_add</span>
-                        Agregar Asegurado Adicional
-                    </button>
-                </div>
+                <div class="accion-adicional-container"><button type="button" id="btn-agregar-asegurado" class="btn-secundario"><span class="material-symbols-outlined">person_add</span> Agregar Asegurado Adicional</button></div>
             </div>
             
+            <!--
+                * =================================================================
+                * SECCIÓN 2: DOMICILIO
+                * =================================================================
+                * Solicita la dirección del solicitante. Esta dirección se aplica
+                * a todos los asegurados en la póliza. También permite
+                * especificar un domicilio fiscal diferente si es necesario.
+                * =================================================================
+            -->
             <div id="seccion-domicilio" class="seccion-formulario">
                 <h2><span class="material-symbols-outlined">home</span>Domicilio</h2>
                 <p class="subtitulo-ligero">Información de tu residencia actual.</p>
-                
-                <p class="aclaracion-texto">
-                    <span class="material-symbols-outlined">info</span>
-                    Este domicilio se registrará como el principal para todos los solicitantes incluidos en esta póliza.
-                </p>
-
+                <p class="aclaracion-texto"><span class="material-symbols-outlined">info</span> Este domicilio se registrará como el principal para todos los solicitantes incluidos en esta póliza.</p>
                 <div class="form-columns-container">
                     <div class="form-group"><label for="calle">Calle <span class="required-marker">*</span></label><input type="text" id="calle" name="calle" class="form-control" required placeholder="Ej: Av. Paseo de la Reforma"></div>
                     <div class="form-group"><label for="no_exterior">No. Exterior <span class="required-marker">*</span></label><input type="text" id="no_exterior" name="no_exterior" class="form-control" required placeholder="222"></div>
@@ -92,15 +121,7 @@
                     <div class="form-group"><label for="tel_celular">Teléfono Celular <span class="required-marker">*</span></label><input type="tel" id="tel_celular" name="tel_celular" class="form-control" required placeholder="10 dígitos"></div>
                     <div class="form-group"><label for="extension">Extensión (Opcional)</label><input type="text" id="extension" name="extension" class="form-control" placeholder="123"></div>
                 </div>
-
-                <div class="form-group full-width seccion-separada">
-                    <div class="checkbox-group">
-                        <label>
-                            <input type="checkbox" id="domicilioFiscalDiferente" name="domicilio_fiscal_diferente">
-                            Mi domicilio fiscal es diferente a mi domicilio particular
-                        </label>
-                    </div>
-                </div>
+                <div class="form-group full-width seccion-separada"><div class="checkbox-group"><label><input type="checkbox" id="domicilioFiscalDiferente" name="domicilio_fiscal_diferente"> Mi domicilio fiscal es diferente a mi domicilio particular</label></div></div>
                 <div id="domicilioFiscalContainer" class="form-columns-container" style="display: none;">
                     <h5 style="grid-column: 1 / -1;">Datos del Domicilio Fiscal</h5>
                     <div class="form-group"><label for="calle_fiscal">Calle <span class="required-marker">*</span></label><input type="text" id="calle_fiscal" name="calle_fiscal" class="form-control" placeholder="Ej: Av. de los Insurgentes Sur"></div>
@@ -114,157 +135,72 @@
 
             </div>
 
+            <!--
+                * =================================================================
+                * SECCIÓN 3: DATOS DEL CONTRATANTE
+                * =================================================================
+                * Define quién es el responsable legal y financiero de la póliza.
+                * Permite indicar si el contratante es el mismo que el titular
+                * o si es una persona física o moral diferente.
+                * =================================================================
+            -->
             <div id="seccion-contratante-asegurado" class="seccion-formulario">
                 <h2><span class="material-symbols-outlined">group</span>Datos del Contratante</h2>
                 <p class="subtitulo-ligero">El Contratante es el responsable legal y financiero de la póliza.</p>
                 <div class="form-columns-container">
-                    
-                    <div class="form-group">
-                        <label>¿El Solicitante Titular es la misma persona que el Contratante? <span class="required-marker">*</span></label>
-                        <div class="radio-group">
-                            <label><input type="radio" id="contratanteEsTitularSi" name="contratanteEsTitular" value="si" checked> Sí</label>
-                            <label><input type="radio" id="contratanteEsTitularNo" name="contratanteEsTitular" value="no"> No</label>
-                        </div>
-                    </div>
-
+                    <div class="form-group"><label>¿El Solicitante Titular es la misma persona que el Contratante? <span class="required-marker">*</span></label><div class="radio-group"><label><input type="radio" id="contratanteEsTitularSi" name="contratanteEsTitular" value="si" checked> Sí</label><label><input type="radio" id="contratanteEsTitularNo" name="contratanteEsTitular" value="no"> No</label></div></div>
                     <div id="datosContratanteDiferenteContainer" style="display: none;">
                         <hr class="form-separator">
-                        <div class="form-group">
-                            <label>El Contratante es: <span class="required-marker">*</span></label>
-                            <div class="radio-group">
-                                <label><input type="radio" name="tipo_contratante" value="fisica" checked> Persona Física</label>
-                                <label><input type="radio" name="tipo_contratante" value="moral"> Persona Moral</label>
-                            </div>
-                        </div>
-
+                        <div class="form-group"><label>El Contratante es: <span class="required-marker">*</span></label><div class="radio-group"><label><input type="radio" name="tipo_contratante" value="fisica" checked> Persona Física</label><label><input type="radio" name="tipo_contratante" value="moral"> Persona Moral</label></div></div>
                         <div id="contratante_persona_fisica_container">
-                            <div style="margin-top: 25px;"> 
-                                <h4 style="margin-bottom: 15px;">Datos Personales (Persona Física)</h4>
-                                <div class="form-columns-container">
-                                    <div class="form-group"><label for="contratante_nombre">Nombre(s) <span class="required-marker">*</span></label><input type="text" id="contratante_nombre" name="contratante_nombre" class="form-control" required placeholder="Nombre(s)"></div>
-                                    <div class="form-group"><label for="contratante_apellido1">Primer Apellido <span class="required-marker">*</span></label><input type="text" id="contratante_apellido1" name="contratante_apellido1" class="form-control" required placeholder="Apellido Paterno"></div>
-                                    <div class="form-group"><label for="contratante_apellido2">Segundo Apellido</label><input type="text" id="contratante_apellido2" name="contratante_apellido2" class="form-control" placeholder="Apellido Materno"></div>
-                                    <div class="form-group"><label for="contratante_telefono">Teléfono <span class="required-marker">*</span></label><input type="tel" id="contratante_telefono" name="contratante_telefono" class="form-control" required placeholder="10 dígitos" maxlength="10"></div>
-                                    <div class="form-group"><label for="contratante_fecha_nacimiento">Fecha de Nacimiento <span class="required-marker">*</span></label><input type="date" id="contratante_fecha_nacimiento" name="contratante_fecha_nacimiento" class="form-control" required></div>
-                                    <div class="form-group"><label for="contratante_rfc">R.F.C. <span class="required-marker">*</span></label><input type="text" id="contratante_rfc" name="contratante_rfc" class="form-control" required placeholder="RFC con homoclave" maxlength="13"></div>
-                                </div>
-                            </div>
-
+                            <div style="margin-top: 25px;"><h4 style="margin-bottom: 15px;">Datos Personales (Persona Física)</h4><div class="form-columns-container"><div class="form-group"><label for="contratante_nombre">Nombre(s) <span class="required-marker">*</span></label><input type="text" id="contratante_nombre" name="contratante_nombre" class="form-control" required placeholder="Nombre(s)"></div><div class="form-group"><label for="contratante_apellido1">Primer Apellido <span class="required-marker">*</span></label><input type="text" id="contratante_apellido1" name="contratante_apellido1" class="form-control" required placeholder="Apellido Paterno"></div><div class="form-group"><label for="contratante_apellido2">Segundo Apellido</label><input type="text" id="contratante_apellido2" name="contratante_apellido2" class="form-control" placeholder="Apellido Materno"></div><div class="form-group"><label for="contratante_telefono">Teléfono <span class="required-marker">*</span></label><input type="tel" id="contratante_telefono" name="contratante_telefono" class="form-control" required placeholder="10 dígitos" maxlength="10"></div><div class="form-group"><label for="contratante_fecha_nacimiento">Fecha de Nacimiento <span class="required-marker">*</span></label><input type="date" id="contratante_fecha_nacimiento" name="contratante_fecha_nacimiento" class="form-control" required></div><div class="form-group"><label for="contratante_rfc">R.F.C. <span class="required-marker">*</span></label><input type="text" id="contratante_rfc" name="contratante_rfc" class="form-control" required placeholder="RFC con homoclave" maxlength="13"></div></div></div>
                             <hr class="form-separator">
                             <h4 style="margin-bottom: 15px;">Domicilio Fiscal (Persona Física)</h4>
-                            <div class="form-columns-container">
-                                <div class="form-group"><label for="contratante_calle_fiscal">Calle <span class="required-marker">*</span></label><input type="text" id="contratante_calle_fiscal" name="contratante_calle_fiscal" class="form-control" required placeholder="Nombre de la calle"></div>
-                                <div class="form-group"><label for="contratante_no_ext_fiscal">No. Exterior <span class="required-marker">*</span></label><input type="text" id="contratante_no_ext_fiscal" name="contratante_no_ext_fiscal" class="form-control" required placeholder="Número"></div>
-                                <div class="form-group"><label for="contratante_no_int_fiscal">No. Interior (Opcional)</label><input type="text" id="contratante_no_int_fiscal" name="contratante_no_int_fiscal" class="form-control" placeholder="Depto, Piso, etc."></div>
-                                <div class="form-group"><label for="contratante_colonia_fiscal">Colonia <span class="required-marker">*</span></label><input type="text" id="contratante_colonia_fiscal" name="contratante_colonia_fiscal" class="form-control" required placeholder="Nombre de la colonia"></div>
-                                <div class="form-group"><label for="contratante_municipio_fiscal">Municipio/Alcaldía <span class="required-marker">*</span></label><input type="text" id="contratante_municipio_fiscal" name="contratante_municipio_fiscal" class="form-control" required placeholder="Municipio o Alcaldía"></div>
-                                <div class="form-group"><label for="contratante_estado_fiscal">Estado <span class="required-marker">*</span></label><input type="text" id="contratante_estado_fiscal" name="contratante_estado_fiscal" class="form-control" required placeholder="Estado"></div>
-                                <div class="form-group"><label for="contratante_cp_fiscal">C.P. <span class="required-marker">*</span></label><input type="text" id="contratante_cp_fiscal" name="contratante_cp_fiscal" class="form-control" required placeholder="5 dígitos" maxlength="5"></div>
-                            </div>
+                            <div class="form-columns-container"><div class="form-group"><label for="contratante_calle_fiscal">Calle <span class="required-marker">*</span></label><input type="text" id="contratante_calle_fiscal" name="contratante_calle_fiscal" class="form-control" required placeholder="Nombre de la calle"></div><div class="form-group"><label for="contratante_no_ext_fiscal">No. Exterior <span class="required-marker">*</span></label><input type="text" id="contratante_no_ext_fiscal" name="contratante_no_ext_fiscal" class="form-control" required placeholder="Número"></div><div class="form-group"><label for="contratante_no_int_fiscal">No. Interior (Opcional)</label><input type="text" id="contratante_no_int_fiscal" name="contratante_no_int_fiscal" class="form-control" placeholder="Depto, Piso, etc."></div><div class="form-group"><label for="contratante_colonia_fiscal">Colonia <span class="required-marker">*</span></label><input type="text" id="contratante_colonia_fiscal" name="contratante_colonia_fiscal" class="form-control" required placeholder="Nombre de la colonia"></div><div class="form-group"><label for="contratante_municipio_fiscal">Municipio/Alcaldía <span class="required-marker">*</span></label><input type="text" id="contratante_municipio_fiscal" name="contratante_municipio_fiscal" class="form-control" required placeholder="Municipio o Alcaldía"></div><div class="form-group"><label for="contratante_estado_fiscal">Estado <span class="required-marker">*</span></label><input type="text" id="contratante_estado_fiscal" name="contratante_estado_fiscal" class="form-control" required placeholder="Estado"></div><div class="form-group"><label for="contratante_cp_fiscal">C.P. <span class="required-marker">*</span></label><input type="text" id="contratante_cp_fiscal" name="contratante_cp_fiscal" class="form-control" required placeholder="5 dígitos" maxlength="5"></div></div>
                         </div>
 
                         <div id="contratante_persona_moral_container" style="display: none;">
-                            <div style="margin-top: 25px;">
-                                <h4 style="margin-bottom: 15px; ">Datos Generales (Persona Moral)</h4>
-                                <div class="form-columns-container">
-                                    <div class="form-group full-width"><label for="moral_razon_social">Razón Social <span class="required-marker">*</span></label><input type="text" id="moral_razon_social" name="moral_razon_social" class="form-control" placeholder="Nombre completo de la empresa"></div>
-                                    <div class="form-group"><label for="moral_rfc">RFC de la Empresa <span class="required-marker">*</span></label><input type="text" id="moral_rfc" name="moral_rfc" class="form-control" placeholder="RFC de la empresa (12 caracteres)" maxlength="12"></div>
-                                    <div class="form-group"><label for="moral_telefono">Teléfono <span class="required-marker">*</span></label><input type="tel" id="moral_telefono" name="moral_telefono" class="form-control" placeholder="10 dígitos" maxlength="10"></div>
-                                </div>
-                            </div>
+                            <div style="margin-top: 25px;"><h4 style="margin-bottom: 15px; ">Datos Generales (Persona Moral)</h4><div class="form-columns-container"><div class="form-group full-width"><label for="moral_razon_social">Razón Social <span class="required-marker">*</span></label><input type="text" id="moral_razon_social" name="moral_razon_social" class="form-control" placeholder="Nombre completo de la empresa"></div><div class="form-group"><label for="moral_rfc">RFC de la Empresa <span class="required-marker">*</span></label><input type="text" id="moral_rfc" name="moral_rfc" class="form-control" placeholder="RFC de la empresa (12 caracteres)" maxlength="12"></div><div class="form-group"><label for="moral_telefono">Teléfono <span class="required-marker">*</span></label><input type="tel" id="moral_telefono" name="moral_telefono" class="form-control" placeholder="10 dígitos" maxlength="10"></div></div></div>
                             <hr class="form-separator">
                             <h4 style="margin-bottom: 15px;">Domicilio Fiscal (Persona Moral)</h4>
-                            <div class="form-columns-container">
-                                <div class="form-group"><label for="moral_calle_fiscal">Calle <span class="required-marker">*</span></label><input type="text" id="moral_calle_fiscal" name="moral_calle_fiscal" class="form-control" placeholder="Nombre de la calle"></div>
-                                <div class="form-group"><label for="moral_no_ext_fiscal">No. Exterior <span class="required-marker">*</span></label><input type="text" id="moral_no_ext_fiscal" name="moral_no_ext_fiscal" class="form-control" placeholder="Número"></div>
-                                <div class="form-group"><label for="moral_no_int_fiscal">No. Interior (Opcional)</label><input type="text" id="moral_no_int_fiscal" name="moral_no_int_fiscal" class="form-control" placeholder="Oficina, Piso, etc."></div>
-                                <div class="form-group"><label for="moral_colonia_fiscal">Colonia <span class="required-marker">*</span></label><input type="text" id="moral_colonia_fiscal" name="moral_colonia_fiscal" class="form-control" placeholder="Nombre de la colonia"></div>
-                                <div class="form-group"><label for="moral_municipio_fiscal">Municipio/Alcaldía <span class="required-marker">*</span></label><input type="text" id="moral_municipio_fiscal" name="moral_municipio_fiscal" class="form-control" placeholder="Municipio o Alcaldía"></div>
-                                <div class="form-group"><label for="moral_estado_fiscal">Estado <span class="required-marker">*</span></label><input type="text" id="moral_estado_fiscal" name="moral_estado_fiscal" class="form-control" placeholder="Estado"></div>
-                                <div class="form-group"><label for="moral_cp_fiscal">C.P. <span class="required-marker">*</span></label><input type="text" id="moral_cp_fiscal" name="moral_cp_fiscal" class="form-control" placeholder="5 dígitos" maxlength="5"></div>
-                            </div>
+                            <div class="form-columns-container"><div class="form-group"><label for="moral_calle_fiscal">Calle <span class="required-marker">*</span></label><input type="text" id="moral_calle_fiscal" name="moral_calle_fiscal" class="form-control" placeholder="Nombre de la calle"></div><div class="form-group"><label for="moral_no_ext_fiscal">No. Exterior <span class="required-marker">*</span></label><input type="text" id="moral_no_ext_fiscal" name="moral_no_ext_fiscal" class="form-control" placeholder="Número"></div><div class="form-group"><label for="moral_no_int_fiscal">No. Interior (Opcional)</label><input type="text" id="moral_no_int_fiscal" name="moral_no_int_fiscal" class="form-control" placeholder="Oficina, Piso, etc."></div><div class="form-group"><label for="moral_colonia_fiscal">Colonia <span class="required-marker">*</span></label><input type="text" id="moral_colonia_fiscal" name="moral_colonia_fiscal" class="form-control" placeholder="Nombre de la colonia"></div><div class="form-group"><label for="moral_municipio_fiscal">Municipio/Alcaldía <span class="required-marker">*</span></label><input type="text" id="moral_municipio_fiscal" name="moral_municipio_fiscal" class="form-control" placeholder="Municipio o Alcaldía"></div><div class="form-group"><label for="moral_estado_fiscal">Estado <span class="required-marker">*</span></label><input type="text" id="moral_estado_fiscal" name="moral_estado_fiscal" class="form-control" placeholder="Estado"></div><div class="form-group"><label for="moral_cp_fiscal">C.P. <span class="required-marker">*</span></label><input type="text" id="moral_cp_fiscal" name="moral_cp_fiscal" class="form-control" placeholder="5 dígitos" maxlength="5"></div></div>
                         </div>
 
                     </div>
                 </div>
             </div>
 
+            <!--
+                * =================================================================
+                * SECCIONES 4, 5 y 6: ACTIVIDADES, HÁBITOS Y DEPORTES
+                * =================================================================
+                * Estas secciones se utilizan para evaluar el riesgo. El usuario
+                * indica si alguno de los solicitantes realiza ciertas
+                * actividades, tiene ciertos hábitos (fumar, beber) o practica
+                * deportes. La lógica de JavaScript permite asignar cada
+                * actividad/hábito/deporte a los asegurados correspondientes.
+                * =================================================================
+            -->
             <div id="seccion-actividades-riesgo" class="seccion-formulario">
                 <h2><span class="material-symbols-outlined">warning</span>Actividades de Riesgo</h2>
                 <p class="subtitulo-ligero">Indica si realizas alguna de estas actividades y asigna quién la practica.</p>
 
                 <div class="actividades-container">
-
-                    <div class="actividad-riesgo-item">
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="actividad_riesgo_check" value="administrativas"> Labores administrativas</label>
-                        </div>
-                        <div class="asignacion-container" style="display: none;"></div>
-                    </div>
-
+                    <div class="actividad-riesgo-item"><div class="checkbox-group"><label><input type="checkbox" name="actividad_riesgo_check" value="administrativas"> Labores administrativas</label></div><div class="asignacion-container" style="display: none;"></div></div>
                     <hr class="form-separator">
-
-                    <div class="actividad-riesgo-item">
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="actividad_riesgo_check" value="maquinaria"> Operador de maquinaria pesada</label>
-                        </div>
-                        <div class="asignacion-container" style="display: none;"></div>
-                    </div>
-
+                    <div class="actividad-riesgo-item"><div class="checkbox-group"><label><input type="checkbox" name="actividad_riesgo_check" value="maquinaria"> Operador de maquinaria pesada</label></div><div class="asignacion-container" style="display: none;"></div></div>
                     <hr class="form-separator">
-
-                    <div class="actividad-riesgo-item">
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="actividad_riesgo_check" value="quimicos"> Trabaja con explosivos, solventes, productos químicos peligrosos o sustancias radioactivas</label>
-                        </div>
-                        <div class="asignacion-container" style="display: none;"></div>
-                    </div>
-
+                    <div class="actividad-riesgo-item"><div class="checkbox-group"><label><input type="checkbox" name="actividad_riesgo_check" value="quimicos"> Trabaja con explosivos, solventes, productos químicos peligrosos o sustancias radioactivas</label></div><div class="asignacion-container" style="display: none;"></div></div>
                     <hr class="form-separator">
-
-                    <div class="actividad-riesgo-item">
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="actividad_riesgo_check" value="obras"> Visita o asiste a obras o construcciones</label>
-                        </div>
-                        <div class="asignacion-container" style="display: none;"></div>
-                    </div>
-                    
+                    <div class="actividad-riesgo-item"><div class="checkbox-group"><label><input type="checkbox" name="actividad_riesgo_check" value="obras"> Visita o asiste a obras o construcciones</label></div><div class="asignacion-container" style="display: none;"></div></div>
                     <hr class="form-separator">
-
-                    <div class="actividad-riesgo-item">
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="actividad_riesgo_check" value="armas"> Utiliza, maneja o su trabajo está relacionado con el uso o portación de armas de fuego, seguridad o rescate</label>
-                        </div>
-                        <div class="asignacion-container" style="display: none;"></div>
-                    </div>
-
+                    <div class="actividad-riesgo-item"><div class="checkbox-group"><label><input type="checkbox" name="actividad_riesgo_check" value="armas"> Utiliza, maneja o su trabajo está relacionado con el uso o portación de armas de fuego, seguridad o rescate</label></div><div class="asignacion-container" style="display: none;"></div></div>
                     <hr class="form-separator">
-
-                    <div class="actividad-riesgo-item">
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="actividad_riesgo_check" value="agricola"> Su actividad es agrícola con uso de fertilizantes, pesticidas, herbicidas, etc.</label>
-                        </div>
-                        <div class="asignacion-container" style="display: none;"></div>
-                    </div>
-
+                    <div class="actividad-riesgo-item"><div class="checkbox-group"><label><input type="checkbox" name="actividad_riesgo_check" value="agricola"> Su actividad es agrícola con uso de fertilizantes, pesticidas, herbicidas, etc.</label></div><div class="asignacion-container" style="display: none;"></div></div>
                     <hr class="form-separator">
-
-                    <div class="actividad-riesgo-item">
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="actividad_riesgo_check" value="motocicleta"> Utiliza motocicleta</label>
-                        </div>
-                        <div class="asignacion-container" style="display: none;"></div>
-                    </div>
-
+                    <div class="actividad-riesgo-item"><div class="checkbox-group"><label><input type="checkbox" name="actividad_riesgo_check" value="motocicleta"> Utiliza motocicleta</label></div><div class="asignacion-container" style="display: none;"></div></div>
                     <hr class="form-separator">
-
-                    <div class="actividad-riesgo-item">
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="actividad_riesgo_check" value="aviones"> Viaja en aviones particulares más de 40 horas anuales</label>
-                        </div>
-                        <div class="asignacion-container" style="display: none;"></div>
-                    </div>
-                    
+                    <div class="actividad-riesgo-item"><div class="checkbox-group"><label><input type="checkbox" name="actividad_riesgo_check" value="aviones"> Viaja en aviones particulares más de 40 horas anuales</label></div><div class="asignacion-container" style="display: none;"></div></div>
                 </div>
             </div>
 
@@ -273,42 +209,11 @@
                 <p class="subtitulo-ligero">Información relevante sobre el estilo de vida de los solicitantes.</p>
 
                 <div class="habitos-container">
-
-                    <div class="habito-item">
-                        <div class="checkbox-group">
-                            <label>
-                                <input type="checkbox" name="habito_check" value="fumar"> 
-                                ¿Alguna de las personas fuma o ha fumado?
-                            </label>
-                        </div>
-                        <div class="asignacion-container" style="display: none;">
-                            </div>
-                    </div>
-
+                    <div class="habito-item"><div class="checkbox-group"><label><input type="checkbox" name="habito_check" value="fumar"> ¿Alguna de las personas fuma o ha fumado?</label></div><div class="asignacion-container" style="display: none;"></div></div>
                     <hr class="form-separator">
-
-                    <div class="habito-item">
-                        <div class="checkbox-group">
-                            <label>
-                                <input type="checkbox" name="habito_check" value="alcohol"> 
-                                ¿Alguna de las personas consume bebidas alcohólicas?
-                            </label>
-                        </div>
-                        <div class="asignacion-container" style="display: none;"></div>
-                    </div>
-
+                    <div class="habito-item"><div class="checkbox-group"><label><input type="checkbox" name="habito_check" value="alcohol"> ¿Alguna de las personas consume bebidas alcohólicas?</label></div><div class="asignacion-container" style="display: none;"></div></div>
                     <hr class="form-separator">
-
-                    <div class="habito-item">
-                        <div class="checkbox-group">
-                            <label>
-                                <input type="checkbox" name="habito_check" value="drogas"> 
-                                ¿Alguna de las personas consume o ha consumido drogas (no prescritas)?
-                            </label>
-                        </div>
-                        <div class="asignacion-container" style="display: none;"></div>
-                    </div>
-
+                    <div class="habito-item"><div class="checkbox-group"><label><input type="checkbox" name="habito_check" value="drogas"> ¿Alguna de las personas consume o ha consumido drogas (no prescritas)?</label></div><div class="asignacion-container" style="display: none;"></div></div>
                 </div>
             </div>
 
@@ -317,32 +222,21 @@
                 <p class="subtitulo-ligero">Especifica los deportes practicados por cada solicitante.</p>
 
                 <div class="deportes-container">
-
-                    <div class="deporte-categoria-item">
-                        <div class="checkbox-group">
-                            <label>
-                                <input type="checkbox" name="deporte_categoria_check" value="amateur">
-                                ¿Algún solicitante practica algún deporte de manera amateur?
-                            </label>
-                        </div>
-                        <div class="asignacion-container" style="display: none;"></div>
-                    </div>
-
+                    <div class="deporte-categoria-item"><div class="checkbox-group"><label><input type="checkbox" name="deporte_categoria_check" value="amateur"> ¿Algún solicitante practica algún deporte de manera amateur?</label></div><div class="asignacion-container" style="display: none;"></div></div>
                     <hr class="form-separator">
-
-                    <div class="deporte-categoria-item">
-                        <div class="checkbox-group">
-                            <label>
-                                <input type="checkbox" name="deporte_categoria_check" value="profesional">
-                                ¿Algún solicitante practica algún deporte de manera profesional? (que percibe alguna remuneración)
-                            </label>
-                        </div>
-                        <div class="asignacion-container" style="display: none;"></div>
-                    </div>
-                    
+                    <div class="deporte-categoria-item"><div class="checkbox-group"><label><input type="checkbox" name="deporte_categoria_check" value="profesional"> ¿Algún solicitante practica algún deporte de manera profesional? (que percibe alguna remuneración)</label></div><div class="asignacion-container" style="display: none;"></div></div>
                 </div>
             </div>
 
+            <!--
+                * =================================================================
+                * SECCIÓN 7: INFORMACIÓN MÉDICA
+                * =================================================================
+                * Contiene un cuestionario de salud. Si el usuario responde
+                * afirmativamente a alguna pregunta, se le permite agregar
+                * formularios detallados para cada padecimiento.
+                * =================================================================
+            -->
             <div id="seccion-info-medica" class="seccion-formulario">
                 <h2><span class="material-symbols-outlined">health_and_safety</span>Información Médica y Padecimientos</h2>
                 <p class="subtitulo-ligero">Responde sobre la salud de los solicitantes y detalla cualquier padecimiento relevante.</p>
@@ -354,171 +248,102 @@
                     <hr class="form-separator">
                     <div class="checkbox-group"><label><input type="checkbox" name="pregunta_medica" value="3"> 3. ¿Algún Solicitante padece alguna otra enfermedad...?</label></div>
                 </div>
-
-                <div id="lista-padecimientos-forms" class="lista-items-registrados">
-                    </div>
-
-                <div id="contenedor-accion-padecimiento" class="accion-adicional-container" style="display: none; border-top: none; margin-top: 10px;">
-                    <button type="button" id="btn-agregar-padecimiento" class="btn-secundario">
-                        <span class="material-symbols-outlined">add_circle</span>
-                        Agregar Detalle de Padecimiento
-                    </button>
-                </div>
+                <div id="lista-padecimientos-forms" class="lista-items-registrados"></div>
+                <div id="contenedor-accion-padecimiento" class="accion-adicional-container" style="display: none; border-top: none; margin-top: 10px;"><button type="button" id="btn-agregar-padecimiento" class="btn-secundario"><span class="material-symbols-outlined">add_circle</span> Agregar Detalle de Padecimiento</button></div>
             </div>
 
+            <!--
+                * =================================================================
+                * SECCIÓN 8: DETALLES DE LA SOLICITUD
+                * =================================================================
+                * Recopila información adicional como la fecha de la solicitud,
+                * planes de viaje y si se desea reconocer la antigüedad de
+                * una póliza anterior.
+                * =================================================================
+            -->
             <div id="seccion-detalles-solicitud" class="seccion-formulario">
                 <h2><span class="material-symbols-outlined">description</span>Detalles de la Solicitud</h2>
                 <p class="subtitulo-ligero">Información adicional sobre esta solicitud específica.</p>
                 <div class="form-columns-container">
-                    
-                    <div class="form-group">
-                        <label for="fecha_solicitud">Fecha de Solicitud</label>
-                        <input type="date" id="fecha_solicitud" name="fecha_solicitud" class="form-control" readonly>
-                    </div>
-
-                    <div class="form-group full-width seccion-separada">
-                        <div class="checkbox-group">
-                            <label>
-                                <input type="checkbox" name="viaje_extranjero_check" value="si">
-                                ¿Algún solicitante viajará al extranjero en los próximos 6 meses con permanencia mayor a 3 meses?
-                            </label>
-                        </div>
-                        <div class="asignacion-container" id="viaje-asignacion-container" style="display: none;"></div>
-                    </div>
-                    
-                    <div class="form-group full-width seccion-separada">
-                        <label>¿Solicitas Reconocimiento de Antigüedad de otra compañía? <span class="required-marker">*</span></label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="antiguedad" value="si"> Sí</label>
-                            <label><input type="radio" name="antiguedad" value="no" checked> No</label>
-                        </div>
-                        <div id="antiguedad_details" style="display:none;" class="full-width-column">
-                            <div class="form-group"><label for="antiguedad_cia">Compañía Procedente</label><input type="text" id="antiguedad_cia" name="antiguedad_cia" class="form-control"></div>
-                            <div class="form-group"><label for="antiguedad_poliza">Número de Póliza Anterior</label><input type="text" id="antiguedad_poliza" name="antiguedad_poliza" class="form-control"></div>
-                        </div>
-                    </div>
-                    
+                    <div class="form-group"><label for="fecha_solicitud">Fecha de Solicitud</label><input type="date" id="fecha_solicitud" name="fecha_solicitud" class="form-control" readonly></div>
+                    <div class="form-group full-width seccion-separada"><div class="checkbox-group"><label><input type="checkbox" name="viaje_extranjero_check" value="si"> ¿Algún solicitante viajará al extranjero en los próximos 6 meses con permanencia mayor a 3 meses?</label></div><div class="asignacion-container" id="viaje-asignacion-container" style="display: none;"></div></div>
+                    <div class="form-group full-width seccion-separada"><label>¿Solicitas Reconocimiento de Antigüedad de otra compañía? <span class="required-marker">*</span></label><div class="radio-group"><label><input type="radio" name="antiguedad" value="si"> Sí</label><label><input type="radio" name="antiguedad" value="no" checked> No</label></div><div id="antiguedad_details" style="display:none;" class="full-width-column"><div class="form-group"><label for="antiguedad_cia">Compañía Procedente</label><input type="text" id="antiguedad_cia" name="antiguedad_cia" class="form-control"></div><div class="form-group"><label for="antiguedad_poliza">Número de Póliza Anterior</label><input type="text" id="antiguedad_poliza" name="antiguedad_poliza" class="form-control"></div></div></div>
                 </div>
             </div>
 
+            <!--
+                * =================================================================
+                * SECCIÓN 9: FORMA DE PAGO
+                * =================================================================
+                * El usuario elige la periodicidad (anual, mensual, etc.) y el
+                * medio de pago (tarjeta o CLABE). Los campos específicos para
+                * cada medio de pago se muestran condicionalmente.
+                * =================================================================
+            -->
             <div id="seccion-forma-pago" class="seccion-formulario">
                 <h2><span class="material-symbols-outlined">credit_card</span>Forma de Pago</h2>
                 <p class="subtitulo-ligero">Elige cómo deseas pagar tu póliza.</p>
                 <div class="form-columns-container">
-                    <div class="form-group">
-                        <label for="pago_periodicidad">Forma de Pago (Periodicidad) <span class="required-marker">*</span></label>
-                        <select id="pago_periodicidad" name="pago_periodicidad" class="form-control" required>
-                            <option value="">Selecciona...</option>
-                            <option value="anual">Anual</option>
-                            <option value="semestral">Semestral</option>
-                            <option value="trimestral">Trimestral</option>
-                            <option value="mensual">Mensual</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="pago_medio">Medio de Pago <span class="required-marker">*</span></label>
-                        <select id="pago_medio" name="pago_medio" class="form-control" required>
-                            <option value="">Selecciona...</option>
-                            <option value="tarjeta">Tarjeta de Crédito / Débito</option>
-                            <option value="clabe">Domiciliación (CLABE)</option>
-                        </select>
-                    </div>
-
+                    <div class="form-group"><label for="pago_periodicidad">Forma de Pago (Periodicidad) <span class="required-marker">*</span></label><select id="pago_periodicidad" name="pago_periodicidad" class="form-control" required><option value="">Selecciona...</option><option value="anual">Anual</option><option value="semestral">Semestral</option><option value="trimestral">Trimestral</option><option value="mensual">Mensual</option></select></div>
+                    <div class="form-group"><label for="pago_medio">Medio de Pago <span class="required-marker">*</span></label><select id="pago_medio" name="pago_medio" class="form-control" required><option value="">Selecciona...</option><option value="tarjeta">Tarjeta de Crédito / Débito</option><option value="clabe">Domiciliación (CLABE)</option></select></div>
                     <div id="pago_tarjeta_details" style="display:none;" class="full-width-column">
                         <hr class="form-separator">
-                        <div class="form-columns-container">
-                            <div class="form-group full-width">
-                                <label for="tarjeta_nombre">Nombre del Tarjetahabiente <span class="required-marker">*</span></label>
-                                <input type="text" id="tarjeta_nombre" name="tarjeta_nombre" class="form-control" placeholder="Como aparece en la tarjeta">
-                            </div>
-                            <div class="form-group">
-                                <label for="tarjeta_numero">Número de Tarjeta <span class="required-marker">*</span></label>
-                                <input type="text" id="tarjeta_numero" name="tarjeta_numero" class="form-control" placeholder="---- ---- ---- ----" maxlength="16" inputmode="numeric" pattern="[0-9]*">
-                            </div>
-                            <div class="form-group">
-                                <label for="tarjeta_vencimiento">Vencimiento (MM/AA) <span class="required-marker">*</span></label>
-                                <input type="text" id="tarjeta_vencimiento" name="tarjeta_vencimiento" class="form-control" placeholder="MM/AA" maxlength="5">
-                            </div>
-                            <div class="form-group">
-                                <label for="tarjeta_cvv">CVV <span class="required-marker">*</span></label>
-                                <input type="text" id="tarjeta_cvv" name="tarjeta_cvv" class="form-control" placeholder="---" maxlength="4" inputmode="numeric" pattern="[0-9]*">
-                            </div>
-                            <div class="form-group">
-                                <label>Tipo de Tarjeta <span class="required-marker">*</span></label>
-                                <div class="radio-group"><label><input type="radio" name="tarjeta_tipo" value="visa" checked> Visa</label><label><input type="radio" name="tarjeta_tipo" value="mastercard"> MasterCard</label><label><input type="radio" name="tarjeta_tipo" value="amex"> Amex</label></div>
-                            </div>
-                            <div class="form-group">
-                                <label for="tarjeta_banco">Banco Emisor <span class="required-marker">*</span></label>
-                                <input type="text" id="tarjeta_banco" name="tarjeta_banco" class="form-control" placeholder="Ej: BBVA, Santander">
-                            </div>
-                        </div>
+                        <div class="form-columns-container"><div class="form-group full-width"><label for="tarjeta_nombre">Nombre del Tarjetahabiente <span class="required-marker">*</span></label><input type="text" id="tarjeta_nombre" name="tarjeta_nombre" class="form-control" placeholder="Como aparece en la tarjeta"></div><div class="form-group"><label for="tarjeta_numero">Número de Tarjeta <span class="required-marker">*</span></label><input type="text" id="tarjeta_numero" name="tarjeta_numero" class="form-control" placeholder="---- ---- ---- ----" maxlength="16" inputmode="numeric" pattern="[0-9]*"></div><div class="form-group"><label for="tarjeta_vencimiento">Vencimiento (MM/AA) <span class="required-marker">*</span></label><input type="text" id="tarjeta_vencimiento" name="tarjeta_vencimiento" class="form-control" placeholder="MM/AA" maxlength="5"></div><div class="form-group"><label for="tarjeta_cvv">CVV <span class="required-marker">*</span></label><input type="text" id="tarjeta_cvv" name="tarjeta_cvv" class="form-control" placeholder="---" maxlength="4" inputmode="numeric" pattern="[0-9]*"></div><div class="form-group"><label>Tipo de Tarjeta <span class="required-marker">*</span></label><div class="radio-group"><label><input type="radio" name="tarjeta_tipo" value="visa" checked> Visa</label><label><input type="radio" name="tarjeta_tipo" value="mastercard"> MasterCard</label><label><input type="radio" name="tarjeta_tipo" value="amex"> Amex</label></div></div><div class="form-group"><label for="tarjeta_banco">Banco Emisor <span class="required-marker">*</span></label><input type="text" id="tarjeta_banco" name="tarjeta_banco" class="form-control" placeholder="Ej: BBVA, Santander"></div></div>
                     </div>
 
                     <div id="pago_clabe_details" style="display:none;" class="full-width-column">
                         <hr class="form-separator">
-                        <div class="form-columns-container">
-                            <div class="form-group full-width">
-                                <label for="clabe_nombre">Nombre del Titular de la Cuenta <span class="required-marker">*</span></label>
-                                <input type="text" id="clabe_nombre" name="clabe_nombre" class="form-control" placeholder="Nombre completo del titular">
-                            </div>
-                            <div class="form-group">
-                                <label for="clabe_numero">CLABE Interbancaria <span class="required-marker">*</span></label>
-                                <input type="text" id="clabe_numero" name="clabe_numero" class="form-control" placeholder="18 dígitos" maxlength="18" inputmode="numeric" pattern="[0-9]*">
-                            </div>
-                            <div class="form-group">
-                                <label for="clabe_banco">Nombre del Banco <span class="required-marker">*</span></label>
-                                <input type="text" id="clabe_banco" name="clabe_banco" class="form-control" placeholder="Ej: Banorte, Scotiabank">
-                            </div>
-                            <div class="form-group">
-                                <label>Tipo de Cuenta <span class="required-marker">*</span></label>
-                                <div class="radio-group"><label><input type="radio" name="clabe_tipo_cuenta" value="cheques" checked> Cheques</label><label><input type="radio" name="clabe_tipo_cuenta" value="ahorro"> Ahorro</label><label><input type="radio" name="clabe_tipo_cuenta" value="nomina"> Nómina</label></div>
-                            </div>
-                        </div>
+                        <div class="form-columns-container"><div class="form-group full-width"><label for="clabe_nombre">Nombre del Titular de la Cuenta <span class="required-marker">*</span></label><input type="text" id="clabe_nombre" name="clabe_nombre" class="form-control" placeholder="Nombre completo del titular"></div><div class="form-group"><label for="clabe_numero">CLABE Interbancaria <span class="required-marker">*</span></label><input type="text" id="clabe_numero" name="clabe_numero" class="form-control" placeholder="18 dígitos" maxlength="18" inputmode="numeric" pattern="[0-9]*"></div><div class="form-group"><label for="clabe_banco">Nombre del Banco <span class="required-marker">*</span></label><input type="text" id="clabe_banco" name="clabe_banco" class="form-control" placeholder="Ej: Banorte, Scotiabank"></div><div class="form-group"><label>Tipo de Cuenta <span class="required-marker">*</span></label><div class="radio-group"><label><input type="radio" name="clabe_tipo_cuenta" value="cheques" checked> Cheques</label><label><input type="radio" name="clabe_tipo_cuenta" value="ahorro"> Ahorro</label><label><input type="radio" name="clabe_tipo_cuenta" value="nomina"> Nómina</label></div></div></div>
                     </div>
                 </div>
             </div>
 
+            <!--
+                * =================================================================
+                * SECCIÓN 10: DECLARACIONES Y CONSENTIMIENTOS
+                * =================================================================
+                * Contiene las casillas de verificación obligatorias donde el
+                * usuario acepta los términos, el aviso de privacidad y declara
+                * la veracidad de la información. Incluye una advertencia legal.
+                * =================================================================
+            -->
             <div id="seccion-declaraciones" class="seccion-formulario">
                 <h2><span class="material-symbols-outlined">gavel</span>Declaraciones y Consentimientos</h2>
                 <p class="subtitulo-ligero">Confirmaciones importantes para continuar.</p>
                 <div class="form-columns-container">
-                    <div class="form-group full-width-column">
-                        <label><input type="checkbox" name="decl_ilicitas" required> Declaro bajo protesta de decir verdad que no tengo relación con actividades ilícitas o de delincuencia organizada.</label>
-                    </div>
-
-                    <div class="form-group full-width-column">
-                        <label>
-                            <input type="checkbox" name="decl_privacidad" required> 
-                            He leído y acepto el 
-                            <a href="https://www.gnp.com.mx/aviso-de-privacidad/integral" target="_blank" rel="noopener noreferrer" class="link-documento">
-                                Aviso de Privacidad
-                            </a> 
-                            y consiento el tratamiento de mis datos personales.
-                        </label>
-                    </div>
-
-                    <div class="form-group full-width-column">
-                        <label><input type="checkbox" name="decl_veracidad" required> Declaro que toda la información proporcionada en esta solicitud es completa y verídica.</label>
-                    </div>
-
-                    <div class="precepto-legal-container">
-                        <hr class="form-separator">
-                        <p class="texto-legal">
-                            <strong>En caso de cualquier omisión o inexacta declaración de los hechos importantes, la Compañía de Seguros tiene la facultad de rescindir de pleno derecho el Contrato celebrado y de abstenerse de realizar cualquier pago (Artículos 8 y 47 de la Ley Sobre el Contrato de Seguro). -Precepto(s) legal(es) disponible(s) en gnp.com.mx-</strong>
-                        </p>
-                    </div>
+                    <div class="form-group full-width-column"><label><input type="checkbox" name="decl_ilicitas" required> Declaro bajo protesta de decir verdad que no tengo relación con actividades ilícitas o de delincuencia organizada.</label></div>
+                    <div class="form-group full-width-column"><label><input type="checkbox" name="decl_privacidad" required> He leído y acepto el <a href="https://www.gnp.com.mx/aviso-de-privacidad/integral" target="_blank" rel="noopener noreferrer" class="link-documento">Aviso de Privacidad</a> y consiento el tratamiento de mis datos personales.</label></div>
+                    <div class="form-group full-width-column"><label><input type="checkbox" name="decl_veracidad" required> Declaro que toda la información proporcionada en esta solicitud es completa y verídica.</label></div>
+                    <div class="precepto-legal-container"><hr class="form-separator"><p class="texto-legal"><strong>En caso de cualquier omisión o inexacta declaración de los hechos importantes, la Compañía de Seguros tiene la facultad de rescindir de pleno derecho el Contrato celebrado y de abstenerse de realizar cualquier pago (Artículos 8 y 47 de la Ley Sobre el Contrato de Seguro). -Precepto(s) legal(es) disponible(s) en gnp.com.mx-</strong></p></div>
                 </div>
             </div>
 
+            <!--
+                * =================================================================
+                * SECCIÓN 11: REVISIÓN FINAL
+                * =================================================================
+                * Esta es la última sección antes de enviar. Se llenará
+                * dinámicamente con un resumen de toda la información que el
+                * usuario ha ingresado para que pueda revisarla.
+                * =================================================================
+            -->
             <div id="seccion-revision" class="seccion-formulario">
                 <h2><span class="material-symbols-outlined">checklist_rtl</span>Revisa tu información</h2>
                 <p class="subtitulo-ligero">Por favor, verifica cuidadosamente que todos los datos sean correctos antes de enviar.</p>
-                <div id="resumen-final-container">
-                    </div>
+                <div id="resumen-final-container"></div>
             </div>
 
         </form>
         
+        <!--
+            * =================================================================
+            * BOTONES DE NAVEGACIÓN
+            * =================================================================
+            * Permiten al usuario moverse hacia adelante y hacia atrás entre
+            * las secciones del formulario. Su visibilidad y función son
+            * controladas por JavaScript.
+            * =================================================================
+        -->
         <div class="botones-navegacion">
             <button id="prev-btn" class="btn-anterior">Anterior</button>
             <button id="next-btn" class="btn-siguiente">Siguiente</button>
@@ -527,6 +352,15 @@
         </div>
     </main>
 
+    <!--
+        * =================================================================
+        * SCRIPTS DE JAVASCRIPT
+        * =================================================================
+        * Aquí se cargan los archivos JavaScript que dan vida y funcionalidad
+        * al formulario, como la lógica para mostrar/ocultar secciones,
+        * validar campos, y manejar eventos.
+        * =================================================================
+    -->
     <script src="components/info-modal/_info-modal.js"></script>
     <script type="module" src="assets/js/persona.js"></script>
 </body>
