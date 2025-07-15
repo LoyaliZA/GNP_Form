@@ -4,7 +4,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(var(--bg-color-rgb, 0, 0, 0), 0.6);
     display: none; /* Inicia oculto */
     align-items: center;
     justify-content: center;
@@ -22,7 +22,7 @@
     text-align: center;
     position: relative;
     transform: scale(0.9);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 .info-modal-close-btn {
     position: absolute;
@@ -39,6 +39,34 @@
     font-size: 48px;
     color: var(--accent-color);
 }
+
+/* ================================================================== */
+/* ==================== INICIO DE LA CORRECCIÓN =================== */
+/* ================================================================== */
+
+/* Se añaden las variables de color al título y al texto del modal */
+#info-modal-title {
+    color: var(--accent-color);
+}
+
+#info-modal-text {
+    color: var(--text-color-primary);
+}
+
+#info-modal-case-text {
+    color: var(--text-color-secondary);
+}
+
+/* Se asegura que el texto en negrita dentro del modal también cambie de color */
+#info-modal-case-text strong {
+    color: var(--text-color-primary);
+}
+
+/* ================================================================== */
+/* ===================== FIN DE LA CORRECCIÓN ===================== */
+/* ================================================================== */
+
+
 /* REGLA FINAL PARA ANULAR EL CONFLICTO DE FLEXBOX EN EL TÍTULO DEL MODAL */
 div#info-modal-persuasive h3#info-modal-title {
     display: block !important;     /* Le decimos que se comporte como un bloque normal, no como flex */
@@ -46,54 +74,44 @@ div#info-modal-persuasive h3#info-modal-title {
 }
 
 /* --- ESTILOS PARA ADAPTAR EL MODAL A MÓVIL --- */
-
 @media (max-width: 767px) {
     .info-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-
-    /* --- NUEVOS ESTILOS PARA EL MARGEN EN MÓVIL --- */
-    padding: 20px; /* Añade un espacio alrededor del modal */
-    box-sizing: border-box; /* Asegura que el padding no aumente el tamaño total */
-}
-
-.info-modal-content {
-    /* El ancho del contenido ahora se ajustará dentro del padding del overlay */
-    width: 100%; /* Ocupa el ancho disponible dentro del overlay */
-    max-width: 550px; /* Mantenemos un máximo para pantallas más grandes */
-    /* ... (tus otros estilos para .info-modal-content) ... */
-}
-    .info-modal-icon .material-symbols-outlined {
-        /* Hacemos el ícono de la bombilla un poco más pequeño */
-        font-size: 40px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        padding: 20px;
+        box-sizing: border-box;
     }
 
-    .info-modal-title {
-        /* Ajustamos el tamaño del título principal */
+    .info-modal-content {
+        width: 100%;
+        max-width: 550px;
+    }
+    .info-modal-icon .material-symbols-outlined {
+        font-size: 40px;
+    }
+    h3#info-modal-title { /* Selector más específico para el título */
         font-size: 1.3rem;
         margin-bottom: 12px;
     }
-
-    .info-modal-text {
-        /* Hacemos el texto principal un poco más compacto */
+    p#info-modal-text { /* Selector más específico para el texto */
         font-size: 0.95rem;
         line-height: 1.5;
     }
-
     .info-modal-case-study {
-        /* Reducimos el espaciado y padding de la caja de ejemplo */
         margin-top: 20px;
         padding: 15px;
+    }
+    #info-modal-case-text { /* Selector más específico para el texto del caso */
         font-size: 0.9rem;
     }
 }
